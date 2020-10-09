@@ -6,8 +6,8 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <View style={styles.logoCatchPhrase}>
                 <Image
-                    source={require('../assets/logo_aos.png')}
                     accessibilityLabel={'Logo AOS'}
+                    source={require('../assets/logo_aos.png')}
                 />
                 <Text>Allez, On Sort !</Text>
             </View>
