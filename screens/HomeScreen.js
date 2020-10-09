@@ -5,7 +5,10 @@ export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.logoCatchPhrase}>
-                <Image source={require('../assets/logo_aos.png')} />
+                <Image
+                    source={require('../assets/logo_aos.png')}
+                    accessibilityLabel={'Logo AOS'}
+                />
                 <Text>Allez, On Sort !</Text>
             </View>
             <View style={styles.buttonGroup}>
