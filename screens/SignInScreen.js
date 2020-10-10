@@ -35,7 +35,6 @@ export default function SignInScreen() {
                         <TextInput
                             autoCapitalize={'none'}
                             autoCompleteType={'email'}
-                            autoFocus
                             blurOnSubmit
                             color={'#fff'}
                             keyboardType={'email-address'}
