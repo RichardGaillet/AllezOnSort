@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import CustomButton from '../components/CustomButton'
 
 export default function SignInScreen() {
 
@@ -18,17 +19,6 @@ export default function SignInScreen() {
     const submitLogin = () => {
         setPassword('')
     }
-
-    const CustomButton = ({ onPress, title }) => (
-        <TouchableOpacity
-            accessibilityLabel={`Bouton - ${title}`}
-            accessibilityHint="Entrer l'email et le mot de passe avant de valider"
-            onPress={onPress}
-            style={signInDisabled ? styles.customButtonContainerDiabled : styles.customButtonContainer}
-        >
-            <Text style={signInDisabled ? styles.customButtonTextDisabled : styles.customButtonText}>{title}</Text>
-        </TouchableOpacity>
-    );
 
     return (
         <View style={styles.container}>
@@ -78,6 +68,8 @@ export default function SignInScreen() {
                 </View>
                 <View style={styles.button}>
                     <CustomButton
+                        accessibilityHint="Entrer l'email et le mot de passe avant de valider"
+                        disabled={signInDisabled}
                         onPress={() => { submitLogin() }}
                         title={'Se connecter'}
                     />
