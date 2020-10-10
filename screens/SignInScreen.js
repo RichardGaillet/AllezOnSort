@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import colors from '../config/colors'
 
 export default function SignInScreen() {
 
@@ -36,14 +37,14 @@ export default function SignInScreen() {
                             autoCapitalize={'none'}
                             autoCompleteType={'email'}
                             blurOnSubmit
-                            color={'#fff'}
+                            color={colors.light}
                             keyboardType={'email-address'}
                             maxLength={64}
                             onChangeText={email => setEmail(email)}
                             placeholder={'exemple.adresse@email.com'}
-                            placeholderTextColor={'#dfdfdf'}
+                            placeholderTextColor={colors.placeholder}
                             returnKeyType="next"
-                            selectionColor={'#fff'}
+                            selectionColor={colors.light}
                             spellCheck={false}
                             textContentType={'emailAddress'}
                             value={email} />
@@ -53,11 +54,11 @@ export default function SignInScreen() {
                     <Text>Mot de passe</Text>
                     <View style={styles.textInputField}>
                         <TextInput
-                            color={'#fff'}
+                            color={colors.light}
                             maxLength={32}
                             onChangeText={password => setPassword(password)}
                             placeholder={'●●●●●●●●●●'}
-                            placeholderTextColor={'#dfdfdf'}
+                            placeholderTextColor={colors.placeholder}
                             returnKeyType="next"
                             secureTextEntry
                             spellCheck={false}
@@ -66,7 +67,7 @@ export default function SignInScreen() {
                 </View>
                 <View style={styles.button}>
                     <Button
-                        color='#fb483e'
+                        color={colors.secondary}
                         disabled={signInDisabled}
                         onPress={() => { submitLogin() }}
                         title={'Se connecter'}
@@ -89,11 +90,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textInputField: {
-        backgroundColor: '#9000ae',
+        backgroundColor: colors.primary,
         borderBottomWidth: 2,
         borderRadius: 2,
-        borderColor: '#fb483e',
-        color: '#fff',
+        borderColor: colors.secondary,
+        color: colors.light,
         padding: 8,
     },
     textInputBox: {

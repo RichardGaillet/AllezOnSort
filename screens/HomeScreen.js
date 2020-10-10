@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button, Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import colors from '../config/colors'
 
 export default function HomeScreen({ navigation }) {
     return (
 
         <View style={styles.container}>
-            <StatusBar backgroundColor='#9000ae' />
+            <StatusBar backgroundColor={colors.primary} />
             <View style={styles.logoCatchPhrase}>
                 <Image
                     accessibilityLabel={'Logo AOS'}
@@ -16,7 +17,7 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
                     <Button
-                        color='#fb483e'
+                        color={colors.secondary}
                         disabled={false}
                         onPress={() => navigation.push('SignIn')}
                         title={'Se connecter'}
@@ -24,7 +25,7 @@ export default function HomeScreen({ navigation }) {
                 </View>
                 <View style={styles.button}>
                     <Button
-                        color='#fb483e'
+                        color={colors.secondary}
                         disabled={false}
                         onPress={() => navigation.push('SignUp')}
                         title={'S\'inscrire'}
