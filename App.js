@@ -7,22 +7,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
+import colors from './config/colors'
 
 const Stack = createStackNavigator();
 
 const screenOptions = {
   headerStyle: {
-    backgroundColor: '#9000ae',
+    backgroundColor: colors.primary,
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
-    // borderBottomColor: '#fb483e',
-    // borderBottomWidth: 4,
-    // borderRadius: 12,
-    // borderLeftColor: '#fb483e',
-    // borderLeftWidth: 2,
     fontWeight: 'bold',
-    // paddingLeft: 12,
   },
 }
 
