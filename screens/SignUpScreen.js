@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import CustomButton from '../components/CustomButton'
+import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 export default function SignInScreen() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [signInDisabled, setSignInDisabled] = useState(true);
 
     useEffect(() => {
-        if (email.trim().length > 0 && password.trim().length > 0) {
+        if (
+            email.trim().length > 0 &&
+            password.trim().length > 0 &&
+            confirmPassword.trim().length > 0 &&
+            confirmPassword === password) {
             setSignInDisabled(false)
         } else {
             setSignInDisabled(true)
         }
-    }, [email, password])
+    }, [email, password, confirmPassword])
 
     const submitLogin = () => {
-        setPassword('')
+        setConfirmPassword('')
     }
 
     return (
@@ -55,6 +59,7 @@ export default function SignInScreen() {
                     <Text>Mot de passe</Text>
                     <View style={styles.textInputField}>
                         <TextInput
+                            clearButtonMode={'while-editing'}
                             color={'#fff'}
                             maxLength={32}
                             onChangeText={password => setPassword(password)}
@@ -66,12 +71,29 @@ export default function SignInScreen() {
                             value={password} />
                     </View>
                 </View>
+                <View style={styles.textInputBox}>
+                    <Text>Confirmer le mot de passe</Text>
+                    <View style={styles.textInputField}>
+                        <TextInput
+                            color={'#fff'}
+                            maxLength={32}
+                            onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
+                            placeholder={'●●●●●●●●●●'}
+                            placeholderTextColor={'#dfdfdf'}
+                            returnKeyType="next"
+                            secureTextEntry
+                            spellCheck={false}
+                            value={confirmPassword} />
+                    </View>
+                    <Text style={{ color: 'red' }}>{confirmPassword !== password && 'Mots de passe différents'}</Text>
+                </View>
                 <View style={styles.button}>
-                    <CustomButton
-                        accessibilityHint="Entrer l'email et le mot de passe avant de valider"
+                    <Button
+                        accessibilityLabel="Bouton S'inscrire"
+                        color='#fb483e'
                         disabled={signInDisabled}
                         onPress={() => { submitLogin() }}
-                        title={'Se connecter'}
+                        title={'S\'inscrire'}
                     />
                 </View>
             </View>
