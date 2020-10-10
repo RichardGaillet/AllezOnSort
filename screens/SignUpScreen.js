@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 
 export default function SignInScreen() {
 
@@ -40,7 +40,7 @@ export default function SignInScreen() {
                         <TextInput
                             autoCapitalize={'none'}
                             autoCompleteType={'email'}
-                            // autoFocus
+                            autoFocus
                             blurOnSubmit
                             color={'#fff'}
                             keyboardType={'email-address'}
@@ -108,27 +108,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-    },
-    customButtonContainer: {
-        elevation: 4,
-        backgroundColor: "#fb483e",
-        borderRadius: 2,
-        paddingVertical: 8,
-    },
-    customButtonContainerDiabled: {
-        backgroundColor: "#dfdfdf",
-        borderRadius: 2,
-        paddingVertical: 8,
-    },
-    customButtonText: {
-        color: "#fff",
-        alignSelf: "center",
-        textTransform: "uppercase"
-    },
-    customButtonTextDisabled: {
-        color: "#a2a2a2",
-        alignSelf: "center",
-        textTransform: "uppercase"
     },
     logoCatchPhrase: {
         alignItems: 'center',

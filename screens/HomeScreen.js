@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Image, StyleSheet, Text, View } from 'react-native'
-import CustomButton from '../components/CustomButton'
 
 export default function HomeScreen() {
     return (
@@ -14,14 +13,16 @@ export default function HomeScreen() {
             </View>
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
-                    <CustomButton
+                    <Button
+                        color='#fb483e'
                         disabled={false}
                         onPress={() => { alert('Se connecter') }}
                         title={'Se connecter'}
                     />
                 </View>
                 <View style={styles.button}>
-                    <CustomButton
+                    <Button
+                        color='#fb483e'
                         disabled={false}
                         onPress={() => { alert('S\'inscrire') }}
                         title={'S\'inscrire'}
