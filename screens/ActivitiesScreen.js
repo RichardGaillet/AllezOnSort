@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Button, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { DataTable, Modal, Portal, Provider } from 'react-native-paper';
 
+import { lessThanTen, lessThanten } from '../config/format'
+
 export default function ActivitiesScreen() {
 
     const activities = [
@@ -22,21 +24,15 @@ export default function ActivitiesScreen() {
         return (
             activitiesSorted
                 .map((activity, key) => {
+                    const { organizer, places, registered, timestamp, title } = activity
+                    const formatRegistered = lessThanTen(registered)
+                    const formatPlaces = lessThanTen(places)
                     return (
                         <DataTable.Row>
-                            <DataTable.Cell>{activity.timestamp}</DataTable.Cell>
-                            <DataTable.Cell>{activity.title}</DataTable.Cell>
-                            <DataTable.Cell style={styles.cell}>
-                                {
-                                    activity.registered > 9 ?
-                                        activity.registered :
-                                        `0${activity.registered}`
-                                } / {
-                                    activity.places > 9 ?
-                                        activity.places :
-                                        `0${activity.places}`
-                                }</DataTable.Cell>
-                            <DataTable.Cell>{activity.organizer}</DataTable.Cell>
+                            <DataTable.Cell>{timestamp}</DataTable.Cell>
+                            <DataTable.Cell>{title}</DataTable.Cell>
+                            <DataTable.Cell>{formatRegistered} / {formatPlaces}</DataTable.Cell>
+                            <DataTable.Cell>{organizer}</DataTable.Cell>
                         </DataTable.Row >
                     )
                 })
