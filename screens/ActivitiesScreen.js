@@ -3,14 +3,9 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { DataTable } from 'react-native-paper';
 
 import { lessThanTen } from '../config/format'
+import activities from '../mocks/activities'
 
 export default function ActivitiesScreen() {
-
-    const activities = [
-        { id: '1', timestamp: 1602412200, title: 'Marche', registered: '4', places: '4', organizer: 'Nickos' },
-        { id: '2', timestamp: 1602483200, title: 'Course à pied', registered: '10', places: '12', organizer: 'FBInet59' },
-        { id: '3', timestamp: 1602412200, title: 'Jeux de société', registered: '2', places: '6', organizer: 'Arlen' },
-    ]
 
     const activitiesSorted = activities
         .sort((a, b) => {
