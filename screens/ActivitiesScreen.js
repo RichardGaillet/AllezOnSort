@@ -5,7 +5,7 @@ import { DataTable } from 'react-native-paper';
 import { lessThanTen } from '../config/format'
 import activities from '../mocks/activities'
 
-export default function ActivitiesScreen() {
+export default function ActivitiesScreen({ navigation }) {
 
     const activitiesSorted = activities
         .sort((a, b) => {
@@ -23,7 +23,8 @@ export default function ActivitiesScreen() {
                     const formatRegistered = lessThanTen(registered)
                     const formatPlaces = lessThanTen(places)
                     return (
-                        <DataTable.Row>
+                        <DataTable.Row key={key} onPress={() => navigation.push('Activity', { activity })
+                        }>
                             <DataTable.Cell>{timestamp}</DataTable.Cell>
                             <DataTable.Cell>{title}</DataTable.Cell>
                             <DataTable.Cell>{formatRegistered} / {formatPlaces}</DataTable.Cell>
