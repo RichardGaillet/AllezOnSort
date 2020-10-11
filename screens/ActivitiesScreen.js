@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { DataTable, Modal, Portal, Provider } from 'react-native-paper';
+import React from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
+import { DataTable } from 'react-native-paper';
 
-import { lessThanTen, lessThanten } from '../config/format'
+import { lessThanTen } from '../config/format'
 
 export default function ActivitiesScreen() {
 
@@ -55,10 +55,3 @@ export default function ActivitiesScreen() {
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    cell: {
-        color: 'red',
-        textAlign: 'center'
-    }
-})
