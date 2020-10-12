@@ -3,14 +3,9 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { DataTable } from 'react-native-paper';
 
 import { lessThanTen } from '../config/format'
+import activities from '../mocks/activities'
 
-export default function ActivitiesScreen() {
-
-    const activities = [
-        { id: '1', timestamp: 1602412200, title: 'Marche', registered: '4', places: '4', organizer: 'Nickos' },
-        { id: '2', timestamp: 1602483200, title: 'Course à pied', registered: '10', places: '12', organizer: 'FBInet59' },
-        { id: '3', timestamp: 1602412200, title: 'Jeux de société', registered: '2', places: '6', organizer: 'Arlen' },
-    ]
+export default function ActivitiesScreen({ navigation }) {
 
     const activitiesSorted = activities
         .sort((a, b) => {
@@ -24,11 +19,12 @@ export default function ActivitiesScreen() {
         return (
             activitiesSorted
                 .map((activity, key) => {
-                    const { organizer, places, registered, timestamp, title } = activity
-                    const formatRegistered = lessThanTen(registered)
+                    const { organizer, places, registeredList, timestamp, title } = activity
+                    const formatRegistered = lessThanTen(registeredList.length)
                     const formatPlaces = lessThanTen(places)
                     return (
-                        <DataTable.Row>
+                        <DataTable.Row key={key} onPress={() => navigation.push('Activity', { activity })
+                        }>
                             <DataTable.Cell>{timestamp}</DataTable.Cell>
                             <DataTable.Cell>{title}</DataTable.Cell>
                             <DataTable.Cell>{formatRegistered} / {formatPlaces}</DataTable.Cell>
@@ -44,9 +40,9 @@ export default function ActivitiesScreen() {
             <DataTable>
                 <DataTable.Header>
                     <DataTable.Title>Date</DataTable.Title>
-                    <DataTable.Title>Sortie</DataTable.Title>
+                    <DataTable.Title>Type</DataTable.Title>
                     <DataTable.Title>Inscrits</DataTable.Title>
-                    <DataTable.Title>Organiateur</DataTable.Title>
+                    <DataTable.Title>Organisateur</DataTable.Title>
                 </DataTable.Header>
 
                 {ActivitiesArray()}
