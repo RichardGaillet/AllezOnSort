@@ -19,8 +19,8 @@ export default function ActivitiesScreen({ navigation }) {
         return (
             activitiesSorted
                 .map((activity, key) => {
-                    const { organizer, places, registered, timestamp, title } = activity
-                    const formatRegistered = lessThanTen(registered)
+                    const { organizer, places, registeredList, timestamp, title } = activity
+                    const formatRegistered = lessThanTen(registeredList.length)
                     const formatPlaces = lessThanTen(places)
                     return (
                         <DataTable.Row key={key} onPress={() => navigation.push('Activity', { activity })
