@@ -42,7 +42,7 @@ export default function ActivitiesScreen({ navigation }) {
                     <DataTable.Title>Date</DataTable.Title>
                     <DataTable.Title>Type</DataTable.Title>
                     <DataTable.Title>Inscrits</DataTable.Title>
-                    <DataTable.Title>Organiateur</DataTable.Title>
+                    <DataTable.Title>Organisateur</DataTable.Title>
                 </DataTable.Header>
 
                 {ActivitiesArray()}
