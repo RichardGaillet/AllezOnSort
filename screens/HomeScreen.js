@@ -14,13 +14,23 @@ export default function HomeScreen({ navigation }) {
                 />
                 <Text>Allez, On Sort !</Text>
             </View>
-            <View style={styles.button}>
-                <Button
-                    color={colors.secondary}
-                    disabled={false}
-                    onPress={() => navigation.push('Activities')}
-                    title={'Activités'}
-                />
+            <View style={styles.buttonGroup}>
+                <View style={styles.button}>
+                    <Button
+                        color={colors.secondary}
+                        disabled={false}
+                        onPress={() => navigation.push('Activities')}
+                        title={'Activités'}
+                    />
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        color={colors.secondary}
+                        disabled={false}
+                        onPress={() => navigation.push('Members')}
+                        title={'Membres'}
+                    />
+                </View>
             </View>
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
