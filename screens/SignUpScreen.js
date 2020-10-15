@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textInputField: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         borderBottomWidth: 2,
         borderRadius: 2,
-        borderColor: colors.secondary,
+        borderColor: colors.primary,
         color: colors.light,
         padding: 8,
     },
