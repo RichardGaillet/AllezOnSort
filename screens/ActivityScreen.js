@@ -80,7 +80,7 @@ export default function ActivityScreen(activity) {
                     {comments.length > 0 && <Card.Content>
                         <Title>Commentaires ({comments.length})</Title>
                         {comments.map((comment, key) =>
-                            <>
+                            <View key={key}>
                                 <Divider />
                                 <View style={styles.commentBox}>
                                     <View style={styles.commentAvatar}>
@@ -89,12 +89,12 @@ export default function ActivityScreen(activity) {
                                     </View>
                                     <View style={styles.commentText}>
                                         {comment.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)} key={key}>{shortenText(comment.text, 128)} suite</Paragraph> :
+                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)} suite</Paragraph> :
                                             <Paragraph>{comment.text}</Paragraph>
                                         }
                                     </View>
                                 </View>
-                            </>)}
+                            </View>)}
                     </Card.Content>}
                     {/* <Card.Actions>
                 <Button icon="close-outline" mode="contained" onPress={() => console.log('Pressed')} />
