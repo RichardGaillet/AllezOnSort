@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
 import colors from '../config/colors'
 
 export default function HomeScreen({ navigation }) {
@@ -18,36 +19,57 @@ export default function HomeScreen({ navigation }) {
                 <View style={styles.button}>
                     <Button
                         color={colors.secondary}
+                        compact
                         disabled={false}
+                        icon='run-fast' //near-me sleep-off compass earth
+                        mode="contained"
                         onPress={() => navigation.push('Activities')}
-                        title={'Activités'}
-                    />
+                        style={{ elevation: 4 }}
+                    >
+                        Activités
+                        </Button>
                 </View>
                 <View style={styles.button}>
                     <Button
                         color={colors.secondary}
+                        compact
                         disabled={false}
+                        icon='account-group'
+                        loading={false}
+                        mode="contained"
                         onPress={() => navigation.push('Members')}
-                        title={'Membres'}
-                    />
+                        style={{ elevation: 4 }}
+                    >
+                        Membres
+                    </Button>
                 </View>
             </View>
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
                     <Button
                         color={colors.secondary}
+                        compact
                         disabled={false}
+                        icon='account-arrow-right'
+                        mode="contained"
                         onPress={() => navigation.push('SignIn')}
-                        title={'Se connecter'}
-                    />
+                        style={{ elevation: 4 }}
+                    >
+                        Se connecter
+                    </Button>
                 </View>
                 <View style={styles.button}>
                     <Button
                         color={colors.secondary}
+                        compact
                         disabled={false}
+                        icon='account-plus'
+                        mode="contained"
                         onPress={() => navigation.push('SignUp')}
-                        title={'S\'inscrire'}
-                    />
+                        style={{ elevation: 4 }}
+                    >
+                        S'inscrire
+                    </Button>
                 </View>
             </View>
         </View>
@@ -56,6 +78,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     button: {
+        elevation: 4,
         padding: 8,
     },
     buttonGroup: {
