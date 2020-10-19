@@ -1,9 +1,9 @@
 [
     {
-        "createdAt": 1602483200,
+        "createdAt": 1602483200000,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam felis, fringilla vitae tellus eu, aliquet tincidunt quam. Nunc eu consectetur arcu. Fusce consequat semper purus. Sed urna massa, sollicitudin eget leo a, pretium sollicitudin metus. Vivamus eget pulvinar justo. Maecenas id viverra magna, id fermentum massa. Pellentesque a felis quis augue mattis molestie volutpat vitae arcu. Vivamus eu imperdiet augue, in porttitor felis. Aenean laoreet quam sit amet nulla rutrum pulvinar. Suspendisse semper accumsan nunc. Vestibulum venenatis scelerisque felis varius sollicitudin. Quisque aliquam lacus erat, et aliquet nunc efficitur vel. Praesent vulputate neque sed sollicitudin pellentesque. Nam dignissim interdum ipsum non vulputate.",
         "id": "1",
-        "lastConnection": "1602571410",
+        "lastConnection": 1602571410000,
         "personalInformations": {
             "birthday": null,
             "firstname": "Richard",
@@ -13,12 +13,12 @@
         "username": "FBInet59"
     },
     {
-        "createdAt": 1602483830,
+        "createdAt": 1602483830000,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam felis, fringilla vitae tellus eu, aliquet tincidunt quam. Nunc eu consectetur arcu. Fusce consequat semper purus. Sed urna massa, sollicitudin eget leo a, pretium sollicitudin metus. Vivamus eget pulvinar justo. Maecenas id viverra magna, id fermentum massa. Pellentesque a felis quis augue mattis molestie volutpat vitae arcu. Vivamus eu imperdiet augue, in porttitor felis. Aenean laoreet quam sit amet nulla rutrum pulvinar. Suspendisse semper accumsan nunc. Vestibulum venenatis scelerisque felis varius sollicitudin. Quisque aliquam lacus erat, et aliquet nunc efficitur vel. Praesent vulputate neque sed sollicitudin pellentesque. Nam dignissim interdum ipsum non vulputate.",
         "id": "4",
-        "lastConnection": 1601671440,
+        "lastConnection": 1601753100000,
         "personalInformations": {
-            "birthday": 1602483830,
+            "birthday": 1602483830000,
             "firstname": "Émilie",
             "location": "WAZEMMES",
             "photo": "https://www.eguardtech.com/wp-content/uploads/2018/08/Network-Profile.png"
@@ -26,12 +26,12 @@
         "username": "GoldenBaNANA"
     },
     {
-        "createdAt": 1602483800,
+        "createdAt": 1602483800000,
         "description": null,
         "id": "2",
-        "lastConnection": "1601671410",
+        "lastConnection": 1603103100000,
         "personalInformations": {
-            "birthday": 461419200,
+            "birthday": 461419200000,
             "firstname": "Sabine",
             "location": null,
             "photo": "https://placemat.imgix.net/placeholder_images/images/000/000/102/original/9904408486_810f206ca9_b.jpg?ixlib=rb-1.0.0&w=&h=&fm=auto&crop=faces%2Centropy&fit=crop&txt=&txtclr=BFFF&txtalign=middle%2Ccenter&txtfit=max&txtsize=42&txtfont=Avenir+Next+Demi%2CBold&bm=multiply&blend=ACACAC&s=466212fa89f411c408def9688627eaef"
@@ -39,10 +39,10 @@
         "username": "Robine"
     },
     {
-        "createdAt": 1602483830,
+        "createdAt": 1602483830000,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam felis, fringilla vitae tellus eu, aliquet tincidunt quam. Nunc eu consectetur arcu. Fusce consequat semper purus. Sed urna massa, sollicitudin eget leo a, pretium sollicitudin metus. Vivamus eget pulvinar justo. Maecenas id viverra magna, id fermentum massa. Pellentesque a felis quis augue mattis molestie volutpat vitae arcu. Vivamus eu imperdiet augue, in porttitor felis. Aenean laoreet quam sit amet nulla rutrum pulvinar. Suspendisse semper accumsan nunc. Vestibulum venenatis scelerisque felis varius sollicitudin. Quisque aliquam lacus erat, et aliquet nunc efficitur vel. Praesent vulputate neque sed sollicitudin pellentesque. Nam dignissim interdum ipsum non vulputate.",
         "id": "3",
-        "lastConnection": 1601671440,
+        "lastConnection": 1602671100000,
         "personalInformations": {
             "birthday": null,
             "firstname": "Marc-Antoine",

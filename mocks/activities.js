@@ -1,4 +1,4 @@
-[
+const activities = [
     {
         "id": "1",
         "comments": [
@@ -31,8 +31,9 @@
             "lille",
             "lepluslonghashtagquejenaijamaistapedemaviesisicestvrai"
         ],
-        "timestamp": 1602412200,
-        "title": "Marche"
+        "timestamp": Date.now() + 86400000 + (127 * 60 * 60 * 1000),
+        "title": "Marche",
+        "type": "relax"
     },
     {
         "id": "2",
@@ -74,8 +75,9 @@
         "tags": [
             "courseapied"
         ],
-        "timestamp": 1602483200,
-        "title": "Course à pied"
+        "timestamp": Date.now(),
+        "title": "Course à pied",
+        "type": "sport"
     },
     {
         "id": "3",
@@ -93,7 +95,10 @@
         "registeredWaitingList": [],
         "registrationForSeveral": true,
         "tags": [],
-        "timestamp": 1602412200,
-        "title": "Jeux de société"
+        "timestamp": Date.now() + 86400000 - (2 * 60 * 60 * 1000),
+        "title": "Jeux de société",
+        "type": "game"
     }
-]
+];
+
+export default activities;
