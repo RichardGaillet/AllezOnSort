@@ -69,10 +69,11 @@ export default function ActivityScreen(activity) {
                     <Card.Content>
                         <Title>{`le ${moment(timestamp).format('ddd DD MMM')} à ${moment(timestamp).format('LT')}`}</Title>
                         <Divider />
-                        <Paragraph>{location}</Paragraph>
+                        <Paragraph>Lieu : {location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
                     </Card.Content>
                     {tags.length > 0 && <Card.Content>
+                        <Divider />
                         <Text>
                             {tags
                                 .sort()
@@ -99,7 +100,9 @@ export default function ActivityScreen(activity) {
                         <Title>Descriptif</Title>
                         <Divider />
                         {description.length > 128 ?
-                            <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)} suite</Paragraph> :
+                            <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)}
+                                <Text style={styles.shortenText}> suite</Text>
+                            </Paragraph> :
                             <Paragraph>{description}</Paragraph>
                         }
                     </Card.Content>
@@ -170,7 +173,7 @@ export default function ActivityScreen(activity) {
                         </>}
                     <Divider style={styles.divider} />
                     {comments.length > 0 && <Card.Content>
-                        <Title>Commentaires ({comments.length})</Title>
+                        <Title>Commentaires ({lessThanTen(comments.length)})</Title>
                         {comments.map((comment, key) =>
                             <View key={key}>
                                 <Divider />
@@ -180,7 +183,9 @@ export default function ActivityScreen(activity) {
                                     </View>
                                     <View style={styles.commentText}>
                                         {comment.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)} suite</Paragraph> :
+                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)}
+                                                <Text style={styles.shortenText}> suite</Text>
+                                            </Paragraph> :
                                             <Paragraph>{comment.text}</Paragraph>
                                         }
                                     </View>
@@ -219,7 +224,6 @@ const styles = StyleSheet.create({
     activityTypeImage: {
         height: 48,
         marginRight: 12,
-        opacity: 0.75,
         width: 48,
     },
     avatarImage: {
@@ -256,11 +260,14 @@ const styles = StyleSheet.create({
     },
     divider: {
         borderColor: colors.primary,
-        borderBottomWidth: 2,
-        opacity: 0.75,
+        borderBottomWidth: 1,
     },
     listItemChip: {
         margin: 0,
         padding: 0,
+    },
+    shortenText: {
+        color: colors.secondary,
+        fontWeight: '700',
     }
 })
