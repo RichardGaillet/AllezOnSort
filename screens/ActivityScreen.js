@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Avatar, Button, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
+import { Avatar, Button, Card, Chip, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
 import moment from 'moment';
@@ -73,7 +73,18 @@ export default function ActivityScreen(activity) {
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
                     </Card.Content>
                     {tags.length > 0 && <Card.Content>
-                        <Text>{tags.sort().map((tag, key) => <List.Item key={key} title={'#' + shortenText(tag, 32)} />)}</Text>
+                        <Text>
+                            {tags
+                                .sort()
+                                .map((tag, key) =>
+                                    <List.Item
+                                        key={key}
+                                        style={styles.listItemChip}
+                                        title={
+                                            <Chip>{'#' + shortenText(tag, 32)}</Chip>
+                                        } />
+                                )}
+                        </Text>
                     </Card.Content>}
                     <Divider style={styles.divider} />
                     <Card.Content>
@@ -108,7 +119,6 @@ export default function ActivityScreen(activity) {
                                 <View style={styles.commentBox}>
                                     <View style={styles.commentAvatar}>
                                         <Avatar.Image size={48} style={styles.avatarImage} source={comment.avatar ? { uri: comment.avatar } : require('../assets/logo_aos.png')} />
-                                        {/* <Avatar.Text size={48} style={styles.avatarImage} label={comment.username ? comment.username.substring(0, 1) + comment.username.substring(comment.username.length - 1) : '?'} /> */}
                                     </View>
                                     <View style={styles.commentText}>
                                         {comment.text.length > 128 ?
@@ -119,10 +129,6 @@ export default function ActivityScreen(activity) {
                                 </View>
                             </View>)}
                     </Card.Content>}
-                    {/* <Card.Actions>
-                <Button icon="close-outline" mode="contained" onPress={() => console.log('Pressed')} />
-                <Button icon="check-outline" mode="contained" onPress={() => console.log(props)} />
-            </Card.Actions> */}
                 </Card>
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
@@ -188,5 +194,8 @@ const styles = StyleSheet.create({
         borderColor: colors.primary,
         borderBottomWidth: 2,
         opacity: 0.75,
+    },
+    listItemChip: {
+        padding: 0, margin: 0
     }
 })
