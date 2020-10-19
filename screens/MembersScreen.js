@@ -169,6 +169,6 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         backgroundColor: colors.secondary,
-        color: '#fff',
+        color: colors.light,
     },
 })

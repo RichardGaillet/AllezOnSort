@@ -16,14 +16,32 @@ const activities = [
         "photo": "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg",
         "places": "4",
         "registeredList": [
-            "Richard",
-            "Tartempion",
-            "MachinTruc",
-            "EncoreUn"
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "Tartempion",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            },
+            {
+                username: "MachinTruc",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "EncoreUn",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            }
         ],
         "registeredWaitingList": [
-            "Richard",
-            "Tartempion"
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "Tartempion",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            }
         ],
         "registrationForSeveral": true,
         "tags": [
@@ -55,20 +73,45 @@ const activities = [
         "location": "Lille",
         "locationDetails": "Monuments aux morts de l'esplanade",
         "photo": "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg",
-        "registered": "10",
         "places": "12",
         "organizer": "FBInet59",
         "registeredList": [
-            "Richard",
-            "Tartempion",
-            "MachinTruc",
-            "EncoreUn",
-            "Richard",
-            "Tartempion",
-            "MachinTruc",
-            "EncoreUn",
-            "Richard",
-            "Tartempion"
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "Tartempion",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            },
+            {
+                username: "MachinTruc",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "EncoreUn",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            },
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "Tartempion",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            },
+            {
+                username: "MachinTruc",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "EncoreUn",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            },
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            }
         ],
         "registeredWaitingList": [],
         "registrationForSeveral": true,
@@ -89,8 +132,14 @@ const activities = [
         "places": "6",
         "organizer": "Arlen",
         "registeredList": [
-            "MachinTruc",
-            "EncoreUn"
+            {
+                username: "Richard",
+                avatar: "https://viago.ca/wp-content/uploads/2017/09/1-placerouge.jpg"
+            },
+            {
+                username: "Tartempion",
+                avatar: "https://www.parisinfo.com/var/otcp/sites/images/_aliases/article_full/node_43/node_51/node_230/place-de-la-concorde-face-l-630x405-l-%C2%A9-dr-110-07-henri-garat/18131706-2-fre-FR/Place-de-la-Concorde-Face-l-630x405-l-%C2%A9-DR-110-07-Henri-Garat.jpg"
+            }
         ],
         "registeredWaitingList": [],
         "registrationForSeveral": true,

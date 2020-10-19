@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Avatar, Button, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
+import { Avatar, Button, Card, Chip, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
 import moment from 'moment';
@@ -69,18 +69,40 @@ export default function ActivityScreen(activity) {
                     <Card.Content>
                         <Title>{`le ${moment(timestamp).format('ddd DD MMM')} à ${moment(timestamp).format('LT')}`}</Title>
                         <Divider />
-                        <Paragraph>{location}</Paragraph>
+                        <Paragraph>Lieu : {location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
                     </Card.Content>
                     {tags.length > 0 && <Card.Content>
-                        <Text>{tags.sort().map((tag, key) => <List.Item key={key} title={'#' + shortenText(tag, 32)} />)}</Text>
+                        <Divider />
+                        <Text>
+                            {tags
+                                .sort()
+                                .map((tag, key) =>
+                                    <List.Item
+                                        key={key}
+                                        style={styles.listItemChip}
+                                        title={
+                                            <Chip
+                                                style={styles.chipButton}
+                                            >
+                                                <Text
+                                                    style={styles.chipText}
+                                                >
+                                                    {'#' + shortenText(tag, 32)}
+                                                </Text>
+                                            </Chip>
+                                        } />
+                                )}
+                        </Text>
                     </Card.Content>}
                     <Divider style={styles.divider} />
                     <Card.Content>
                         <Title>Descriptif</Title>
                         <Divider />
                         {description.length > 128 ?
-                            <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)} suite</Paragraph> :
+                            <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)}
+                                <Text style={styles.shortenText}> suite</Text>
+                            </Paragraph> :
                             <Paragraph>{description}</Paragraph>
                         }
                     </Card.Content>
@@ -88,7 +110,32 @@ export default function ActivityScreen(activity) {
                     <Card.Content>
                         <Title>Liste des membres ({lessThanTen(registeredList.length)} / {lessThanTen(places)})</Title>
                         <Divider />
-                        <Text>{registeredList.map((name, key) => <List.Item key={key} title={name} />)}</Text>
+                        <Text>
+                            {registeredList
+                                .sort((a, b) => {
+                                    if (a.username === b.username) {
+                                        return a.id - b.id;
+                                    }
+                                    return a.username > b.username ? 1 : -1;
+                                })
+                                .map((registered, key) =>
+                                    <List.Item
+                                        key={key}
+                                        style={styles.listItemChip}
+                                        title={
+                                            <Chip
+                                                avatar={<Image source={{ uri: registered.avatar }} />}
+                                                style={styles.chipButton}
+                                            >
+                                                <Text
+                                                    style={styles.chipText}
+                                                >
+                                                    {shortenText(registered.username, 32)}
+                                                </Text>
+                                            </Chip>
+                                        } />
+                                )}
+                        </Text>
                     </Card.Content>
                     {registeredWaitingList.length > 0 &&
                         <>
@@ -96,33 +143,55 @@ export default function ActivityScreen(activity) {
                             <Card.Content>
                                 <Title>Liste d'attente ({lessThanTen(registeredWaitingList.length)})</Title>
                                 <Divider />
-                                <Text>{registeredWaitingList.map((name, key) => <List.Item key={key} title={name} />)}</Text>
+                                <Text>
+                                    {registeredWaitingList
+                                        .sort((a, b) => {
+                                            if (a.username === b.username) {
+                                                return a.id - b.id;
+                                            }
+                                            return a.username > b.username ? 1 : -1;
+                                        })
+                                        .map((registeredWaiting, key) =>
+                                            <List.Item
+                                                key={key}
+                                                style={styles.listItemChip}
+                                                title={
+                                                    <Chip
+                                                        avatar={<Image source={{ uri: registeredWaiting.avatar }} />}
+                                                        style={styles.chipButton}
+                                                    >
+                                                        <Text
+                                                            style={styles.chipText}
+                                                        >
+                                                            {shortenText(registeredWaiting.username, 32)}
+                                                        </Text>
+                                                    </Chip>
+                                                } />
+                                        )}
+                                </Text>
                             </Card.Content>
                         </>}
                     <Divider style={styles.divider} />
                     {comments.length > 0 && <Card.Content>
-                        <Title>Commentaires ({comments.length})</Title>
+                        <Title>Commentaires ({lessThanTen(comments.length)})</Title>
                         {comments.map((comment, key) =>
                             <View key={key}>
                                 <Divider />
                                 <View style={styles.commentBox}>
                                     <View style={styles.commentAvatar}>
                                         <Avatar.Image size={48} style={styles.avatarImage} source={comment.avatar ? { uri: comment.avatar } : require('../assets/logo_aos.png')} />
-                                        {/* <Avatar.Text size={48} style={styles.avatarImage} label={comment.username ? comment.username.substring(0, 1) + comment.username.substring(comment.username.length - 1) : '?'} /> */}
                                     </View>
                                     <View style={styles.commentText}>
                                         {comment.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)} suite</Paragraph> :
+                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)}
+                                                <Text style={styles.shortenText}> suite</Text>
+                                            </Paragraph> :
                                             <Paragraph>{comment.text}</Paragraph>
                                         }
                                     </View>
                                 </View>
                             </View>)}
                     </Card.Content>}
-                    {/* <Card.Actions>
-                <Button icon="close-outline" mode="contained" onPress={() => console.log('Pressed')} />
-                <Button icon="check-outline" mode="contained" onPress={() => console.log(props)} />
-            </Card.Actions> */}
                 </Card>
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
@@ -155,12 +224,17 @@ const styles = StyleSheet.create({
     activityTypeImage: {
         height: 48,
         marginRight: 12,
-        opacity: 0.75,
         width: 48,
     },
     avatarImage: {
         backgroundColor: colors.primary,
         justifyContent: 'center',
+    },
+    chipButton: {
+        backgroundColor: colors.secondary,
+    },
+    chipText: {
+        color: colors.light,
     },
     commentAvatar: {
         padding: 4,
@@ -186,7 +260,14 @@ const styles = StyleSheet.create({
     },
     divider: {
         borderColor: colors.primary,
-        borderBottomWidth: 2,
-        opacity: 0.75,
+        borderBottomWidth: 1,
+    },
+    listItemChip: {
+        margin: 0,
+        padding: 0,
+    },
+    shortenText: {
+        color: colors.secondary,
+        fontWeight: '700',
     }
 })
