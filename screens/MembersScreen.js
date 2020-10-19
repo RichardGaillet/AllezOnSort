@@ -135,7 +135,7 @@ export default function MembersScreen() {
                                     <Text style={styles.cardContentText} >Description : {description}</Text>
                                 </>}
                             </Card.Content>
-                            <Card.Actions>
+                            <Card.Actions style={{ flex: 1, justifyContent: 'flex-end' }}>
                                 <Button
                                     color={colors.secondary}
                                     icon='close-circle'
@@ -161,6 +161,9 @@ export default function MembersScreen() {
 }
 
 const styles = StyleSheet.create({
+    cardActionsButtoon: {
+        elevation: 4,
+    },
     cardContentText: {
         marginVertical: 12
     },

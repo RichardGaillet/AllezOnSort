@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Avatar, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
+import { Avatar, Button, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
 import moment from 'moment';
@@ -137,9 +137,11 @@ export default function ActivityScreen(activity) {
                             <Dialog.Actions>
                                 <Button
                                     color={colors.secondary}
+                                    icon='close-circle'
+                                    mode="contained"
                                     onPress={hideDialog}
-                                    title='Fermer'
-                                />
+                                    style={styles.dialogActionsButton}
+                                >Fermer</Button>
                             </Dialog.Actions>
                         </ScrollView>
                     </Dialog>
@@ -171,6 +173,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
+    dialogActionsButton: {
+        elevation: 4,
+    },
     dialogTitle: {
         flex: 0.5,
         justifyContent: 'center',
@@ -180,7 +185,8 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     divider: {
-        borderColor: colors.secondary,
+        borderColor: colors.primary,
         borderBottomWidth: 2,
+        opacity: 0.75,
     }
 })
