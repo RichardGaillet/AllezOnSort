@@ -99,7 +99,18 @@ export default function ActivityScreen(activity) {
                     <Card.Content>
                         <Title>Liste des membres ({lessThanTen(registeredList.length)} / {lessThanTen(places)})</Title>
                         <Divider />
-                        <Text>{registeredList.map((name, key) => <List.Item key={key} title={name} />)}</Text>
+                        <Text>
+                            {registeredList
+                                .sort()
+                                .map((name, key) =>
+                                    <List.Item
+                                        key={key}
+                                        style={styles.listItemChip}
+                                        title={
+                                            <Chip>{'#' + shortenText(name, 32)}</Chip>
+                                        } />
+                                )}
+                        </Text>
                     </Card.Content>
                     {registeredWaitingList.length > 0 &&
                         <>
@@ -196,6 +207,7 @@ const styles = StyleSheet.create({
         opacity: 0.75,
     },
     listItemChip: {
-        padding: 0, margin: 0
+        margin: 0,
+        padding: 0,
     }
 })
