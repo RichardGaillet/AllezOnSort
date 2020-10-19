@@ -6,6 +6,10 @@ import MasonryList from "react-native-masonry-list"
 import members from "../mocks/members.json"
 import colors from '../config/colors'
 
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+
 export default function MembersScreen() {
 
     const images = members
@@ -111,7 +115,7 @@ export default function MembersScreen() {
                 <Dialog visible={visible} onDismiss={hideDialog}>
                     <ScrollView>
                         <Card>
-                            <Card.Title title={username} subtitle={`Dernière connexion : ${lastConnection}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
+                            <Card.Title title={username} subtitle={`Dernière connexion : ${moment(lastConnection).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
                             <Card.Cover source={{ uri: personalInformations?.photo }} />
                             <Divider />
                             <Card.Content>
@@ -120,7 +124,7 @@ export default function MembersScreen() {
                                 </>}
                                 {personalInformations?.birthday && <>
                                     <Divider />
-                                    <Text style={styles.cardContentText} >Date de naissance : {personalInformations?.birthday}</Text>
+                                    <Text style={styles.cardContentText} >Date de naissance : {moment(personalInformations?.birthday).format('LL')}</Text>
                                 </>}
                                 {personalInformations?.location && <>
                                     <Divider />
