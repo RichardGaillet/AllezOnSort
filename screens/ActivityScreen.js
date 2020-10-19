@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Avatar, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
+import { Avatar, Button, Card, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
 
 export default function ActivityScreen(activity) {
 
@@ -16,7 +19,6 @@ export default function ActivityScreen(activity) {
     }
 
     const hideDialog = () => setVisible(false);
-
 
     const {
         comments,
@@ -31,9 +33,30 @@ export default function ActivityScreen(activity) {
         tags,
         timestamp,
         title,
+        type,
     } = activity.route.params.activity
 
-    const RightContent = () => <Avatar.Image style={styles.avatarImage} source={require('../assets/logo_aos.png')} />
+    let activityType;
+
+    switch (type) {
+        case 'aid': activityType = require('../assets/activities/aid.png'); break;
+        case 'cinema': activityType = require('../assets/activities/cinema.png'); break;
+        case 'culture': activityType = require('../assets/activities/culture.png'); break;
+        case 'dance': activityType = require('../assets/activities/dance.png'); break;
+        case 'discovery': activityType = require('../assets/activities/discovery.png'); break;
+        case 'drink': activityType = require('../assets/activities/drink.png'); break;
+        case 'game': activityType = require('../assets/activities/game.png'); break;
+        case 'music': activityType = require('../assets/activities/music.png'); break;
+        case 'outside': activityType = require('../assets/activities/outside.png'); break;
+        case 'relax': activityType = require('../assets/activities/relax.png'); break;
+        case 'restaurant': activityType = require('../assets/activities/restaurant.png'); break;
+        case 'sojourn': activityType = require('../assets/activities/sojourn.png'); break;
+        case 'sport': activityType = require('../assets/activities/sport.png'); break;
+        case 'theater': activityType = require('../assets/activities/theater.png'); break;
+        default: console.log('Aucune action reçue.'); break;
+    }
+
+    const RightContent = () => <Image style={styles.activityTypeImage} source={activityType} />
 
     return (
         <Provider>
@@ -44,7 +67,7 @@ export default function ActivityScreen(activity) {
                     <Card.Title title={title} subtitle={`par ${organizer}`} right={RightContent} />
                     <Divider style={styles.divider} />
                     <Card.Content>
-                        <Title>{`le ${timestamp} à ${timestamp}`}</Title>
+                        <Title>{`le ${moment(timestamp).format('ddd DD MMM')} à ${moment(timestamp).format('LT')}`}</Title>
                         <Divider />
                         <Paragraph>{location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
@@ -114,9 +137,11 @@ export default function ActivityScreen(activity) {
                             <Dialog.Actions>
                                 <Button
                                     color={colors.secondary}
+                                    icon='close-circle'
+                                    mode="contained"
                                     onPress={hideDialog}
-                                    title='Fermer'
-                                />
+                                    style={styles.dialogActionsButton}
+                                >Fermer</Button>
                             </Dialog.Actions>
                         </ScrollView>
                     </Dialog>
@@ -127,6 +152,12 @@ export default function ActivityScreen(activity) {
 }
 
 const styles = StyleSheet.create({
+    activityTypeImage: {
+        height: 48,
+        marginRight: 12,
+        opacity: 0.75,
+        width: 48,
+    },
     avatarImage: {
         backgroundColor: colors.primary,
         justifyContent: 'center',
@@ -142,6 +173,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
+    dialogActionsButton: {
+        elevation: 4,
+    },
     dialogTitle: {
         flex: 0.5,
         justifyContent: 'center',
@@ -151,7 +185,8 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     divider: {
-        borderColor: colors.secondary,
+        borderColor: colors.primary,
         borderBottomWidth: 2,
+        opacity: 0.75,
     }
 })
