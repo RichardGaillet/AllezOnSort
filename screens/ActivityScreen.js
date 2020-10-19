@@ -81,7 +81,9 @@ export default function ActivityScreen(activity) {
                                         key={key}
                                         style={styles.listItemChip}
                                         title={
-                                            <Chip>{'#' + shortenText(tag, 32)}</Chip>
+                                            <Chip
+                                                style={styles.chipButton}
+                                            >{'#' + shortenText(tag, 32)}</Chip>
                                         } />
                                 )}
                         </Text>
@@ -107,7 +109,9 @@ export default function ActivityScreen(activity) {
                                         key={key}
                                         style={styles.listItemChip}
                                         title={
-                                            <Chip>{'#' + shortenText(name, 32)}</Chip>
+                                            <Chip
+                                                style={styles.chipButton}
+                                            >{shortenText(name, 32)}</Chip>
                                         } />
                                 )}
                         </Text>
@@ -118,7 +122,20 @@ export default function ActivityScreen(activity) {
                             <Card.Content>
                                 <Title>Liste d'attente ({lessThanTen(registeredWaitingList.length)})</Title>
                                 <Divider />
-                                <Text>{registeredWaitingList.map((name, key) => <List.Item key={key} title={name} />)}</Text>
+                                <Text>
+                                    {registeredWaitingList
+                                        .sort()
+                                        .map((name, key) =>
+                                            <List.Item
+                                                key={key}
+                                                style={styles.listItemChip}
+                                                title={
+                                                    <Chip
+                                                        style={styles.chipButton}
+                                                    >{shortenText(name, 32)}</Chip>
+                                                } />
+                                        )}
+                                </Text>
                             </Card.Content>
                         </>}
                     <Divider style={styles.divider} />
@@ -178,6 +195,9 @@ const styles = StyleSheet.create({
     avatarImage: {
         backgroundColor: colors.primary,
         justifyContent: 'center',
+    },
+    chipButton: {
+        backgroundColor: colors.secondary
     },
     commentAvatar: {
         padding: 4,
