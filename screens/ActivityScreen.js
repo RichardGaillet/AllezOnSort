@@ -83,7 +83,13 @@ export default function ActivityScreen(activity) {
                                         title={
                                             <Chip
                                                 style={styles.chipButton}
-                                            >{'#' + shortenText(tag, 32)}</Chip>
+                                            >
+                                                <Text
+                                                    style={styles.chipText}
+                                                >
+                                                    {'#' + shortenText(tag, 32)}
+                                                </Text>
+                                            </Chip>
                                         } />
                                 )}
                         </Text>
@@ -103,15 +109,27 @@ export default function ActivityScreen(activity) {
                         <Divider />
                         <Text>
                             {registeredList
-                                .sort()
-                                .map((name, key) =>
+                                .sort((a, b) => {
+                                    if (a.username === b.username) {
+                                        return a.id - b.id;
+                                    }
+                                    return a.username > b.username ? 1 : -1;
+                                })
+                                .map((registered, key) =>
                                     <List.Item
                                         key={key}
                                         style={styles.listItemChip}
                                         title={
                                             <Chip
+                                                avatar={<Image source={{ uri: registered.avatar }} />}
                                                 style={styles.chipButton}
-                                            >{shortenText(name, 32)}</Chip>
+                                            >
+                                                <Text
+                                                    style={styles.chipText}
+                                                >
+                                                    {shortenText(registered.username, 32)}
+                                                </Text>
+                                            </Chip>
                                         } />
                                 )}
                         </Text>
@@ -124,15 +142,27 @@ export default function ActivityScreen(activity) {
                                 <Divider />
                                 <Text>
                                     {registeredWaitingList
-                                        .sort()
-                                        .map((name, key) =>
+                                        .sort((a, b) => {
+                                            if (a.username === b.username) {
+                                                return a.id - b.id;
+                                            }
+                                            return a.username > b.username ? 1 : -1;
+                                        })
+                                        .map((registeredWaiting, key) =>
                                             <List.Item
                                                 key={key}
                                                 style={styles.listItemChip}
                                                 title={
                                                     <Chip
+                                                        avatar={<Image source={{ uri: registeredWaiting.avatar }} />}
                                                         style={styles.chipButton}
-                                                    >{shortenText(name, 32)}</Chip>
+                                                    >
+                                                        <Text
+                                                            style={styles.chipText}
+                                                        >
+                                                            {shortenText(registeredWaiting.username, 32)}
+                                                        </Text>
+                                                    </Chip>
                                                 } />
                                         )}
                                 </Text>
@@ -197,7 +227,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     chipButton: {
-        backgroundColor: colors.secondary
+        backgroundColor: colors.secondary,
+    },
+    chipText: {
+        color: colors.light,
     },
     commentAvatar: {
         padding: 4,
