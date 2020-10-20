@@ -46,7 +46,7 @@ export default function MembersScreen() {
                 accessibilityLabel="Éventail d'images"
                 columns={masonryListColumns}
                 images={images}
-                imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 4 }}
+                imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 6 / masonryListColumns }}
                 onPressImage={member => showDialog(member)}
             />)
     }
@@ -66,34 +66,44 @@ export default function MembersScreen() {
                     actions={[
                         {
                             accessibilityLabel: "Affichage sur une colonne",
+                            color: masonryListColumns === 1 ? colors.light : colors.dark,
                             icon: 'numeric-1',
-                            label: '1 colonne',
+                            label: masonryListColumns === 1 ? null : '1 colonne',
                             onPress: () => storeData("masonryListColumns", 1),
+                            style: masonryListColumns === 1 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
                         },
                         {
-                            accessibilityLabel: "Affichage sur deux colonnes",
+                            accessibilityLabel: "Affichage sur une colonne",
+                            color: masonryListColumns === 2 ? colors.light : colors.dark,
                             icon: 'numeric-2',
-                            label: '2 colonnes',
+                            label: masonryListColumns === 2 ? null : '2 colonne',
                             onPress: () => storeData("masonryListColumns", 2),
+                            style: masonryListColumns === 2 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
                         },
                         {
-                            accessibilityLabel: "Affichage sur trois colonnes",
+                            accessibilityLabel: "Affichage sur une colonne",
+                            color: masonryListColumns === 3 ? colors.light : colors.dark,
                             icon: 'numeric-3',
-                            label: '3 colonnes',
+                            label: masonryListColumns === 3 ? null : '3 colonne',
                             onPress: () => storeData("masonryListColumns", 3),
+                            style: masonryListColumns === 3 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
                         },
                         {
-                            accessibilityLabel: "Affichage sur quatre colonnes",
+                            accessibilityLabel: "Affichage sur une colonne",
+                            color: masonryListColumns === 4 ? colors.light : colors.dark,
                             icon: 'numeric-4',
-                            label: '4 colonnes',
+                            label: masonryListColumns === 4 ? null : '4 colonne',
                             onPress: () => storeData("masonryListColumns", 4),
+                            style: masonryListColumns === 4 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
                         },
                         {
-                            accessibilityLabel: "Affichage sur cinq colonnes",
+                            accessibilityLabel: "Affichage sur une colonne",
+                            color: masonryListColumns === 5 ? colors.light : colors.dark,
                             icon: 'numeric-5',
-                            label: '5 colonnes',
+                            label: masonryListColumns === 5 ? null : '5 colonne',
                             onPress: () => storeData("masonryListColumns", 5),
-                        },
+                            style: masonryListColumns === 5 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+                        }
                     ]}
                     onStateChange={onStateChange}
                 />

@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     dataTableCellText: {
-        color: colors.light
+        color: colors.dark,
     },
     dataTableHeader: {
         marginHorizontal: 16,
