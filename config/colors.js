@@ -1,9 +1,9 @@
 const colors = {
-    dark: '#444',
+    dark: '#000',
     light: '#fff',
     placeholder: '#dfdfdf',
-    primary: '#9000ae',
-    secondary: '#fb483e',
+    primary: '#123456',
+    secondary: '#f90',
 }
 
 export default colors

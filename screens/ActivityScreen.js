@@ -197,8 +197,8 @@ export default function ActivityScreen(activity) {
                     <Dialog visible={visible} onDismiss={hideDialog}>
                         <ScrollView>
                             <View style={styles.dialogTitleBox}>
-                                <Avatar.Image style={styles.avatarImage} source={textDialog?.avatar ? { uri: textDialog?.avatar } : { uri: photo }} />
-                                <Dialog.Title>{textDialog?.username || 'Descriptif'}</Dialog.Title>
+                                <Avatar.Image style={styles.descriptionAvatarImage} source={textDialog?.avatar ? { uri: textDialog?.avatar } : { uri: photo }} />
+                                <Dialog.Title style={styles.dialogTitle}>{textDialog?.username || 'Descriptif'}</Dialog.Title>
                             </View>
                             <Dialog.Content>
                                 <Paragraph>{textDialog?.text || textDialog}</Paragraph>
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.secondary,
     },
     chipText: {
-        color: colors.light,
+        color: colors.dark,
     },
     commentAvatar: {
         padding: 4,
@@ -247,16 +247,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
+    descriptionAvatarImage: {
+        marginLeft: 24,
+        marginVertical: 16,
+    },
     dialogActionsButton: {
         elevation: 4,
     },
     dialogTitle: {
-        flex: 0.5,
-        justifyContent: 'center',
+        color: colors.light,
     },
     dialogTitleBox: {
+        alignItems: 'center',
+        backgroundColor: colors.primary,
         flexDirection: 'row',
-        padding: 8,
     },
     divider: {
         borderColor: colors.primary,
