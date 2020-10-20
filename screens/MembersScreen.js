@@ -56,6 +56,50 @@ export default function MembersScreen() {
     const onStateChange = ({ open }) => setState({ open });
     const { open } = state;
     const fab = () => {
+
+        const fabGroupActions = [
+            {
+                accessibilityLabel: "Affichage sur une colonne",
+                color: masonryListColumns === 1 ? colors.light : colors.dark,
+                icon: 'numeric-1',
+                label: masonryListColumns === 1 ? null : '1 colonne',
+                onPress: () => storeData("masonryListColumns", 1),
+                style: masonryListColumns === 1 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+            },
+            {
+                accessibilityLabel: "Affichage sur deux colonnes",
+                color: masonryListColumns === 2 ? colors.light : colors.dark,
+                icon: 'numeric-2',
+                label: masonryListColumns === 2 ? null : '2 colonnes',
+                onPress: () => storeData("masonryListColumns", 2),
+                style: masonryListColumns === 2 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+            },
+            {
+                accessibilityLabel: "Affichage sur trois colonnes",
+                color: masonryListColumns === 3 ? colors.light : colors.dark,
+                icon: 'numeric-3',
+                label: masonryListColumns === 3 ? null : '3 colonnes',
+                onPress: () => storeData("masonryListColumns", 3),
+                style: masonryListColumns === 3 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+            },
+            {
+                accessibilityLabel: "Affichage sur quatre colonnes",
+                color: masonryListColumns === 4 ? colors.light : colors.dark,
+                icon: 'numeric-4',
+                label: masonryListColumns === 4 ? null : '4 colonnes',
+                onPress: () => storeData("masonryListColumns", 4),
+                style: masonryListColumns === 4 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+            },
+            {
+                accessibilityLabel: "Affichage sur cinq colonnes",
+                color: masonryListColumns === 5 ? colors.light : colors.dark,
+                icon: 'numeric-5',
+                label: masonryListColumns === 5 ? null : '5 colonnes',
+                onPress: () => storeData("masonryListColumns", 5),
+                style: masonryListColumns === 5 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
+            }
+        ]
+
         return (
             <Portal>
                 <FAB.Group
@@ -63,48 +107,7 @@ export default function MembersScreen() {
                     fabStyle={{ backgroundColor: colors.secondary }}
                     open={open}
                     icon={open ? `chevron-up` : 'view-dashboard-variant'}
-                    actions={[
-                        {
-                            accessibilityLabel: "Affichage sur une colonne",
-                            color: masonryListColumns === 1 ? colors.light : colors.dark,
-                            icon: 'numeric-1',
-                            label: masonryListColumns === 1 ? null : '1 colonne',
-                            onPress: () => storeData("masonryListColumns", 1),
-                            style: masonryListColumns === 1 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
-                        },
-                        {
-                            accessibilityLabel: "Affichage sur une colonne",
-                            color: masonryListColumns === 2 ? colors.light : colors.dark,
-                            icon: 'numeric-2',
-                            label: masonryListColumns === 2 ? null : '2 colonne',
-                            onPress: () => storeData("masonryListColumns", 2),
-                            style: masonryListColumns === 2 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
-                        },
-                        {
-                            accessibilityLabel: "Affichage sur une colonne",
-                            color: masonryListColumns === 3 ? colors.light : colors.dark,
-                            icon: 'numeric-3',
-                            label: masonryListColumns === 3 ? null : '3 colonne',
-                            onPress: () => storeData("masonryListColumns", 3),
-                            style: masonryListColumns === 3 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
-                        },
-                        {
-                            accessibilityLabel: "Affichage sur une colonne",
-                            color: masonryListColumns === 4 ? colors.light : colors.dark,
-                            icon: 'numeric-4',
-                            label: masonryListColumns === 4 ? null : '4 colonne',
-                            onPress: () => storeData("masonryListColumns", 4),
-                            style: masonryListColumns === 4 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
-                        },
-                        {
-                            accessibilityLabel: "Affichage sur une colonne",
-                            color: masonryListColumns === 5 ? colors.light : colors.dark,
-                            icon: 'numeric-5',
-                            label: masonryListColumns === 5 ? null : '5 colonne',
-                            onPress: () => storeData("masonryListColumns", 5),
-                            style: masonryListColumns === 5 ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary },
-                        }
-                    ]}
+                    actions={fabGroupActions}
                     onStateChange={onStateChange}
                 />
             </Portal>)
