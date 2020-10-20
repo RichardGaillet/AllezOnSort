@@ -47,7 +47,7 @@ export default function MembersScreen() {
                 columns={masonryListColumns}
                 images={images}
                 imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 4 }}
-                onPressImage={member => showDialog(member?.source?.data)}
+                onPressImage={member => showDialog(member)}
             />)
     }
 
@@ -103,8 +103,10 @@ export default function MembersScreen() {
     // NOTE Gestion de memberDialog
     const [visible, setVisible] = useState(false);
     const [member, setMember] = useState({})
+    const [masonryDimensions, setMasonryDimensions] = useState({})
     const showDialog = (member) => {
-        setMember(member);
+        setMember(member.source.data);
+        setMasonryDimensions(member.masonryDimensions);
         setVisible(true);
     }
     const hideDialog = () => setVisible(false);
@@ -116,7 +118,14 @@ export default function MembersScreen() {
                     <ScrollView>
                         <Card>
                             <Card.Title title={username} subtitle={`Dernière connexion : ${moment(lastConnection).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
-                            <Card.Cover source={{ uri: personalInformations?.photo }} />
+                            <Card.Cover
+                                source={{ uri: personalInformations?.photo }}
+                                style={{
+                                    alignSelf: 'center',
+                                    height: masonryDimensions.height * masonryListColumns / 2,
+                                    width: masonryDimensions.width * masonryListColumns / 2,
+                                }}
+                            />
                             <Divider />
                             <Card.Content>
                                 {personalInformations?.firstname && <>
@@ -146,7 +155,7 @@ export default function MembersScreen() {
                             </Card.Actions>
                         </Card>
                     </ScrollView>
-                </Dialog>
+                </Dialog >
             </Portal >
         )
     }
@@ -168,7 +177,7 @@ const styles = StyleSheet.create({
         marginVertical: 12
     },
     cardTitle: {
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.primary,
         color: colors.light,
     },
 })
