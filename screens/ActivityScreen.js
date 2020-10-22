@@ -99,7 +99,7 @@ export default function ActivityScreen(activity) {
                     <Card.Content>
                         <Title>Descriptif</Title>
                         <Divider />
-                        {description.length > 128 ?
+                        {description?.length > 128 ?
                             <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)}
                                 <Text style={styles.shortenText}> suite</Text>
                             </Paragraph> :
@@ -108,7 +108,7 @@ export default function ActivityScreen(activity) {
                     </Card.Content>
                     <Divider style={styles.divider} />
                     <Card.Content>
-                        <Title>Liste des membres ({lessThanTen(registeredList.length)} / {lessThanTen(places)})</Title>
+                        <Title>Liste des membres ({lessThanTen(registeredList?.length)} / {lessThanTen(places)})</Title>
                         <Divider />
                         <Text>
                             {registeredList
@@ -124,24 +124,24 @@ export default function ActivityScreen(activity) {
                                         style={styles.listItemChip}
                                         title={
                                             <Chip
-                                                avatar={<Image source={{ uri: registered.avatar }} />}
+                                                avatar={<Image source={{ uri: registered?.avatar }} />}
                                                 style={styles.chipButton}
                                             >
                                                 <Text
                                                     style={styles.chipText}
                                                 >
-                                                    {shortenText(registered.username, 32)}
+                                                    {shortenText(registered?.username, 32)}
                                                 </Text>
                                             </Chip>
                                         } />
                                 )}
                         </Text>
                     </Card.Content>
-                    {registeredWaitingList.length > 0 &&
+                    {registeredWaitingList?.length > 0 &&
                         <>
                             <Divider style={styles.divider} />
                             <Card.Content>
-                                <Title>Liste d'attente ({lessThanTen(registeredWaitingList.length)})</Title>
+                                <Title>Liste d'attente ({lessThanTen(registeredWaitingList?.length)})</Title>
                                 <Divider />
                                 <Text>
                                     {registeredWaitingList
@@ -157,13 +157,13 @@ export default function ActivityScreen(activity) {
                                                 style={styles.listItemChip}
                                                 title={
                                                     <Chip
-                                                        avatar={<Image source={{ uri: registeredWaiting.avatar }} />}
+                                                        avatar={<Image source={{ uri: registeredWaiting?.avatar }} />}
                                                         style={styles.chipButton}
                                                     >
                                                         <Text
                                                             style={styles.chipText}
                                                         >
-                                                            {shortenText(registeredWaiting.username, 32)}
+                                                            {shortenText(registeredWaiting?.username, 32)}
                                                         </Text>
                                                     </Chip>
                                                 } />
@@ -172,21 +172,21 @@ export default function ActivityScreen(activity) {
                             </Card.Content>
                         </>}
                     <Divider style={styles.divider} />
-                    {comments.length > 0 && <Card.Content>
-                        <Title>Commentaires ({lessThanTen(comments.length)})</Title>
-                        {comments.map((comment, key) =>
+                    {comments?.length > 0 && <Card.Content>
+                        <Title>Commentaires ({lessThanTen(comments?.length)})</Title>
+                        {comments?.map((comment, key) =>
                             <View key={key}>
                                 <Divider />
                                 <View style={styles.commentBox}>
                                     <View style={styles.commentAvatar}>
-                                        <Avatar.Image size={48} style={styles.avatarImage} source={comment.avatar ? { uri: comment.avatar } : require('../assets/logo_aos.png')} />
+                                        <Avatar.Image size={48} style={styles.avatarImage} source={comment?.avatar ? { uri: comment?.avatar } : require('../assets/logo_aos.png')} />
                                     </View>
                                     <View style={styles.commentText}>
-                                        {comment.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment.text, 128)}
+                                        {comment?.text.length > 128 ?
+                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment?.text, 128)}
                                                 <Text style={styles.shortenText}> suite</Text>
                                             </Paragraph> :
-                                            <Paragraph>{comment.text}</Paragraph>
+                                            <Paragraph>{comment?.text}</Paragraph>
                                         }
                                     </View>
                                 </View>

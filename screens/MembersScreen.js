@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, StyleSheet } from 'react-native';
-import { Button, Card, Dialog, FAB, Portal, Provider, Text, Divider } from 'react-native-paper'
+import { ActivityIndicator, Button, Card, Dialog, FAB, Portal, Provider, Text, Divider } from 'react-native-paper'
 import { ScrollView } from 'react-native-gesture-handler'
 import MasonryList from "react-native-masonry-list"
-import members from "../mocks/members.json"
 import colors from '../config/colors'
 
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
+import * as firebase from 'firebase';
+
 export default function MembersScreen() {
+
+    const [loading, setLoading] = useState(true)
+    const [members, setMembers] = useState([])
 
     const images = members
         .map(member => {
@@ -21,6 +25,14 @@ export default function MembersScreen() {
 
     useEffect(() => {
         retrieveData('masonryListColumns')
+        firebase
+            .database()
+            .ref("members")
+            .once("value")
+            .then(snapshot => {
+                setMembers(snapshot.val())
+                setLoading(false)
+            })
     }, [])
 
     // NOTE Gestion d'AsyncStorage
@@ -175,7 +187,14 @@ export default function MembersScreen() {
 
     return (
         <Provider>
-            {masonryList()}
+            {loading ?
+                <ActivityIndicator
+                    color={colors.secondary}
+                    size={'large'}
+                /> :
+                masonryList()
+            }
+            {/* {masonryList()} */}
             {fab()}
             {memberDialog()}
         </Provider>

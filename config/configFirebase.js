@@ -7,9 +7,9 @@ import {
     API_MESSAGING_SENDER_ID,
     API_APP_ID,
     API_MEASUREMENT_ID
-} from '@env'
+} from '@env';
 
-export default firebaseConfig = {
+export default configFirebase = {
     apiKey: API_KEY,
     authDomain: API_AUTH_DOMAIN,
     databaseURL: API_DATABASE_URL,
