@@ -12,6 +12,10 @@ import ActivityScreen from './screens/ActivityScreen';
 import MembersScreen from './screens/MembersScreen';
 import colors from './config/colors'
 
+import configFirebase from './config/configFirebase';
+import * as firebase from 'firebase';
+firebase.initializeApp(configFirebase)
+
 const Stack = createStackNavigator();
 
 const screenOptions = {
