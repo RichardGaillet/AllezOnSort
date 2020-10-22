@@ -30,7 +30,7 @@ export default function ActivitiesScreen({ navigation }) {
     const futureActivitiesArray = () => {
         return (
             activities
-                // .filter((activity) => activity.timestamp > moment(Date.now()).startOf('day'))
+                .filter((activity) => activity.timestamp > moment(Date.now()).startOf('day'))
                 .sort((a, b) => {
                     if (a.timestamp === b.timestamp) {
                         return a.id - b.id;
