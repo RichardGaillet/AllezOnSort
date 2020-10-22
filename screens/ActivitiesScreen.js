@@ -1,21 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
-import { DataTable } from 'react-native-paper';
+import { ActivityIndicator, DataTable } from 'react-native-paper';
 
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
 import { lessThanTen } from '../config/format'
-import activities from '../mocks/activities'
 import colors from '../config/colors';
 
+import * as firebase from 'firebase';
+
 export default function ActivitiesScreen({ navigation }) {
+
+    const [activities, setActivities] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        firebase
+            .database()
+            .ref("activities")
+            .once("value")
+            .then(snapshot => {
+                setActivities(snapshot.val())
+                setLoading(false)
+            })
+    }, [])
 
     const futureActivitiesArray = () => {
         return (
             activities
-                .filter((activity) => activity.timestamp > moment(Date.now()).startOf('day'))
+                // .filter((activity) => activity.timestamp > moment(Date.now()).startOf('day'))
                 .sort((a, b) => {
                     if (a.timestamp === b.timestamp) {
                         return a.id - b.id;
@@ -81,7 +96,12 @@ export default function ActivitiesScreen({ navigation }) {
                 </DataTable.Header>
             </DataTable>
             <ScrollView>
-                {futureActivitiesArray()}
+                {loading ?
+                    <ActivityIndicator
+                        color={colors.secondary}
+                        size={'large'}
+                    /> :
+                    futureActivitiesArray()}
             </ScrollView>
         </View>
     )
