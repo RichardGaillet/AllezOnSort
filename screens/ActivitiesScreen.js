@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
-import { ActivityIndicator, DataTable } from 'react-native-paper';
+import { ActivityIndicator, DataTable, FAB, Portal, Provider } from 'react-native-paper';
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -82,28 +82,37 @@ export default function ActivitiesScreen({ navigation }) {
     }
 
     return (
-        <View>
-            <DataTable>
-                <DataTable.Header style={styles.dataTableHeader}>
-                    <DataTable.Title style={styles.dataTableTitle}>Date</DataTable.Title>
-                    <DataTable.Title style={styles.dataTableTitle}>Heure</DataTable.Title>
-                    <DataTable.Title style={styles.dataTableTitle}>Inscrits</DataTable.Title>
-                </DataTable.Header>
-                <DataTable.Header style={styles.dataTableHeader}>
-                    <DataTable.Title style={styles.dataTableTitle}>Organisateur</DataTable.Title>
-                    <DataTable.Title style={styles.dataTableTitle}>Type</DataTable.Title>
-                    <DataTable.Title style={styles.dataTableTitle}>Lieu</DataTable.Title>
-                </DataTable.Header>
-            </DataTable>
-            <ScrollView>
-                {loading ?
-                    <ActivityIndicator
-                        color={colors.secondary}
-                        size={'large'}
-                    /> :
-                    futureActivitiesArray()}
-            </ScrollView>
-        </View>
+        <Provider>
+            <Portal>
+                <DataTable>
+                    <DataTable.Header style={styles.dataTableHeader}>
+                        <DataTable.Title style={styles.dataTableTitle}>Date</DataTable.Title>
+                        <DataTable.Title style={styles.dataTableTitle}>Heure</DataTable.Title>
+                        <DataTable.Title style={styles.dataTableTitle}>Inscrits</DataTable.Title>
+                    </DataTable.Header>
+                    <DataTable.Header style={styles.dataTableHeader}>
+                        <DataTable.Title style={styles.dataTableTitle}>Organisateur</DataTable.Title>
+                        <DataTable.Title style={styles.dataTableTitle}>Type</DataTable.Title>
+                        <DataTable.Title style={styles.dataTableTitle}>Lieu</DataTable.Title>
+                    </DataTable.Header>
+                </DataTable>
+                <ScrollView>
+                    {loading ?
+                        <ActivityIndicator
+                            color={colors.secondary}
+                            size={'large'}
+                        /> :
+                        futureActivitiesArray()}
+                </ScrollView>
+                <FAB
+                    accessibilityLabel={'Ajouter une nouvelle activité'}
+                    color={colors.dark}
+                    icon="plus"
+                    onPress={() => navigation.push('NewActivity')}
+                    style={styles.fab}
+                />
+            </Portal>
+        </Provider >
     )
 }
 
@@ -128,5 +137,11 @@ const styles = StyleSheet.create({
     },
     dataTableTitle: {
         justifyContent: 'center',
+    },
+    fab: {
+        backgroundColor: colors.secondary,
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
     },
 })
