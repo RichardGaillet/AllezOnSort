@@ -105,7 +105,7 @@ export default function ActivitiesScreen({ navigation }) {
                         futureActivitiesArray()}
                 </ScrollView>
                 <FAB
-                    accessibilityLabel={'Ajouter une nouvelle activité'}
+                    accessibilityLabel={'Ajouter une activité'}
                     color={colors.dark}
                     icon="plus"
                     onPress={() => navigation.push('NewActivity')}
