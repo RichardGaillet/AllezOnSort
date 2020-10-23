@@ -60,10 +60,9 @@ export default function NewActivityScreen() {
                     dense
                     // error
                     style={{
-                        backgroundColor: title ? colors.primary : colors.secondary,
+                        backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
                         borderBottomWidth: 3,
-                        color: colors.light,
                         marginVertical: 4,
                     }}
                     keyboardType={'default'}
