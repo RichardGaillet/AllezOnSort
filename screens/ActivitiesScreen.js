@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
-import { lessThanTen } from '../config/format'
+import { lessThanTen, startOfDay } from '../config/format'
 import colors from '../config/colors';
 
 import * as firebase from 'firebase';
