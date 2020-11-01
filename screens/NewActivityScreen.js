@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Chip, Text, TextInput, TextInputMask } from 'react-native-paper'
+import { Button, Chip, Text, TextInput } from 'react-native-paper'
 import colors from '../config/colors';
 
 export default function NewActivityScreen() {
