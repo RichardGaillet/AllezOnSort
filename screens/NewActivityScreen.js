@@ -1,8 +1,8 @@
-import { localeData } from 'moment';
-import React, { useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import React, { useState } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Chip, Text, TextInput } from 'react-native-paper'
+import { Button, Chip, Text, TextInput } from 'react-native-paper';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import colors from '../config/colors';
 
 import moment from 'moment';
@@ -22,6 +22,21 @@ export default function NewActivityScreen() {
     const [tags, setTags] = useState(["beach", "volley", "sable", "halluinportdepalisance"])
     const [description, setDescription] = useState('Vive le sable et le soleil');
     const [places, setPlaces] = useState('12');
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        setTimestamp(+moment(date))
+        hideDatePicker();
+    };
 
     const activitiesType = [
         { title: "Boire un verre", text: 'drink', avatar: require('../assets/activities/drink.png') },
@@ -94,7 +109,7 @@ export default function NewActivityScreen() {
                 />
                 <TextInput
                     label="Date et heure"
-                    onChangeText={timestamp => setTimestamp(timestamp)}
+                    onFocus={showDatePicker}
                     value={moment(parseInt(timestamp, 10)).format('DD/MM/YYYY - HH:mm')}
                     color={colors.secondary}
                     dense
@@ -116,7 +131,6 @@ export default function NewActivityScreen() {
                     dense
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -135,7 +149,6 @@ export default function NewActivityScreen() {
                     multiline
                     numberOfLines={3}
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -154,7 +167,6 @@ export default function NewActivityScreen() {
                     numberOfLines={3}
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -171,7 +183,6 @@ export default function NewActivityScreen() {
                     dense
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -193,6 +204,14 @@ export default function NewActivityScreen() {
                         Ajouter une actiité
                     </Button>
                 </View>
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    minimumDate={new Date()}
+                    minuteInterval={5}
+                    mode="datetime"
+                    onCancel={hideDatePicker}
+                    onConfirm={handleConfirm}
+                />
             </ScrollView>
         </View >
     )
