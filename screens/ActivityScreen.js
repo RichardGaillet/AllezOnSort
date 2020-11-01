@@ -67,7 +67,7 @@ export default function ActivityScreen(activity) {
                     <Card.Title title={title} subtitle={`par ${organizer}`} right={RightContent} />
                     <Divider style={styles.divider} />
                     <Card.Content>
-                        <Title>{`le ${moment(timestamp).format('ddd DD MMM')} à ${moment(timestamp).format('LT')}`}</Title>
+                        <Title>{`le ${moment(parseInt(timestamp, 10)).format('ddd DD MMM')} à ${moment(parseInt(timestamp, 10)).format('LT')}`}</Title>
                         <Divider />
                         <Paragraph>Lieu : {location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
