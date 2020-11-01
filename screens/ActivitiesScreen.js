@@ -36,6 +36,12 @@ export default function ActivitiesScreen({ navigation }) {
     const futureActivitiesArray = () => {
         return (
             activities
+                ?.sort((a, b) => {
+                    if (a.timestamp === b.timestamp) {
+                        return a.id - b.id;
+                    }
+                    return a.timestamp > b.timestamp ? 1 : -1;
+                })
                 ?.map((activity, key) => {
                     const { location, organizer, places, registeredList, registeredWaitingList, timestamp, title } = activity
                     const numberOfRegistered = registeredWaitingList ?
