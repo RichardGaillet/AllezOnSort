@@ -1,8 +1,15 @@
+import { localeData } from 'moment';
 import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Chip, Text, TextInput } from 'react-native-paper'
 import colors from '../config/colors';
+
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+
+import * as firebase from 'firebase';
 
 export default function NewActivityScreen() {
 
@@ -12,24 +19,39 @@ export default function NewActivityScreen() {
     const [description, setDescription] = useState('');
     const [places, setPlaces] = useState('');
     const [location, setLocation] = useState('');
-    const [details, setDetails] = useState('');
+    const [locationDetails, setLocationDetails] = useState('');
+    const [tags, setTags] = useState('')
 
     const activitiesType = [
-        { title: 'Boire un verre', text: 'drink', avatar: require('../assets/activities/drink.png') },
-        { title: 'Cinéma', text: 'cinema', avatar: require('../assets/activities/cinema.png') },
-        { title: 'Culture', text: 'culture', avatar: require('../assets/activities/culture.png') },
-        { title: 'Danser', text: 'dance', avatar: require('../assets/activities/dance.png') },
-        { title: 'Découverte', text: 'discovery', avatar: require('../assets/activities/discovery.png') },
-        { title: 'Détente', text: 'relax', avatar: require('../assets/activities/relax.png') },
-        { title: 'Entraide', text: 'aid', avatar: require('../assets/activities/aid.png') },
-        { title: 'Jeux', text: 'game', avatar: require('../assets/activities/game.png') },
-        { title: 'Musique', text: 'music', avatar: require('../assets/activities/music.png') },
-        { title: 'Plein air', text: 'outside', avatar: require('../assets/activities/outside.png') },
-        { title: 'Repas', text: 'restaurant', avatar: require('../assets/activities/restaurant.png') },
-        { title: 'Séjour', text: 'sojourn', avatar: require('../assets/activities/sojourn.png') },
-        { title: 'Sport', text: 'sport', avatar: require('../assets/activities/sport.png') },
-        { title: 'Théâtre', text: 'theater', avatar: require('../assets/activities/theater.png') }
+        { title: "Boire un verre", text: 'drink', avatar: require('../assets/activities/drink.png') },
+        { title: "Cinéma", text: 'cinema', avatar: require('../assets/activities/cinema.png') },
+        { title: "Culture", text: 'culture', avatar: require('../assets/activities/culture.png') },
+        { title: "Danser", text: 'dance', avatar: require('../assets/activities/dance.png') },
+        { title: "Découverte", text: 'discovery', avatar: require('../assets/activities/discovery.png') },
+        { title: "Détente", text: 'relax', avatar: require('../assets/activities/relax.png') },
+        { title: "Entraide", text: 'aid', avatar: require('../assets/activities/aid.png') },
+        { title: "Jeux", text: 'game', avatar: require('../assets/activities/game.png') },
+        { title: "Musique", text: 'music', avatar: require('../assets/activities/music.png') },
+        { title: "Plein air", text: 'outside', avatar: require('../assets/activities/outside.png') },
+        { title: "Repas", text: 'restaurant', avatar: require('../assets/activities/restaurant.png') },
+        { title: "Séjour", text: 'sojourn', avatar: require('../assets/activities/sojourn.png') },
+        { title: "Sport", text: 'sport', avatar: require('../assets/activities/sport.png') },
+        { title: "Théâtre", text: 'theater', avatar: require('../assets/activities/theater.png') }
     ]
+
+    const handleAddActivitiy = () => {
+        firebase.database()
+            .ref('activities/' + +moment())
+            .set({
+                type: activityTypeSelected,
+                title: title,
+                timestamp: timestamp,
+                location: location,
+                locationDetails: locationDetails,
+                description: description,
+                places: places
+            });
+    }
 
     return (
         <View style={{ justifyContent: 'center', padding: 16 }}>
@@ -103,8 +125,8 @@ export default function NewActivityScreen() {
                 />
                 <TextInput
                     label="Détails"
-                    onChangeText={details => setDetails(details)}
-                    value={details}
+                    onChangeText={locationDetails => setLocationDetails(locationDetails)}
+                    value={locationDetails}
                     color={colors.secondary}
                     dense
                     // error
@@ -163,7 +185,7 @@ export default function NewActivityScreen() {
                         disabled={false}
                         icon='plus-circle'
                         mode="contained"
-                        onPress={() => alert("Activité en cours d'ajout")}
+                        onPress={handleAddActivitiy}
                         style={{ elevation: 4 }}
                     >
                         Ajouter une actiité
