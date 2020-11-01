@@ -12,3 +12,10 @@ export const shortenText = (text, limit) => {
     }
     return text
 }
+
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+export const startOfDay = () => {
+    return Math.floor(+moment() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000).toString()
+}

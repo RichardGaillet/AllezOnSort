@@ -9,6 +9,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
 import ActivitiesScreen from './screens/ActivitiesScreen';
 import ActivityScreen from './screens/ActivityScreen';
+import NewActivityScreen from './screens/NewActivityScreen';
 import MembersScreen from './screens/MembersScreen';
 import colors from './config/colors'
 
@@ -37,6 +38,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: "S'inscrire" }} />
         <Stack.Screen name="Activities" component={ActivitiesScreen} options={{ title: "Activités" }} />
         <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: "Activité" }} />
+        <Stack.Screen name="NewActivity" component={NewActivityScreen} options={{ title: "Ajouter une activité" }} />
         <Stack.Screen name="Members" component={MembersScreen} options={{ title: "Membres" }} />
       </Stack.Navigator>
     </NavigationContainer >

@@ -1,0 +1,207 @@
+import { localeData } from 'moment';
+import React, { useState } from 'react'
+import { Image, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, Chip, Text, TextInput } from 'react-native-paper'
+import colors from '../config/colors';
+
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+
+import * as firebase from 'firebase';
+
+export default function NewActivityScreen() {
+
+    const [title, setTitle] = useState('Beach-volley');
+    const organizer = "mySelf";
+    const [activityTypeSelected, setActivityTypeSelected] = useState('outside');
+    const [timestamp, setTimestamp] = useState('1605093300000');
+    const [location, setLocation] = useState('HALLUIN');
+    const [locationDetails, setLocationDetails] = useState('Port de plaisance');
+    const [tags, setTags] = useState(["beach", "volley", "sable", "halluinportdepalisance"])
+    const [description, setDescription] = useState('Vive le sable et le soleil');
+    const [places, setPlaces] = useState('12');
+
+    const activitiesType = [
+        { title: "Boire un verre", text: 'drink', avatar: require('../assets/activities/drink.png') },
+        { title: "Cinéma", text: 'cinema', avatar: require('../assets/activities/cinema.png') },
+        { title: "Culture", text: 'culture', avatar: require('../assets/activities/culture.png') },
+        { title: "Danser", text: 'dance', avatar: require('../assets/activities/dance.png') },
+        { title: "Découverte", text: 'discovery', avatar: require('../assets/activities/discovery.png') },
+        { title: "Détente", text: 'relax', avatar: require('../assets/activities/relax.png') },
+        { title: "Entraide", text: 'aid', avatar: require('../assets/activities/aid.png') },
+        { title: "Jeux", text: 'game', avatar: require('../assets/activities/game.png') },
+        { title: "Musique", text: 'music', avatar: require('../assets/activities/music.png') },
+        { title: "Plein air", text: 'outside', avatar: require('../assets/activities/outside.png') },
+        { title: "Repas", text: 'restaurant', avatar: require('../assets/activities/restaurant.png') },
+        { title: "Séjour", text: 'sojourn', avatar: require('../assets/activities/sojourn.png') },
+        { title: "Sport", text: 'sport', avatar: require('../assets/activities/sport.png') },
+        { title: "Théâtre", text: 'theater', avatar: require('../assets/activities/theater.png') }
+    ]
+
+    const handleAddActivitiy = () => {
+        firebase.database()
+            .ref('activities/' + Date.now())
+            .set({
+                title: title,
+                organizer: organizer,
+                type: activityTypeSelected,
+                timestamp: parseInt(timestamp, 10),
+                location: location,
+                locationDetails: locationDetails,
+                description: description,
+                places: parseInt(places, 10)
+            });
+    }
+
+    return (
+        <View style={{ justifyContent: 'center', padding: 16 }}>
+            <ScrollView>
+                <View style={{ marginVertical: 4 }}>
+                    <Text>
+                        {activitiesType.map((activity, key) =>
+                            <View style={{ padding: 2 }}>
+                                <Chip
+                                    accessibilityLabel={activity.title}
+                                    avatar={<Image source={activity.avatar} />}
+                                    key={key}
+                                    mode={'outlined'}
+                                    onPress={() => setActivityTypeSelected(activity.text)}
+                                    selected={activityTypeSelected === activity.text ? true : false}
+                                    selectedColor={colors.secondary}
+                                    style={activityTypeSelected === activity.text ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary, elevation: 4 }}
+                                    textStyle={colors.dark}
+                                ><Text style={activityTypeSelected === activity.text ? { color: colors.light } : { color: colors.dark }}>{activity.title}</Text></Chip>
+                            </View>
+                        )}
+                    </Text>
+                </View>
+                <TextInput
+                    label="Titre"
+                    onChangeText={title => setTitle(title)}
+                    value={title}
+                    color={colors.light}
+                    dense
+                    // error
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 3,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    label="Date et heure"
+                    onChangeText={timestamp => setTimestamp(timestamp)}
+                    value={moment(parseInt(timestamp, 10)).format('DD/MM/YYYY - HH:mm')}
+                    color={colors.secondary}
+                    dense
+                    // error
+                    placeholder={'12/10/2020 - 16:26'}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    label="Lieu"
+                    onChangeText={location => setLocation(location)}
+                    value={location}
+                    color={colors.secondary}
+                    dense
+                    // error
+                    right={true}
+                    selectionColor={colors.dark}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    label="Détails"
+                    onChangeText={locationDetails => setLocationDetails(locationDetails)}
+                    value={locationDetails}
+                    color={colors.secondary}
+                    dense
+                    // error
+                    multiline
+                    numberOfLines={3}
+                    right={true}
+                    selectionColor={colors.dark}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    label="Descriptif"
+                    onChangeText={description => setDescription(description)}
+                    value={description}
+                    color={colors.secondary}
+                    dense
+                    multiline
+                    numberOfLines={3}
+                    // error
+                    right={true}
+                    selectionColor={colors.dark}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    label="Nombre de places"
+                    onChangeText={places => setPlaces(places)}
+                    value={places}
+                    color={colors.secondary}
+                    dense
+                    // error
+                    right={true}
+                    selectionColor={colors.dark}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    keyboardType={'numeric'}
+                />
+                <View style={styles.button}>
+                    <Button
+                        color={colors.secondary}
+                        compact
+                        disabled={false}
+                        icon='plus-circle'
+                        mode="contained"
+                        onPress={handleAddActivitiy}
+                        style={{ elevation: 4 }}
+                    >
+                        Ajouter une actiité
+                    </Button>
+                </View>
+            </ScrollView>
+        </View >
+    )
+}
+
+
+const styles = StyleSheet.create({
+    button: {
+        color: colors.dark,
+        paddingVertical: 4,
+    },
+})

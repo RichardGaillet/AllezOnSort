@@ -188,10 +188,12 @@ export default function MembersScreen() {
     return (
         <Provider>
             {loading ?
-                <ActivityIndicator
-                    color={colors.secondary}
-                    size={'large'}
-                /> :
+                <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+                    <ActivityIndicator
+                        color={colors.secondary}
+                        size={'large'}
+                    />
+                </ScrollView> :
                 masonryList()
             }
             {/* {masonryList()} */}
