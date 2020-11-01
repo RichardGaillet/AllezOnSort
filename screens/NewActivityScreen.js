@@ -1,8 +1,8 @@
-import { localeData } from 'moment';
-import React, { useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import React, { useState } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Chip, Text, TextInput } from 'react-native-paper'
+import { Button, Chip, Text, TextInput } from 'react-native-paper';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import colors from '../config/colors';
 
 import moment from 'moment';
@@ -13,15 +13,30 @@ import * as firebase from 'firebase';
 
 export default function NewActivityScreen() {
 
-    const [title, setTitle] = useState('Beach-volley');
+    const [title, setTitle] = useState("");
     const organizer = "mySelf";
-    const [activityTypeSelected, setActivityTypeSelected] = useState('outside');
-    const [timestamp, setTimestamp] = useState('1605093300000');
-    const [location, setLocation] = useState('HALLUIN');
-    const [locationDetails, setLocationDetails] = useState('Port de plaisance');
-    const [tags, setTags] = useState(["beach", "volley", "sable", "halluinportdepalisance"])
-    const [description, setDescription] = useState('Vive le sable et le soleil');
-    const [places, setPlaces] = useState('12');
+    const [activityTypeSelected, setActivityTypeSelected] = useState("");
+    const [timestamp, setTimestamp] = useState("");
+    const [location, setLocation] = useState("");
+    const [locationDetails, setLocationDetails] = useState("");
+    const [tags, setTags] = useState([])
+    const [description, setDescription] = useState("");
+    const [places, setPlaces] = useState("");
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        setTimestamp(+moment(date))
+        hideDatePicker();
+    };
 
     const activitiesType = [
         { title: "Boire un verre", text: 'drink', avatar: require('../assets/activities/drink.png') },
@@ -52,6 +67,7 @@ export default function NewActivityScreen() {
                 locationDetails: locationDetails,
                 description: description,
                 places: parseInt(places, 10)
+                // NOTE Add tags
             });
     }
 
@@ -94,8 +110,12 @@ export default function NewActivityScreen() {
                 />
                 <TextInput
                     label="Date et heure"
-                    onChangeText={timestamp => setTimestamp(timestamp)}
-                    value={moment(parseInt(timestamp, 10)).format('DD/MM/YYYY - HH:mm')}
+                    onFocus={showDatePicker}
+                    value={
+                        timestamp ?
+                            "le " + moment(parseInt(timestamp, 10)).format('ddd DD MMM YYYY à HH:mm') :
+                            null
+                    }
                     color={colors.secondary}
                     dense
                     // error
@@ -116,7 +136,6 @@ export default function NewActivityScreen() {
                     dense
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -135,7 +154,6 @@ export default function NewActivityScreen() {
                     multiline
                     numberOfLines={3}
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -154,7 +172,6 @@ export default function NewActivityScreen() {
                     numberOfLines={3}
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -171,7 +188,6 @@ export default function NewActivityScreen() {
                     dense
                     // error
                     right={true}
-                    selectionColor={colors.dark}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -193,6 +209,14 @@ export default function NewActivityScreen() {
                         Ajouter une actiité
                     </Button>
                 </View>
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    minimumDate={new Date()}
+                    minuteInterval={5}
+                    mode="datetime"
+                    onCancel={hideDatePicker}
+                    onConfirm={handleConfirm}
+                />
             </ScrollView>
         </View >
     )
