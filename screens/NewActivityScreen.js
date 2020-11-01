@@ -36,11 +36,12 @@ export default function NewActivityScreen() {
             <ScrollView>
                 <View style={{ marginVertical: 4 }}>
                     <Text>
-                        {activitiesType.map(activity =>
+                        {activitiesType.map((activity, key) =>
                             <View style={{ padding: 2 }}>
                                 <Chip
                                     accessibilityLabel={activity.title}
                                     avatar={<Image source={activity.avatar} />}
+                                    key={key}
                                     mode={'outlined'}
                                     onPress={() => setActivityTypeSelected(activity.text)}
                                     selected={activityTypeSelected === activity.text ? true : false}
