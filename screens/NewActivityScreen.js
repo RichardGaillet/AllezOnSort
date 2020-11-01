@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Chip, Text, TextInput } from 'react-native-paper';
+import { Button, Chip, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import colors from '../config/colors';
 
@@ -24,19 +24,21 @@ export default function NewActivityScreen() {
     const [places, setPlaces] = useState("");
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
-
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
     };
-
     const handleConfirm = (date) => {
         setTimestamp(+moment(date))
         hideDatePicker();
     };
+
+    const [snackbarMessage, setSnackbarMessage] = useState("")
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
+    const onDismissSnackBar = () => setSnackbarVisible(false);
 
     const activitiesType = [
         { title: "Boire un verre", text: 'drink', avatar: require('../assets/activities/drink.png') },
@@ -218,6 +220,15 @@ export default function NewActivityScreen() {
                     onConfirm={handleConfirm}
                 />
             </ScrollView>
+            <View>
+                <Snackbar
+                    duration={3000}
+                    onDismiss={onDismissSnackBar}
+                    visible={snackbarVisible}
+                    wrapperStyle={{ backgroundColor: colors.light }}
+                >
+                    {snackbarMessage}
+                </Snackbar>
         </View >
     )
 }
