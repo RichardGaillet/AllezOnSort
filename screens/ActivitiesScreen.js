@@ -103,22 +103,18 @@ export default function ActivitiesScreen({ navigation }) {
                         <DataTable.Title style={styles.dataTableTitle}>Lieu</DataTable.Title>
                     </DataTable.Header>
                 </DataTable>
-                {loading ?
-                    <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', backgroundColor: !activities ? colors.primary : null }}>
+                <ScrollView contentContainerStyle={!activities || loading ? { flex: 1, justifyContent: 'center' } : { justifyContent: 'center' }}>
+                    {loading ?
                         <ActivityIndicator
                             color={colors.secondary}
                             size={'large'}
                         />
-                    </ScrollView>
-                    :
-                    <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                        {futureActivitiesArray()}
-                    </ScrollView>
-                    ||
-                    <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-                        <Text style={styles.noFutureActivities}>Pas d'activités pour le moment !</Text>
-                    </ScrollView>
-                }
+                        :
+                        futureActivitiesArray()
+                        ||
+                        <Text style={styles.noFutureActivities}>Pas d'activités pour le moment ! 😱</Text>
+                    }
+                </ScrollView>
                 <FAB
                     accessibilityLabel={'Ajouter une activité'}
                     color={colors.dark}
