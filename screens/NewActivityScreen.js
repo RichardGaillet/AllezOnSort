@@ -13,15 +13,15 @@ import * as firebase from 'firebase';
 
 export default function NewActivityScreen() {
 
-    const [title, setTitle] = useState('Beach-volley');
+    const [title, setTitle] = useState("");
     const organizer = "mySelf";
-    const [activityTypeSelected, setActivityTypeSelected] = useState('outside');
-    const [timestamp, setTimestamp] = useState('1605093300000');
-    const [location, setLocation] = useState('HALLUIN');
-    const [locationDetails, setLocationDetails] = useState('Port de plaisance');
-    const [tags, setTags] = useState(["beach", "volley", "sable", "halluinportdepalisance"])
-    const [description, setDescription] = useState('Vive le sable et le soleil');
-    const [places, setPlaces] = useState('12');
+    const [activityTypeSelected, setActivityTypeSelected] = useState("");
+    const [timestamp, setTimestamp] = useState("");
+    const [location, setLocation] = useState("");
+    const [locationDetails, setLocationDetails] = useState("");
+    const [tags, setTags] = useState([])
+    const [description, setDescription] = useState("");
+    const [places, setPlaces] = useState("");
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -67,6 +67,7 @@ export default function NewActivityScreen() {
                 locationDetails: locationDetails,
                 description: description,
                 places: parseInt(places, 10)
+                // NOTE Add tags
             });
     }
 
