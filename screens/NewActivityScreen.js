@@ -95,7 +95,7 @@ export default function NewActivityScreen() {
                 <TextInput
                     label="Date et heure"
                     onChangeText={timestamp => setTimestamp(timestamp)}
-                    value={timestamp}
+                    value={moment(parseInt(timestamp, 10)).format('DD/MM/YYYY - HH:mm')}
                     color={colors.secondary}
                     dense
                     // error
