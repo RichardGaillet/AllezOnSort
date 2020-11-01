@@ -42,15 +42,16 @@ export default function NewActivityScreen() {
 
     const handleAddActivitiy = () => {
         firebase.database()
-            .ref('activities/' + +moment())
+            .ref('activities/' + Date.now())
             .set({
-                type: activityTypeSelected,
                 title: title,
-                timestamp: timestamp,
+                organizer: organizer,
+                type: activityTypeSelected,
+                timestamp: parseInt(timestamp, 10),
                 location: location,
                 locationDetails: locationDetails,
                 description: description,
-                places: places
+                places: parseInt(places, 10)
             });
     }
 
