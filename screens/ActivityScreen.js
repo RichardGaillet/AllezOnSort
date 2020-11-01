@@ -72,7 +72,7 @@ export default function ActivityScreen(activity) {
                         <Paragraph>Lieu : {location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
                     </Card.Content>
-                    {tags.length > 0 && <Card.Content>
+                    {tags?.length > 0 && <Card.Content>
                         <Divider />
                         <Text>
                             {tags
@@ -112,13 +112,13 @@ export default function ActivityScreen(activity) {
                         <Divider />
                         <Text>
                             {registeredList
-                                .sort((a, b) => {
+                                ?.sort((a, b) => {
                                     if (a.username === b.username) {
                                         return a.id - b.id;
                                     }
                                     return a.username > b.username ? 1 : -1;
                                 })
-                                .map((registered, key) =>
+                                ?.map((registered, key) =>
                                     <List.Item
                                         key={key}
                                         style={styles.listItemChip}
