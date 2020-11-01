@@ -19,7 +19,8 @@ export default function NewActivityScreen({ navigation }) {
     const [timestamp, setTimestamp] = useState("");
     const [location, setLocation] = useState("");
     const [locationDetails, setLocationDetails] = useState("");
-    const [tags, setTags] = useState([])
+    const [tags, setTags] = useState("")
+    const [tagsArray, setTagsArray] = useState([])
     const [description, setDescription] = useState("");
     const [places, setPlaces] = useState("");
 
@@ -68,7 +69,8 @@ export default function NewActivityScreen({ navigation }) {
                 location: location,
                 locationDetails: locationDetails,
                 description: description,
-                places: parseInt(places, 10)
+                places: parseInt(places, 10),
+                tags: tagsArray
                 // NOTE Add tags
             }, error => {
                 if (error) {
@@ -80,6 +82,10 @@ export default function NewActivityScreen({ navigation }) {
                     setTimeout(() => { navigation.navigate('Home') }, 3000)
                 }
             });
+    }
+
+    const onTagsArray = () => {
+        setTagsArray(tags.split(" "))
     }
 
     return (
@@ -130,7 +136,6 @@ export default function NewActivityScreen({ navigation }) {
                     color={colors.secondary}
                     dense
                     // error
-                    placeholder={'12/10/2020 - 16:26'}
                     style={{
                         backgroundColor: colors.secondary,
                         borderBottomColor: colors.primary,
@@ -171,6 +176,31 @@ export default function NewActivityScreen({ navigation }) {
                         borderBottomWidth: 4,
                         marginVertical: 4,
                     }}
+                    keyboardType={'default'}
+                />
+                <TextInput
+                    autoCapitalize='none'
+                    label="Tags"
+                    onBlur={onTagsArray}
+                    onFocus={() => {
+                        setSnackbarMessage("separerlesmots parunespace")
+                        onToggleSnackBar()
+                    }}
+                    onChangeText={tags => setTags(tags)}
+                    value={tags}
+                    color={colors.secondary}
+                    dense
+                    // error
+                    multiline
+                    numberOfLines={3}
+                    right={true}
+                    style={{
+                        backgroundColor: colors.secondary,
+                        borderBottomColor: colors.primary,
+                        borderBottomWidth: 4,
+                        marginVertical: 4,
+                    }}
+                    textTransform={'lowercase'}
                     keyboardType={'default'}
                 />
                 <TextInput
@@ -231,7 +261,7 @@ export default function NewActivityScreen({ navigation }) {
             </ScrollView>
             <View>
                 <Snackbar
-                    duration={3000}
+                    duration={5000}
                     onDismiss={onDismissSnackBar}
                     visible={snackbarVisible}
                     wrapperStyle={{ backgroundColor: colors.light }}
