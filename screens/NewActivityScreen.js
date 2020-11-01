@@ -110,7 +110,7 @@ export default function NewActivityScreen() {
                 <TextInput
                     label="Date et heure"
                     onFocus={showDatePicker}
-                    value={moment(parseInt(timestamp, 10)).format('DD/MM/YYYY - HH:mm')}
+                    value={"le " + moment(parseInt(timestamp, 10)).format('ddd DD MMM YYYY à HH:mm')}
                     color={colors.secondary}
                     dense
                     // error
