@@ -22,7 +22,7 @@ export default function ActivitiesScreen({ navigation }) {
             .ref("activities")
             .once("value")
             .then(snapshot => {
-                setActivities(snapshot.val())
+                setActivities(Object.values(snapshot.val()))
                 setLoading(false)
             })
     }, [])
