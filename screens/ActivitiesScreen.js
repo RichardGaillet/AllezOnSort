@@ -25,6 +25,10 @@ export default function ActivitiesScreen({ navigation }) {
                 setActivities(Object.values(snapshot.val()))
                 setLoading(false)
             })
+            .catch(() => {
+                setActivities(null)
+                setLoading(false)
+            })
     }, [])
 
     const futureActivitiesArray = () => {
