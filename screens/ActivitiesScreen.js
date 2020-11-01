@@ -20,6 +20,8 @@ export default function ActivitiesScreen({ navigation }) {
         firebase
             .database()
             .ref("activities")
+            .orderByChild('timestamp')
+            .startAt(startOfDay())
             .once("value")
             .then(snapshot => {
                 setActivities(Object.values(snapshot.val()))
