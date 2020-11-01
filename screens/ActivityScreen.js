@@ -76,8 +76,8 @@ export default function ActivityScreen(activity) {
                         <Divider />
                         <Text>
                             {tags
-                                .sort()
-                                .map((tag, key) =>
+                                ?.sort()
+                                ?.map((tag, key) =>
                                     <List.Item
                                         key={key}
                                         style={styles.listItemChip}
