@@ -30,16 +30,11 @@ export default function ActivitiesScreen({ navigation }) {
     const futureActivitiesArray = () => {
         return (
             activities
-                .filter((activity) => activity.timestamp > moment(Date.now()).startOf('day'))
-                .sort((a, b) => {
-                    if (a.timestamp === b.timestamp) {
-                        return a.id - b.id;
-                    }
-                    return a.timestamp > b.timestamp ? 1 : -1;
-                })
-                .map((activity, key) => {
-                    const { location, organizer, places, registeredList, timestamp, title } = activity
-                    const formatRegistered = lessThanTen(registeredList.length)
+                ?.map((activity, key) => {
+                    const { location, organizer, places, registeredList, registeredWaitingList, timestamp, title } = activity
+                    const numberOfRegistered = registeredWaitingList ?
+                        lessThanTen((registeredList?.length + registeredWaitingList?.length) || 0) :
+                        lessThanTen(registeredList?.length || 0)
                     const formatPlaces = lessThanTen(places)
                     return (
                         <TouchableHighlight
