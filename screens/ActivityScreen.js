@@ -108,7 +108,7 @@ export default function ActivityScreen(activity) {
                     </Card.Content>
                     <Divider style={styles.divider} />
                     <Card.Content>
-                        <Title>Liste des membres ({lessThanTen(registeredList?.length)} / {lessThanTen(places)})</Title>
+                        <Title>Liste des membres ({lessThanTen(registeredList?.length || 0)} / {lessThanTen(places)})</Title>
                         <Divider />
                         <Text>
                             {registeredList
