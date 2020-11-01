@@ -58,13 +58,13 @@ export default function ActivitiesScreen({ navigation }) {
                                     style={styles.dataTableRow}
                                 >
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{moment(timestamp).format('ddd DD MMM')}</Text>
+                                        <Text style={styles.dataTableCellText}>{moment(parseInt(timestamp, 10)).format('ddd DD MMM')}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{moment(timestamp).format('LT')}</Text>
+                                        <Text style={styles.dataTableCellText}>{moment(parseInt(timestamp, 10)).format('LT')}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{formatRegistered} / {formatPlaces}</Text>
+                                        <Text style={styles.dataTableCellText}>{numberOfRegistered} / {formatPlaces}</Text>
                                     </DataTable.Cell>
                                 </DataTable.Row >
                                 <DataTable.Row
