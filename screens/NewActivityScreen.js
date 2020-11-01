@@ -11,7 +11,7 @@ moment.locale('fr');
 
 import * as firebase from 'firebase';
 
-export default function NewActivityScreen() {
+export default function NewActivityScreen({ navigation }) {
 
     const [title, setTitle] = useState("");
     const organizer = "mySelf";
@@ -70,6 +70,15 @@ export default function NewActivityScreen() {
                 description: description,
                 places: parseInt(places, 10)
                 // NOTE Add tags
+            }, error => {
+                if (error) {
+                    setSnackbarMessage("Une erreur est survenue ! ❌")
+                    onToggleSnackBar()
+                } else {
+                    setSnackbarMessage("L'activité a bien été créée ! ✔️")
+                    onToggleSnackBar()
+                    setTimeout(() => { navigation.navigate('Home') }, 3000)
+                }
             });
     }
 
@@ -229,7 +238,8 @@ export default function NewActivityScreen() {
                 >
                     {snackbarMessage}
                 </Snackbar>
-        </View >
+            </View >
+        </View>
     )
 }
 
