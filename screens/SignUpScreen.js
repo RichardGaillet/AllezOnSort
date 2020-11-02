@@ -44,6 +44,18 @@ export default function SignUpScreen({ navigation }) {
             });
     };
 
+    const sendEmailVerification = () => {
+        firebase.auth().currentUser
+            .sendEmailVerification()
+            .then(() => { console.log("sendEmailVerification -> Email sent!") })
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage)
+                console.log("sendEmailVerification -> Error", errorCode, errorMessage)
+            });
+    }
+
     return (
         <View style={styles.container}>
             <View>
