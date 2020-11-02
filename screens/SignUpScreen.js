@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import colors from '../config/colors'
 
-export default function SignInScreen() {
+import * as firebase from 'firebase';
+
+export default function SignUpScreen({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,9 +23,26 @@ export default function SignInScreen() {
         }
     }, [email, password, confirmPassword])
 
-    const submitLogin = () => {
-        setConfirmPassword('')
-    }
+    const signUp = () => {
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
+                sendEmailVerification();
+                setTimeout(navigation.navigate('SignIn'), 3000);
+                console.log("signUp -> Account created!")
+            })
+            .catch(error => {
+                setPassword("");
+                setConfirmPassword("");
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage)
+                console.log("signUp -> Error", errorCode, errorMessage)
+            });
+    };
 
     return (
         <View style={styles.container}>
@@ -85,7 +104,7 @@ export default function SignInScreen() {
                         accessibilityLabel="Bouton S'inscrire"
                         color={colors.secondary}
                         disabled={signInDisabled}
-                        onPress={() => { submitLogin() }}
+                        onPress={signUp}
                         title={'S\'inscrire'}
                     />
                 </View>
@@ -101,9 +120,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-    },
-    logoCatchPhrase: {
-        alignItems: 'center',
     },
     textInputField: {
         backgroundColor: colors.secondary,
