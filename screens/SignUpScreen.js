@@ -27,13 +27,6 @@ export default function SignInScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.logoCatchPhrase}>
-                <Image
-                    accessibilityLabel={'Logo AOS'}
-                    source={require('../assets/logo_aos.png')}
-                />
-                <Text>Allez, On Sort !</Text>
-            </View>
             <View>
                 <View style={styles.textInputBox}>
                     <Text>Adresse email</Text>
