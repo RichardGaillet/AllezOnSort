@@ -31,7 +31,7 @@ export default function SignUpScreen({ navigation }) {
                 setPassword("");
                 setConfirmPassword("");
                 sendEmailVerification();
-                setTimeout(navigation.navigate('SignIn'), 3000);
+                setTimeout(() => navigation.navigate('SignIn'), 3000);
                 console.log("signUp -> Account created!")
             })
             .catch(error => {
