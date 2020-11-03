@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import colors from '../config/colors'
 
-export default function SignInScreen() {
+import * as firebase from 'firebase';
+
+export default function SignUpScreen({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,82 +23,106 @@ export default function SignInScreen() {
         }
     }, [email, password, confirmPassword])
 
-    const submitLogin = () => {
-        setConfirmPassword('')
+    const signUp = () => {
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
+                sendEmailVerification();
+                setTimeout(() => navigation.navigate('SignIn'), 3000);
+                console.log("signUp -> Account created!")
+            })
+            .catch(error => {
+                setPassword("");
+                setConfirmPassword("");
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage)
+                console.log("signUp -> Error", errorCode, errorMessage)
+            });
+    };
+
+    const sendEmailVerification = () => {
+        firebase.auth().currentUser
+            .sendEmailVerification()
+            .then(() => { console.log("sendEmailVerification -> Email sent!") })
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage)
+                console.log("sendEmailVerification -> Error", errorCode, errorMessage)
+            });
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.logoCatchPhrase}>
-                <Image
-                    accessibilityLabel={'Logo AOS'}
-                    source={require('../assets/logo_aos.png')}
-                />
-                <Text>Allez, On Sort !</Text>
-            </View>
-            <View>
-                <View style={styles.textInputBox}>
-                    <Text>Adresse email</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            autoCapitalize={'none'}
-                            autoCompleteType={'email'}
-                            blurOnSubmit
-                            color={colors.light}
-                            keyboardType={'email-address'}
-                            maxLength={64}
-                            onChangeText={email => setEmail(email)}
-                            placeholder={'exemple.adresse@email.com'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            selectionColor={colors.light}
-                            spellCheck={false}
-                            textContentType={'emailAddress'}
-                            value={email} />
+            <ScrollView>
+                <View>
+                    <View style={styles.textInputBox}>
+                        <Text>Adresse email</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                autoCapitalize={'none'}
+                                autoCompleteType={'email'}
+                                blurOnSubmit
+                                color={colors.light}
+                                keyboardType={'email-address'}
+                                maxLength={64}
+                                onChangeText={email => setEmail(email)}
+                                placeholder={'exemple.adresse@email.com'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                selectionColor={colors.light}
+                                spellCheck={false}
+                                textContentType={'emailAddress'}
+                                value={email} />
+                        </View>
+                    </View>
+                    <View style={styles.textInputBox}>
+                        <Text>Mot de passe</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                clearButtonMode={'while-editing'}
+                                color={colors.light}
+                                maxLength={32}
+                                onChangeText={password => setPassword(password)}
+                                placeholder={'●●●●●●●●●●'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                secureTextEntry
+                                spellCheck={false}
+                                value={password} />
+                        </View>
+                    </View>
+                    <View style={styles.textInputBox}>
+                        <Text>Confirmer le mot de passe</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                color={colors.light}
+                                maxLength={32}
+                                onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
+                                placeholder={'●●●●●●●●●●'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                secureTextEntry
+                                spellCheck={false}
+                                value={confirmPassword} />
+                        </View>
+                        <Text style={{ color: colors.secondary }}>{confirmPassword !== password && 'Mots de passe différents'}</Text>
+                    </View>
+                    <View style={styles.button}>
+                        <Button
+                            accessibilityLabel="Bouton S'inscrire"
+                            color={colors.secondary}
+                            disabled={signInDisabled}
+                            onPress={signUp}
+                            title={'S\'inscrire'}
+                        />
                     </View>
                 </View>
-                <View style={styles.textInputBox}>
-                    <Text>Mot de passe</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            clearButtonMode={'while-editing'}
-                            color={colors.light}
-                            maxLength={32}
-                            onChangeText={password => setPassword(password)}
-                            placeholder={'●●●●●●●●●●'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            secureTextEntry
-                            spellCheck={false}
-                            value={password} />
-                    </View>
-                </View>
-                <View style={styles.textInputBox}>
-                    <Text>Confirmer le mot de passe</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            color={colors.light}
-                            maxLength={32}
-                            onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
-                            placeholder={'●●●●●●●●●●'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            secureTextEntry
-                            spellCheck={false}
-                            value={confirmPassword} />
-                    </View>
-                    <Text style={{ color: colors.secondary }}>{confirmPassword !== password && 'Mots de passe différents'}</Text>
-                </View>
-                <View style={styles.button}>
-                    <Button
-                        accessibilityLabel="Bouton S'inscrire"
-                        color={colors.secondary}
-                        disabled={signInDisabled}
-                        onPress={() => { submitLogin() }}
-                        title={'S\'inscrire'}
-                    />
-                </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -108,9 +134,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-    },
-    logoCatchPhrase: {
-        alignItems: 'center',
     },
     textInputField: {
         backgroundColor: colors.secondary,
