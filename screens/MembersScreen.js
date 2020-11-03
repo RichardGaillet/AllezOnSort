@@ -18,9 +18,9 @@ export default function MembersScreen() {
 
     const images = members
         .map(member => {
-            const { personalInformations, username } = member
-            const { photo } = personalInformations
-            return ({ accessibilityLabel: `Photo de ${username}`, source: { uri: photo, data: member } })
+            const { personalInformations, displayName } = member
+            const { photoURL } = personalInformations
+            return ({ accessibilityLabel: `Photo de ${displayName}`, source: { uri: photoURL, data: member } })
         })
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function MembersScreen() {
             .ref("members")
             .once("value")
             .then(snapshot => {
-                setMembers(snapshot.val())
+                setMembers(Object.values(snapshot.val()))
                 setLoading(false)
             })
     }, [])
@@ -136,15 +136,15 @@ export default function MembersScreen() {
     }
     const hideDialog = () => setVisible(false);
     const memberDialog = () => {
-        const { description, lastConnection, personalInformations, username } = member
+        const { description, lastLoginAt, personalInformations, displayName } = member
         return (
             <Portal>
                 <Dialog visible={visible} onDismiss={hideDialog}>
                     <ScrollView>
                         <Card>
-                            <Card.Title title={username} subtitle={`Dernière connexion : ${moment(lastConnection).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
+                            <Card.Title title={displayName} subtitle={`Dernière connexion : ${moment(lastLoginAt).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
                             <Card.Cover
-                                source={{ uri: personalInformations?.photo }}
+                                source={{ uri: personalInformations?.photoURL }}
                                 style={{
                                     alignSelf: 'center',
                                     height: masonryDimensions.height * masonryListColumns / 2,
@@ -153,8 +153,8 @@ export default function MembersScreen() {
                             />
                             <Divider />
                             <Card.Content>
-                                {personalInformations?.firstname && <>
-                                    <Text style={styles.cardContentText} >Prénom : {personalInformations?.firstname}</Text>
+                                {personalInformations?.firstName && <>
+                                    <Text style={styles.cardContentText} >Prénom : {personalInformations?.firstName}</Text>
                                 </>}
                                 {personalInformations?.birthday && <>
                                     <Divider />

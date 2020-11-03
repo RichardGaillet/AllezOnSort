@@ -31,7 +31,7 @@ export default function HomeScreen({ navigation }) {
                                 emailVerified: emailVerified,
                                 personalInformations: {
                                     phoneNumber: phoneNumber,
-                                    photoURL: photoURL
+                                    photoURL: photoURL ?? 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151'
                                 },
                                 uid: user.uid
                             }, error => {
