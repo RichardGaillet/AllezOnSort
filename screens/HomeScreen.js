@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import colors from '../config/colors'
+
+import * as firebase from 'firebase'
 
 export default function HomeScreen({ navigation }) {
     return (
