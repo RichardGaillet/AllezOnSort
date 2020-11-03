@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import colors from '../config/colors'
@@ -7,6 +7,7 @@ import * as firebase from 'firebase'
 
 export default function HomeScreen({ navigation }) {
 
+    const [refresh, setRefresh] = useState(false)
     const user = firebase.auth().currentUser
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export default function HomeScreen({ navigation }) {
                                     alert(`Une erreur est survenue ! ❌\n${error}`)
                                 } else {
                                     alert("Votre profil a bien été créé !\n🎉 Bienvenue ! 🎊")
+                                    setRefresh(!refresh)
                                 }
                             });
                     } else {
@@ -55,7 +57,7 @@ export default function HomeScreen({ navigation }) {
                     alert(`Une erreur est survenue ! ❌\n${error}`)
                 )
         }
-    }), [user]
+    }), [refresh]
 
     return (
 
@@ -131,7 +133,7 @@ export default function HomeScreen({ navigation }) {
                         mode="contained"
                         onPress={
                             user != null ?
-                                () => { firebase.auth().signOut(); console.log('Déconnecté') } :
+                                () => { firebase.auth().signOut().then(() => setRefresh(!refresh)) } :
                                 () => navigation.push('SignIn')
                         }
                         style={{ elevation: 4 }}
