@@ -103,12 +103,19 @@ export default function HomeScreen({ navigation }) {
                         color={colors.secondary}
                         compact
                         disabled={false}
-                        icon='account-arrow-right'
+                        icon={
+                            user != null ?
+                                'account' :
+                                'account-plus'
+                        }
                         mode="contained"
-                        onPress={() => navigation.push('SignIn')}
+                        onPress={
+                            user != null ?
+                                () => navigation.push('Profile') :
+                                () => navigation.push('SignUp')}
                         style={{ elevation: 4 }}
                     >
-                        Se connecter
+                        {user != null ? "Profil" : "S'inscrire"}
                     </Button>
                 </View>
                 <View style={styles.button}>
@@ -116,12 +123,20 @@ export default function HomeScreen({ navigation }) {
                         color={colors.secondary}
                         compact
                         disabled={false}
-                        icon='account-plus'
+                        icon={
+                            user != null ?
+                                'account-arrow-right' :
+                                'account-arrow-left'
+                        }
                         mode="contained"
-                        onPress={() => navigation.push('SignUp')}
+                        onPress={
+                            user != null ?
+                                () => { firebase.auth().signOut(); console.log('Déconnecté') } :
+                                () => navigation.push('SignIn')
+                        }
                         style={{ elevation: 4 }}
                     >
-                        S'inscrire
+                        {user != null ? "Se déconnecter" : "Se connecter"}
                     </Button>
                 </View>
             </View>
