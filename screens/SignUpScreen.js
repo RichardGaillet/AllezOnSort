@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import colors from '../config/colors'
 
 import * as firebase from 'firebase';
@@ -58,69 +58,71 @@ export default function SignUpScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View>
-                <View style={styles.textInputBox}>
-                    <Text>Adresse email</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            autoCapitalize={'none'}
-                            autoCompleteType={'email'}
-                            blurOnSubmit
-                            color={colors.light}
-                            keyboardType={'email-address'}
-                            maxLength={64}
-                            onChangeText={email => setEmail(email)}
-                            placeholder={'exemple.adresse@email.com'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            selectionColor={colors.light}
-                            spellCheck={false}
-                            textContentType={'emailAddress'}
-                            value={email} />
+            <ScrollView>
+                <View>
+                    <View style={styles.textInputBox}>
+                        <Text>Adresse email</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                autoCapitalize={'none'}
+                                autoCompleteType={'email'}
+                                blurOnSubmit
+                                color={colors.light}
+                                keyboardType={'email-address'}
+                                maxLength={64}
+                                onChangeText={email => setEmail(email)}
+                                placeholder={'exemple.adresse@email.com'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                selectionColor={colors.light}
+                                spellCheck={false}
+                                textContentType={'emailAddress'}
+                                value={email} />
+                        </View>
+                    </View>
+                    <View style={styles.textInputBox}>
+                        <Text>Mot de passe</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                clearButtonMode={'while-editing'}
+                                color={colors.light}
+                                maxLength={32}
+                                onChangeText={password => setPassword(password)}
+                                placeholder={'●●●●●●●●●●'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                secureTextEntry
+                                spellCheck={false}
+                                value={password} />
+                        </View>
+                    </View>
+                    <View style={styles.textInputBox}>
+                        <Text>Confirmer le mot de passe</Text>
+                        <View style={styles.textInputField}>
+                            <TextInput
+                                color={colors.light}
+                                maxLength={32}
+                                onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
+                                placeholder={'●●●●●●●●●●'}
+                                placeholderTextColor={colors.placeholder}
+                                returnKeyType="next"
+                                secureTextEntry
+                                spellCheck={false}
+                                value={confirmPassword} />
+                        </View>
+                        <Text style={{ color: colors.secondary }}>{confirmPassword !== password && 'Mots de passe différents'}</Text>
+                    </View>
+                    <View style={styles.button}>
+                        <Button
+                            accessibilityLabel="Bouton S'inscrire"
+                            color={colors.secondary}
+                            disabled={signInDisabled}
+                            onPress={signUp}
+                            title={'S\'inscrire'}
+                        />
                     </View>
                 </View>
-                <View style={styles.textInputBox}>
-                    <Text>Mot de passe</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            clearButtonMode={'while-editing'}
-                            color={colors.light}
-                            maxLength={32}
-                            onChangeText={password => setPassword(password)}
-                            placeholder={'●●●●●●●●●●'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            secureTextEntry
-                            spellCheck={false}
-                            value={password} />
-                    </View>
-                </View>
-                <View style={styles.textInputBox}>
-                    <Text>Confirmer le mot de passe</Text>
-                    <View style={styles.textInputField}>
-                        <TextInput
-                            color={colors.light}
-                            maxLength={32}
-                            onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
-                            placeholder={'●●●●●●●●●●'}
-                            placeholderTextColor={colors.placeholder}
-                            returnKeyType="next"
-                            secureTextEntry
-                            spellCheck={false}
-                            value={confirmPassword} />
-                    </View>
-                    <Text style={{ color: colors.secondary }}>{confirmPassword !== password && 'Mots de passe différents'}</Text>
-                </View>
-                <View style={styles.button}>
-                    <Button
-                        accessibilityLabel="Bouton S'inscrire"
-                        color={colors.secondary}
-                        disabled={signInDisabled}
-                        onPress={signUp}
-                        title={'S\'inscrire'}
-                    />
-                </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }
