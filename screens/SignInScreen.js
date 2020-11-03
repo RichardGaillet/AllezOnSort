@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import colors from '../config/colors'
 
-export default function SignInScreen() {
+import * as firebase from 'firebase';
+
+export default function SignInScreen({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -20,15 +22,31 @@ export default function SignInScreen() {
         setPassword('')
     }
 
+    const signIn = () => {
+        firebase.auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log("TCL: signIn -> Logged in !")
+                navigation.navigate('Home', { 'loggedIn': true })
+            })
+            .catch(function (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage)
+                console.log("TCL: signIn -> errorCode", errorCode, errorMessage)
+                setPassword("")
+            });
+    }
+
     return (
         <View style={styles.container}>
-            <View style={styles.logoCatchPhrase}>
+            {/* <View style={styles.logoCatchPhrase}>
                 <Image
                     accessibilityLabel={'Logo AOS'}
                     source={require('../assets/logo_aos.png')}
                 />
                 <Text>Allez, On Sort !</Text>
-            </View>
+            </View> */}
             <View>
                 <View style={styles.textInputBox}>
                     <Text>Adresse email</Text>
@@ -69,7 +87,7 @@ export default function SignInScreen() {
                     <Button
                         color={colors.secondary}
                         disabled={signInDisabled}
-                        onPress={() => { submitLogin() }}
+                        onPress={signIn}
                         title={'Se connecter'}
                     />
                 </View>
@@ -84,7 +102,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'flex-start',
     },
     logoCatchPhrase: {
         alignItems: 'center',
