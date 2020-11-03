@@ -6,6 +6,57 @@ import colors from '../config/colors'
 import * as firebase from 'firebase'
 
 export default function HomeScreen({ navigation }) {
+
+    const user = firebase.auth().currentUser
+
+    useEffect(() => {
+        if (user != null) {
+            const { createdAt, lastLoginAt, displayName, email, emailVerified, phoneNumber, photoURL } = user.toJSON()
+            firebase
+                .database()
+                .ref("members")
+                .orderByKey()
+                .equalTo(user.uid)
+                .once("value")
+                .then(snapshot => {
+                    if (snapshot.val() === null) {
+                        firebase.database()
+                            .ref('members/' + user.uid)
+                            .set({
+                                createdAt: parseInt(createdAt, 10),
+                                lastLoginAt: parseInt(lastLoginAt, 10),
+                                displayName: displayName,
+                                email: email,
+                                emailVerified: emailVerified,
+                                personalInformations: {
+                                    phoneNumber: phoneNumber,
+                                    photoURL: photoURL
+                                },
+                                uid: user.uid
+                            }, error => {
+                                if (error) {
+                                    alert(`Une erreur est survenue ! ❌\n${error}`)
+                                } else {
+                                    alert("Votre profil a bien été créé !\n🎉 Bienvenue ! 🎊")
+                                }
+                            });
+                    } else {
+                        firebase.database()
+                            .ref(`members/${user.uid}`)
+                            .update({
+                                emailVerified: emailVerified,
+                                lastLoginAt: Date.now()
+                            }, error => {
+                                if (error) { alert(`Une erreur est survenue ! ❌\n${error}`) }
+                            });
+                    }
+                })
+                .catch(error =>
+                    alert(`Une erreur est survenue ! ❌\n${error}`)
+                )
+        }
+    }), [user]
+
     return (
 
         <View style={styles.container}>
