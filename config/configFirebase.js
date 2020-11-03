@@ -9,7 +9,7 @@ import {
     API_MEASUREMENT_ID
 } from '@env';
 
-export default configFirebase = {
+const configFirebase = {
     apiKey: API_KEY,
     authDomain: API_AUTH_DOMAIN,
     databaseURL: API_DATABASE_URL,
@@ -19,3 +19,5 @@ export default configFirebase = {
     appId: API_APP_ID,
     measurementId: API_MEASUREMENT_ID
 };
+
+export default configFirebase
