@@ -22,14 +22,14 @@ export default function SignInScreen({ navigation }) {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
-                console.log("TCL: signIn -> Logged in !")
+                console.log("signIn -> Logged in !")
                 navigation.navigate('Home', { 'loggedIn': true })
             })
             .catch(function (error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 alert(errorMessage)
-                console.log("TCL: signIn -> errorCode", errorCode, errorMessage)
+                console.log("signIn -> errorCode", errorCode, errorMessage)
                 setPassword("")
             });
     }
