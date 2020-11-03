@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import colors from '../config/colors'
 
 import * as firebase from 'firebase';
@@ -17,10 +17,6 @@ export default function SignInScreen({ navigation }) {
             setSignInDisabled(true)
         }
     }, [email, password])
-
-    const submitLogin = () => {
-        setPassword('')
-    }
 
     const signIn = () => {
         firebase.auth()
@@ -40,13 +36,6 @@ export default function SignInScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {/* <View style={styles.logoCatchPhrase}>
-                <Image
-                    accessibilityLabel={'Logo AOS'}
-                    source={require('../assets/logo_aos.png')}
-                />
-                <Text>Allez, On Sort !</Text>
-            </View> */}
             <View>
                 <View style={styles.textInputBox}>
                     <Text>Adresse email</Text>
@@ -103,9 +92,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-    },
-    logoCatchPhrase: {
-        alignItems: 'center',
     },
     textInputField: {
         backgroundColor: colors.secondary,
