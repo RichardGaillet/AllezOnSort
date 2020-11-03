@@ -1,9 +1,64 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import colors from '../config/colors'
 
+import * as firebase from 'firebase'
+
 export default function HomeScreen({ navigation }) {
+
+    const [refresh, setRefresh] = useState(false)
+    const user = firebase.auth().currentUser
+
+    useEffect(() => {
+        if (user != null) {
+            const { createdAt, lastLoginAt, displayName, email, emailVerified, phoneNumber, photoURL } = user.toJSON()
+            firebase
+                .database()
+                .ref("members")
+                .orderByKey()
+                .equalTo(user.uid)
+                .once("value")
+                .then(snapshot => {
+                    if (snapshot.val() === null) {
+                        firebase.database()
+                            .ref('members/' + user.uid)
+                            .set({
+                                createdAt: parseInt(createdAt, 10),
+                                lastLoginAt: parseInt(lastLoginAt, 10),
+                                displayName: displayName,
+                                email: email,
+                                emailVerified: emailVerified,
+                                personalInformations: {
+                                    phoneNumber: phoneNumber,
+                                    photoURL: photoURL
+                                },
+                                uid: user.uid
+                            }, error => {
+                                if (error) {
+                                    alert(`Une erreur est survenue ! ❌\n${error}`)
+                                } else {
+                                    alert("Votre profil a bien été créé !\n🎉 Bienvenue ! 🎊")
+                                    setRefresh(!refresh)
+                                }
+                            });
+                    } else {
+                        firebase.database()
+                            .ref(`members/${user.uid}`)
+                            .update({
+                                emailVerified: emailVerified,
+                                lastLoginAt: Date.now()
+                            }, error => {
+                                if (error) { alert(`Une erreur est survenue ! ❌\n${error}`) }
+                            });
+                    }
+                })
+                .catch(error =>
+                    alert(`Une erreur est survenue ! ❌\n${error}`)
+                )
+        }
+    }), [refresh]
+
     return (
 
         <View style={styles.container}>
@@ -14,6 +69,7 @@ export default function HomeScreen({ navigation }) {
                     source={require('../assets/logo_aos.png')}
                 />
                 <Text>Allez, On Sort !</Text>
+                <Text>{user?.displayName || user?.email || null}</Text>
             </View>
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
@@ -50,12 +106,19 @@ export default function HomeScreen({ navigation }) {
                         color={colors.secondary}
                         compact
                         disabled={false}
-                        icon='account-arrow-right'
+                        icon={
+                            user != null ?
+                                'account' :
+                                'account-plus'
+                        }
                         mode="contained"
-                        onPress={() => navigation.push('SignIn')}
+                        onPress={
+                            user != null ?
+                                () => navigation.push('Profile') :
+                                () => navigation.push('SignUp')}
                         style={{ elevation: 4 }}
                     >
-                        Se connecter
+                        {user != null ? "Profil" : "S'inscrire"}
                     </Button>
                 </View>
                 <View style={styles.button}>
@@ -63,12 +126,20 @@ export default function HomeScreen({ navigation }) {
                         color={colors.secondary}
                         compact
                         disabled={false}
-                        icon='account-plus'
+                        icon={
+                            user != null ?
+                                'account-arrow-right' :
+                                'account-arrow-left'
+                        }
                         mode="contained"
-                        onPress={() => navigation.push('SignUp')}
+                        onPress={
+                            user != null ?
+                                () => { firebase.auth().signOut().then(() => setRefresh(!refresh)) } :
+                                () => navigation.push('SignIn')
+                        }
                         style={{ elevation: 4 }}
                     >
-                        S'inscrire
+                        {user != null ? "Se déconnecter" : "Se connecter"}
                     </Button>
                 </View>
             </View>
