@@ -69,6 +69,7 @@ export default function HomeScreen({ navigation }) {
                     source={require('../assets/logo_aos.png')}
                 />
                 <Text>Allez, On Sort !</Text>
+                <Text>{user?.displayName || user?.email || null}</Text>
             </View>
             <View style={styles.buttonGroup}>
                 <View style={styles.button}>
