@@ -20,7 +20,7 @@ export default function ActivitiesScreen({ navigation }) {
         firebase
             .database()
             .ref("activities")
-            .orderByChild('timestamp')
+            .orderByChild('beginsAt')
             .startAt(startOfDay())
             .once("value")
             .then(snapshot => {
@@ -37,13 +37,10 @@ export default function ActivitiesScreen({ navigation }) {
         return (
             activities
                 ?.sort((a, b) => {
-                    if (a.timestamp === b.timestamp) {
-                        return a.id - b.id;
-                    }
-                    return a.timestamp > b.timestamp ? 1 : -1;
+                    return a.beginsAt - b.beginsAt;
                 })
                 ?.map((activity, key) => {
-                    const { location, organizer, places, registeredList, registeredWaitingList, timestamp, title } = activity
+                    const { location, responsible, places, registeredList, registeredWaitingList, beginsAt, title } = activity
                     const numberOfRegistered = registeredWaitingList ?
                         lessThanTen((registeredList?.length + registeredWaitingList?.length) || 0) :
                         lessThanTen(registeredList?.length || 0)
@@ -58,10 +55,10 @@ export default function ActivitiesScreen({ navigation }) {
                                     style={styles.dataTableRow}
                                 >
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{moment(parseInt(timestamp, 10)).format('ddd DD MMM')}</Text>
+                                        <Text style={styles.dataTableCellText}>{moment(parseInt(beginsAt, 10)).format('ddd DD MMM')}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{moment(parseInt(timestamp, 10)).format('LT')}</Text>
+                                        <Text style={styles.dataTableCellText}>{moment(parseInt(beginsAt, 10)).format('LT')}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
                                         <Text style={styles.dataTableCellText}>{numberOfRegistered} / {formatPlaces}</Text>
@@ -71,7 +68,7 @@ export default function ActivitiesScreen({ navigation }) {
                                     style={styles.dataTableRow}
                                 >
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{organizer}</Text>
+                                        <Text style={styles.dataTableCellText}>{responsible}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell
                                         style={styles.dataTableCell}>
