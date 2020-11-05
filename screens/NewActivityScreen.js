@@ -3,6 +3,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Chip, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { v4 as uuid } from 'uuid';
 import colors from '../config/colors';
 
 import moment from 'moment';
@@ -16,20 +17,20 @@ export default function NewActivityScreen({ navigation }) {
     const user = firebase.auth().currentUser;
     const { displayName, photoURL, uid } = user
 
-    const [title, setTitle] = useState("fbdfbdfbfdbfdb");
+    const [title, setTitle] = useState("GodZilla le remake");
     const responsible = {
         displayName,
         photoURL: photoURL || 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151',
         uid
     };
-    const [activityTypeSelected, setActivityTypeSelected] = useState("");
-    const [beginsAt, setTimestamp] = useState("");
-    const [location, setLocation] = useState("");
-    const [locationDetails, setLocationDetails] = useState("");
-    const [tags, setTags] = useState("")
+    const [activityTypeSelected, setActivityTypeSelected] = useState("cinema");
+    const [beginsAt, setTimestamp] = useState("1604609356000");
+    const [location, setLocation] = useState("LOMME");
+    const [locationDetails, setLocationDetails] = useState("Kinépolis");
+    const [tags, setTags] = useState("movie monstre affreuxlezard")
     const [tagsArray, setTagsArray] = useState([])
-    const [description, setDescription] = useState("");
-    const [places, setPlaces] = useState("");
+    const [description, setDescription] = useState("Une bonne toile !!!");
+    const [places, setPlaces] = useState("7");
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => {
@@ -67,7 +68,7 @@ export default function NewActivityScreen({ navigation }) {
 
     const handleAddActivitiy = () => {
         firebase.database()
-            .ref('activities/' + Date.now())
+            .ref('activities/' + uuid())
             .set({
                 createdAt: +moment(),
                 editableUpTo: parseInt(beginsAt, 10),
@@ -76,7 +77,7 @@ export default function NewActivityScreen({ navigation }) {
                 responsible: responsible,
                 type: activityTypeSelected,
                 beginsAt: parseInt(beginsAt, 10),
-                beginsAtHr: moment(parseItn(beginsAt, 10)).format('ddd DD MMM YYYY - HH:mm'),
+                beginsAtHr: moment(parseInt(beginsAt, 10)).format('ddd DD MMM YYYY - HH:mm'),
                 location: location,
                 locationDetails: locationDetails,
                 description: description,
