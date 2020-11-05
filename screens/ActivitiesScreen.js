@@ -40,11 +40,32 @@ export default function ActivitiesScreen({ navigation }) {
                     return a.beginsAt - b.beginsAt;
                 })
                 ?.map((activity, key) => {
-                    const { location, responsible, places, registeredList, registeredWaitingList, beginsAt, title } = activity
+                    const { location, responsible, places, registeredList, registeredWaitingList, beginsAt, type } = activity
                     const numberOfRegistered = registeredWaitingList ?
                         lessThanTen((registeredList?.length + registeredWaitingList?.length) || 0) :
                         lessThanTen(registeredList?.length || 0)
                     const formatPlaces = lessThanTen(places)
+
+                    let activityType;
+
+                    switch (type) {
+                        case 'aid': activityType = "Entraide"; break;
+                        case 'cinema': activityType = "Cinéma"; break;
+                        case 'culture': activityType = "Culture"; break;
+                        case 'dance': activityType = "Danse"; break;
+                        case 'discovery': activityType = "Découverte"; break;
+                        case 'drink': activityType = "Boire un verre"; break;
+                        case 'game': activityType = "Jeux"; break;
+                        case 'music': activityType = "Musique"; break;
+                        case 'outside': activityType = "Plein air"; break;
+                        case 'relax': activityType = "Détente"; break;
+                        case 'restaurant': activityType = "Repas"; break;
+                        case 'sojourn': activityType = "Séjour"; break;
+                        case 'sport': activityType = "Sport"; break;
+                        case 'theater': activityType = "Théâtre"; break;
+                        default: console.log('Aucune action reçue.'); break;
+                    }
+
                     return (
                         <TouchableHighlight
                             key={key}
@@ -68,11 +89,11 @@ export default function ActivitiesScreen({ navigation }) {
                                     style={styles.dataTableRow}
                                 >
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{responsible}</Text>
+                                        <Text style={styles.dataTableCellText}>{responsible?.displayName}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell
                                         style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{title}</Text>
+                                        <Text style={styles.dataTableCellText}>{activityType}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
                                         <Text style={styles.dataTableCellText}>{location}</Text>
@@ -100,7 +121,13 @@ export default function ActivitiesScreen({ navigation }) {
                         <DataTable.Title style={styles.dataTableTitle}>Lieu</DataTable.Title>
                     </DataTable.Header>
                 </DataTable>
-                <ScrollView contentContainerStyle={!activities || loading ? { flex: 1, justifyContent: 'center' } : { justifyContent: 'center' }}>
+                <ScrollView
+                    contentContainerStyle={
+                        !activities || loading ?
+                            { flex: 1, justifyContent: 'center' } :
+                            { justifyContent: 'center', paddingBottom: 80 }
+                    }
+                >
                     {loading ?
                         <ActivityIndicator
                             color={colors.secondary}
@@ -133,6 +160,10 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginTop: 8,
         marginHorizontal: 16,
+    },
+    container: {
+        flex: 1,
+        paddingBottom: 80,
     },
     dataTableCell: {
         justifyContent: 'center',
