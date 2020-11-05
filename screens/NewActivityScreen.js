@@ -17,20 +17,20 @@ export default function NewActivityScreen({ navigation }) {
     const user = firebase.auth().currentUser;
     const { displayName, photoURL, uid } = user
 
-    const [title, setTitle] = useState("GodZilla le remake");
+    const [title, setTitle] = useState("");
     const responsible = {
         displayName,
         photoURL: photoURL || 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151',
         uid
     };
-    const [activityTypeSelected, setActivityTypeSelected] = useState("cinema");
-    const [beginsAt, setTimestamp] = useState("1604609356000");
-    const [location, setLocation] = useState("LOMME");
-    const [locationDetails, setLocationDetails] = useState("Kinépolis");
-    const [tags, setTags] = useState("movie monstre affreuxlezard")
+    const [activityTypeSelected, setActivityTypeSelected] = useState("");
+    const [beginsAt, setTimestamp] = useState("");
+    const [location, setLocation] = useState("");
+    const [locationDetails, setLocationDetails] = useState("");
+    const [tags, setTags] = useState("")
     const [tagsArray, setTagsArray] = useState([])
-    const [description, setDescription] = useState("Une bonne toile !!!");
-    const [places, setPlaces] = useState("7");
+    const [description, setDescription] = useState("");
+    const [places, setPlaces] = useState("");
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => {
