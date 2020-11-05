@@ -60,7 +60,8 @@ export default function MembersScreen() {
                 images={images}
                 imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 6 / masonryListColumns }}
                 onPressImage={member => showDialog(member)}
-            />)
+            />
+        )
     }
 
     // NOTE Gestion du FAB
@@ -142,7 +143,7 @@ export default function MembersScreen() {
                 <Dialog visible={visible} onDismiss={hideDialog}>
                     <ScrollView>
                         <Card>
-                            <Card.Title title={displayName} subtitle={`Dernière connexion : ${moment(lastLoginAt).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
+                            <Card.Title title={displayName} subtitle={`Dernière connexion : ${moment(parseInt(lastLoginAt, 10)).fromNow()}`} titleStyle={styles.cardTitle} subtitleStyle={styles.cardTitle} style={styles.cardTitle} />
                             <Card.Cover
                                 source={{ uri: personalInformations?.photoURL }}
                                 style={{
@@ -158,7 +159,7 @@ export default function MembersScreen() {
                                 </>}
                                 {personalInformations?.birthday && <>
                                     <Divider />
-                                    <Text style={styles.cardContentText} >Date de naissance : {moment(personalInformations?.birthday).format('LL')}</Text>
+                                    <Text style={styles.cardContentText} >Date de naissance : {moment(parseInt(personalInformations?.birthday, 10)).format('LL')}</Text>
                                 </>}
                                 {personalInformations?.location && <>
                                     <Divider />
