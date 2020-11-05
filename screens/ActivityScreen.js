@@ -21,17 +21,17 @@ export default function ActivityScreen(activity) {
     const hideDialog = () => setVisible(false);
 
     const {
+        beginsAt,
         comments,
         description,
         location,
         locationDetails,
-        organizer,
-        photo,
+        photoURL,
         places,
         registeredList,
         registeredWaitingList,
+        responsible,
         tags,
-        timestamp,
         title,
         type,
     } = activity.route.params.activity
@@ -62,12 +62,12 @@ export default function ActivityScreen(activity) {
         <Provider>
             <ScrollView>
                 <Card>
-                    <Card.Cover source={photo ? { uri: photo } : { uri: 'https://picsum.photos/700' }} />
+                    <Card.Cover source={photoURL ? { uri: photoURL } : { uri: 'https://picsum.photos/700' }} />
                     <Divider style={styles.divider} />
-                    <Card.Title title={title} subtitle={`par ${organizer}`} right={RightContent} />
+                    <Card.Title title={title} subtitle={`par ${responsible?.displayName}`} right={RightContent} />
                     <Divider style={styles.divider} />
                     <Card.Content>
-                        <Title>{`le ${moment(parseInt(timestamp, 10)).format('ddd DD MMM')} à ${moment(parseInt(timestamp, 10)).format('LT')}`}</Title>
+                        <Title>{`le ${moment(parseInt(beginsAt, 10)).format('ddd DD MMM')} à ${moment(parseInt(beginsAt, 10)).format('LT')}`}</Title>
                         <Divider />
                         <Paragraph>Lieu : {location}</Paragraph>
                         {locationDetails && <Paragraph>Détails : {locationDetails}</Paragraph>}
@@ -88,7 +88,7 @@ export default function ActivityScreen(activity) {
                                                 <Text
                                                     style={styles.chipText}
                                                 >
-                                                    {'#' + shortenText(tag, 32)}
+                                                    {'#' + shortenText(tag, 32).toLowerCase()}
                                                 </Text>
                                             </Chip>
                                         } />
@@ -113,10 +113,7 @@ export default function ActivityScreen(activity) {
                         <Text>
                             {registeredList
                                 ?.sort((a, b) => {
-                                    if (a.username === b.username) {
-                                        return a.id - b.id;
-                                    }
-                                    return a.username > b.username ? 1 : -1;
+                                    return a.displayName - b.displayName;
                                 })
                                 ?.map((registered, key) =>
                                     <List.Item
@@ -124,13 +121,13 @@ export default function ActivityScreen(activity) {
                                         style={styles.listItemChip}
                                         title={
                                             <Chip
-                                                avatar={<Image source={{ uri: registered?.avatar }} />}
+                                                avatar={<Image source={{ uri: registered?.photoURL }} />}
                                                 style={styles.chipButton}
                                             >
                                                 <Text
                                                     style={styles.chipText}
                                                 >
-                                                    {shortenText(registered?.username, 32)}
+                                                    {shortenText(registered?.displayName, 32)}
                                                 </Text>
                                             </Chip>
                                         } />
@@ -146,10 +143,7 @@ export default function ActivityScreen(activity) {
                                 <Text>
                                     {registeredWaitingList
                                         .sort((a, b) => {
-                                            if (a.username === b.username) {
-                                                return a.id - b.id;
-                                            }
-                                            return a.username > b.username ? 1 : -1;
+                                            return a.displayName - b.displayName;
                                         })
                                         .map((registeredWaiting, key) =>
                                             <List.Item
@@ -157,13 +151,13 @@ export default function ActivityScreen(activity) {
                                                 style={styles.listItemChip}
                                                 title={
                                                     <Chip
-                                                        avatar={<Image source={{ uri: registeredWaiting?.avatar }} />}
+                                                        avatar={<Image source={{ uri: registeredWaiting?.photoURL }} />}
                                                         style={styles.chipButton}
                                                     >
                                                         <Text
                                                             style={styles.chipText}
                                                         >
-                                                            {shortenText(registeredWaiting?.username, 32)}
+                                                            {shortenText(registeredWaiting?.displayName, 32)}
                                                         </Text>
                                                     </Chip>
                                                 } />
@@ -179,14 +173,19 @@ export default function ActivityScreen(activity) {
                                 <Divider />
                                 <View style={styles.commentBox}>
                                     <View style={styles.commentAvatar}>
-                                        <Avatar.Image size={48} style={styles.avatarImage} source={comment?.avatar ? { uri: comment?.avatar } : require('../assets/logo_aos.png')} />
+                                        <Avatar.Image size={48} style={styles.avatarImage} source={comment?.memberPhotoURL ? { uri: comment?.memberPhotoURL } : require('../assets/logo_aos.png')} />
                                     </View>
                                     <View style={styles.commentText}>
+                                        <Paragraph>
+                                            <Text style={{ fontWeight: '700' }}>{comment?.memberDisplayName}</Text>
+                                            <Text> dit :</Text>
+                                        </Paragraph>
                                         {comment?.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)}>{shortenText(comment?.text, 128)}
+                                            <Paragraph onPress={() => showDialog(comment)}>" {shortenText(comment?.text, 128)}
                                                 <Text style={styles.shortenText}> suite</Text>
+                                                <Text> "</Text>
                                             </Paragraph> :
-                                            <Paragraph>{comment?.text}</Paragraph>
+                                            <Paragraph>" {comment?.text} "</Paragraph>
                                         }
                                     </View>
                                 </View>
@@ -197,8 +196,8 @@ export default function ActivityScreen(activity) {
                     <Dialog visible={visible} onDismiss={hideDialog}>
                         <ScrollView>
                             <View style={styles.dialogTitleBox}>
-                                <Avatar.Image style={styles.descriptionAvatarImage} source={textDialog?.avatar ? { uri: textDialog?.avatar } : { uri: photo }} />
-                                <Dialog.Title style={styles.dialogTitle}>{textDialog?.username || 'Descriptif'}</Dialog.Title>
+                                <Avatar.Image style={styles.descriptionAvatarImage} source={textDialog?.memberPhotoURL ? { uri: textDialog?.memberPhotoURL } : { uri: photoURL }} />
+                                <Dialog.Title style={styles.dialogTitle}>{textDialog?.memberDisplayName || 'Descriptif'}</Dialog.Title>
                             </View>
                             <Dialog.Content>
                                 <Paragraph>{textDialog?.text || textDialog}</Paragraph>
@@ -216,7 +215,7 @@ export default function ActivityScreen(activity) {
                     </Dialog>
                 </Portal>
             </ScrollView>
-        </Provider>
+        </Provider >
     )
 }
 
@@ -232,6 +231,7 @@ const styles = StyleSheet.create({
     },
     chipButton: {
         backgroundColor: colors.secondary,
+        elevation: 4,
     },
     chipText: {
         color: colors.dark,
