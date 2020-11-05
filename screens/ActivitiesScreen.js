@@ -16,6 +16,8 @@ export default function ActivitiesScreen({ navigation }) {
     const [activities, setActivities] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const user = firebase.auth().currentUser;
+
     useEffect(() => {
         firebase
             .database()
@@ -139,13 +141,13 @@ export default function ActivitiesScreen({ navigation }) {
                         <Text style={styles.noFutureActivities}>Pas d'activités pour le moment ! 😱</Text>
                     }
                 </ScrollView>
-                <FAB
+                {user && <FAB
                     accessibilityLabel={'Ajouter une activité'}
                     color={colors.dark}
                     icon="plus"
                     onPress={() => navigation.push('NewActivity')}
                     style={styles.fab}
-                />
+                />}
             </Portal>
         </Provider >
     )

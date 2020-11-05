@@ -13,10 +13,17 @@ import * as firebase from 'firebase';
 
 export default function NewActivityScreen({ navigation }) {
 
-    const [title, setTitle] = useState("");
-    const organizer = "mySelf";
+    const user = firebase.auth().currentUser;
+    const { displayName, photoURL, uid } = user
+
+    const [title, setTitle] = useState("fbdfbdfbfdbfdb");
+    const responsible = {
+        displayName,
+        photoURL: photoURL || 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151',
+        uid
+    };
     const [activityTypeSelected, setActivityTypeSelected] = useState("");
-    const [timestamp, setTimestamp] = useState("");
+    const [beginsAt, setTimestamp] = useState("");
     const [location, setLocation] = useState("");
     const [locationDetails, setLocationDetails] = useState("");
     const [tags, setTags] = useState("")
@@ -62,10 +69,14 @@ export default function NewActivityScreen({ navigation }) {
         firebase.database()
             .ref('activities/' + Date.now())
             .set({
+                createdAt: +moment(),
+                editableUpTo: parseInt(beginsAt, 10),
+                updatedAt: +moment(),
                 title: title,
-                organizer: organizer,
+                responsible: responsible,
                 type: activityTypeSelected,
-                timestamp: parseInt(timestamp, 10),
+                beginsAt: parseInt(beginsAt, 10),
+                beginsAtHr: moment(parseItn(beginsAt, 10)).format('ddd DD MMM YYYY - HH:mm'),
                 location: location,
                 locationDetails: locationDetails,
                 description: description,
@@ -94,7 +105,7 @@ export default function NewActivityScreen({ navigation }) {
                 <View style={{ marginVertical: 4 }}>
                     <Text>
                         {activitiesType.map((activity, key) =>
-                            <View style={{ padding: 2 }}>
+                            <View style={{ padding: 2 }} key={key}>
                                 <Chip
                                     accessibilityLabel={activity.title}
                                     avatar={<Image source={activity.avatar} />}
@@ -129,8 +140,8 @@ export default function NewActivityScreen({ navigation }) {
                     label="Date et heure"
                     onFocus={showDatePicker}
                     value={
-                        timestamp ?
-                            "le " + moment(parseInt(timestamp, 10)).format('ddd DD MMM YYYY à HH:mm') :
+                        beginsAt ?
+                            "le " + moment(parseInt(beginsAt, 10)).format('ddd DD MMM YYYY à HH:mm') :
                             null
                     }
                     color={colors.secondary}
