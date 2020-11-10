@@ -11,6 +11,7 @@ import ActivitiesScreen from './screens/ActivitiesScreen';
 import ActivityScreen from './screens/ActivityScreen';
 import NewActivityScreen from './screens/NewActivityScreen';
 import MembersScreen from './screens/MembersScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import colors from './config/colors'
 
 import configFirebase from './config/configFirebase';
@@ -40,6 +41,7 @@ export default function App() {
         <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: "Activité" }} />
         <Stack.Screen name="NewActivity" component={NewActivityScreen} options={{ title: "Ajouter une activité" }} />
         <Stack.Screen name="Members" component={MembersScreen} options={{ title: "Membres" }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: "Profil" }} />
       </Stack.Navigator>
     </NavigationContainer >
   );
