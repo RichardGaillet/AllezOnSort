@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Avatar, Button, Snackbar, Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Button, IconButton, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import moment from 'moment';
@@ -84,6 +84,38 @@ export default function ProfileScreen() {
                 });
     }
 
+    const handleDeletePhoto = () => {
+        console.log("TCL: handleDeletePhoto -> user?.uid", user?.uid)
+        let body = { ...member };
+        body.personalInformations.photoURL = 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151';
+        firebase.storage()
+            .ref()
+            .child('members/' + user?.uid + '.png')
+            .delete()
+            .then(() => {
+                firebase.database()
+                    .ref('members/' + user?.uid)
+                    .set(
+                        body,
+                        error => {
+                            if (error) {
+                                setSnackbarMessage("Une erreur est survenue ! ❌")
+                                onToggleSnackBar()
+                            } else {
+                                setSnackbarMessage("La photo a bien été supprimée ! ✔️")
+                                onToggleSnackBar()
+                                setRefresh(!refresh)
+                                // setTimeout(() => { navigation.navigate('Home') }, 3000)
+                            }
+                        });
+            })
+            .catch(error => {
+                console.log("handleDeletePhoto -> error", error)
+                setSnackbarMessage("Une erreur est survenue ! ❌")
+                onToggleSnackBar()
+            });
+    }
+
     const [snackbarMessage, setSnackbarMessage] = useState("")
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
@@ -106,11 +138,31 @@ export default function ProfileScreen() {
                     <>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ padding: 8, justifyContent: 'center' }}>
-                                {photoURL ?
-                                    <Avatar.Image size={96} source={{ uri: photoURL }} /> :
-                                    <Avatar.Text
-                                        size={96}
-                                        label={displayName.substring(0, 1).toUpperCase() + displayName.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />}
+                                <View flex={1}>
+                                    {photoURL ?
+                                        <Avatar.Image size={96} source={{ uri: photoURL }} />
+                                        :
+                                        <Avatar.Text
+                                            size={96}
+                                            label={displayName.substring(0, 1).toUpperCase() + displayName.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />
+                                    }
+                                    {photoURL.includes('firebase') ?
+                                        <IconButton
+                                            icon="camera-off"
+                                            color={colors.secondary}
+                                            size={24}
+                                            style={{ bottom: -12, position: 'absolute', right: -12 }}
+                                            onPress={() => handleDeletePhoto()}
+                                        /> :
+                                        <IconButton
+                                            icon="camera-plus"
+                                            color={colors.secondary}
+                                            size={24}
+                                            style={{ position: 'absolute', right: -12, top: -20 }}
+                                            onPress={() => console.log('Pressed')}
+                                        />
+                                    }
+                                </View>
                             </View>
                             <View flexDirection={'column'} flex={1} style={{ justifyContent: 'flex-end' }}>
                                 <TextInput
@@ -274,7 +326,7 @@ export default function ProfileScreen() {
                 >
                     {snackbarMessage}
                 </Snackbar>
-            </View >
+            </View>
         </View>
     )
 }
