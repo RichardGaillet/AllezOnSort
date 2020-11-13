@@ -3,6 +3,8 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import { ActivityIndicator, Avatar, Button, IconButton, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+import { eighteenYears } from '../config/format';
+
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
@@ -311,7 +313,7 @@ export default function ProfileScreen() {
                 }
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
-                    maximumDate={+moment().subtract(18, 'years')}
+                    maximumDate={Date.now() - eighteenYears()}
                     mode="date"
                     onCancel={toggleDatePicker}
                     onConfirm={handleConfirm}
