@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, StyleSheet } from 'react-native';
-import { ActivityIndicator, Button, Card, Dialog, FAB, Portal, Provider, Text, Divider } from 'react-native-paper'
+import { AsyncStorage, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Button, Card, Dialog, Divider, FAB, Portal, Provider, Searchbar, Snackbar, Text } from 'react-native-paper'
 import { ScrollView } from 'react-native-gesture-handler'
 import MasonryList from "react-native-masonry-list"
 import colors from '../config/colors'
@@ -28,6 +28,7 @@ export default function MembersScreen() {
         firebase
             .database()
             .ref("members")
+            .limitToFirst(25)
             .once("value")
             .then(snapshot => {
                 setMembers(Object.values(snapshot.val()))
@@ -49,20 +50,59 @@ export default function MembersScreen() {
         } catch (error) { console.log("retrieveData -> error", error) }
     }
 
+    // NOTE Gestion de la barre de recherche
+    const [searchQuery, setSearchQuery] = useState('');
+    const onChangeSearch = query => {
+        setSearchQuery(query)
+    };
+
+    const onSearchQuery = () => {
+        setMembers([])
+        const searchArray = []
+        firebase
+            .database()
+            .ref("members")
+            .once("value")
+            .then(snapshot => {
+                snapshot
+                    .forEach(childSnapshot => {
+                        if (childSnapshot.val().displayName &&
+                            childSnapshot.val().displayName.toLowerCase().includes(searchQuery.toLowerCase())) {
+                            searchArray.push(childSnapshot.val())
+                        }
+                        if (childSnapshot.val().personalInformations.firstName &&
+                            childSnapshot.val().personalInformations.firstName.toLowerCase().includes(searchQuery.toLowerCase())) {
+                            searchArray.push(childSnapshot.val())
+                        }
+                        if (childSnapshot.val().description &&
+                            childSnapshot.val().description.toLowerCase().includes(searchQuery.toLowerCase())) {
+                            searchArray.push(childSnapshot.val())
+                        }
+                        if (childSnapshot.val().personalInformations.location &&
+                            childSnapshot.val().personalInformations.location.toLowerCase().includes(searchQuery.toLowerCase())) {
+                            searchArray.push(childSnapshot.val())
+                        }
+                    })
+                if (searchArray.length === 0) {
+                    setSnackbarMessage(`Aucun résultat ! ❌`)
+                    onToggleSnackBar()
+                } else {
+                    setMembers(searchArray)
+                    setSnackbarMessage(`${searchArray.length} membre(s) trouvé(s) ! ✔️`)
+                    onToggleSnackBar()
+                }
+            })
+            .catch(error => console.log("onSearchQuery -> error", error))
+    }
+
+    // NOTE Gestion de la snackBar
+    const [snackbarMessage, setSnackbarMessage] = useState("")
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
+    const onDismissSnackBar = () => setSnackbarVisible(false);
+
     // NOTE Gestion de Masonry
     const [masonryListColumns, setMasonryListColumns] = useState(2)
-    const masonryList = () => {
-        return (
-            <MasonryList
-                accessible
-                accessibilityLabel="Éventail d'images"
-                columns={masonryListColumns}
-                images={images}
-                imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 6 / masonryListColumns }}
-                onPressImage={member => showDialog(member)}
-            />
-        )
-    }
 
     // NOTE Gestion du FAB
     const [state, setState] = useState({ open: false });
@@ -195,11 +235,40 @@ export default function MembersScreen() {
                         size={'large'}
                     />
                 </ScrollView> :
-                masonryList()
+                <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+                    <View display='flex' flexDirection='row'>
+                        <View flex={1}>
+                            <Searchbar
+                                clearAccessibilityLabel={"effacer le critère de recherche"}
+                                iconColor={searchQuery !== "" ? colors.secondary : colors.primary}
+                                onChangeText={onChangeSearch}
+                                onIconPress={searchQuery !== "" ? onSearchQuery : null}
+                                placeholder="Recherche"
+                                searchAccessibilityLabel={searchQuery === "" ? "remplir le critère de recherche sur le champ suivant" : "lancer la recherche"}
+                                value={searchQuery}
+                            />
+                        </View>
+                    </View>
+                    <MasonryList
+                        accessible
+                        accessibilityLabel="Éventail d'images"
+                        columns={masonryListColumns}
+                        images={images}
+                        imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 6 / masonryListColumns }}
+                        onPressImage={member => showDialog(member)}
+                    />
+                </ScrollView>
             }
-            {/* {masonryList()} */}
             {fab()}
             {memberDialog()}
+            <Snackbar
+                duration={2000}
+                onDismiss={onDismissSnackBar}
+                visible={snackbarVisible}
+                wrapperStyle={{ backgroundColor: colors.light }}
+            >
+                {snackbarMessage}
+            </Snackbar>
         </Provider>
     )
 }
