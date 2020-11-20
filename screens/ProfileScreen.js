@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Avatar, Button, Snackbar, Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Button, IconButton, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as ImagePicker from 'expo-image-picker';
+import { eighteenYears } from '../config/format';
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -78,10 +80,129 @@ export default function ProfileScreen() {
                     } else {
                         setSnackbarMessage("Le profil a bien été mis à jour ! ✔️")
                         onToggleSnackBar()
-                        // setRefresh(!refresh)
-                        // setTimeout(() => { navigation.navigate('Home') }, 3000)
+                        setRefresh(!refresh)
                     }
                 });
+    }
+
+    const handleDeletePhoto = () => {
+        let body = { ...member };
+        body.personalInformations.photoURL = 'https://d1wp6m56sqw74a.cloudfront.net/~assets/b2b3f798006979019644446d70d47151';
+        firebase.storage()
+            .ref()
+            .child('members/' + user?.uid)
+            .delete()
+            .then(() => {
+                firebase.database()
+                    .ref('members/' + user?.uid)
+                    .set(
+                        body,
+                        error => {
+                            if (error) {
+                                setSnackbarMessage("Une erreur est survenue ! ❌")
+                                onToggleSnackBar()
+                            } else {
+                                setSnackbarMessage("La photo a bien été supprimée ! ✔️")
+                                onToggleSnackBar()
+                                setRefresh(!refresh)
+                            }
+                        });
+            })
+            .catch(error => {
+                console.log("handleDeletePhoto -> error", error)
+                setSnackbarMessage("Une erreur est survenue ! ❌")
+                onToggleSnackBar()
+            });
+    }
+
+    const uploadPhoto = (file, metadata) => {
+        const uploadPhotoRef = firebase.storage()
+            .ref()
+            .child('members/' + user?.uid)
+            .put(file, metadata)
+
+        uploadPhotoRef
+            .on(firebase.storage.TaskEvent.STATE_CHANGED,
+                snapshot => {
+                    const progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    console.log('Upload is ' + progress + '% done');
+                    setSnackbarMessage("Chargement : " + progress + "%");
+                    onToggleSnackBar();
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED:
+                            console.log('Upload is paused');
+                            setSnackbarMessage("Le chargement est en pause ! ⏱️");
+                            onToggleSnackBar();
+                            break;
+                        case firebase.storage.TaskState.RUNNING:
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, error => {
+                    console.log("uploadPhoto -> error", error);
+                    setSnackbarMessage("Une erreur est survenue ! ❌");
+                    onToggleSnackBar();
+                }, () => {
+                    uploadPhotoRef
+                        .snapshot
+                        .ref
+                        .getDownloadURL()
+                        .then(downloadURL => {
+                            let body = { ...member };
+                            body.personalInformations.photoURL = downloadURL;
+                            firebase.database()
+                                .ref('members/' + user?.uid)
+                                .set(
+                                    body,
+                                    error => {
+                                        if (error) {
+                                            setSnackbarMessage("Une erreur est survenue ! ❌")
+                                            onToggleSnackBar()
+                                        } else {
+                                            setSnackbarMessage("La photo a bien été ajoutée ! ✔️")
+                                            onToggleSnackBar()
+                                            setRefresh(!refresh)
+                                        }
+                                    });
+                        });
+                })
+    };
+
+    const handleAddPhoto = async () => {
+
+        let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            setSnackbarMessage("L'autorisation d'accès est requise ! ❌")
+            onToggleSnackBar()
+            return;
+        }
+
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+        const { uri } = pickerResult
+
+        const fileExtension = pickerResult.uri.split('.').pop();
+
+        const metadata = {
+            contentType: `${pickerResult.type}/${fileExtension}`
+        };
+
+        const response = await fetch(uri)
+        const file = await response.blob()
+
+        firebase.storage()
+            .ref()
+            .child('members/' + user?.uid)
+            .delete()
+            .then(() => {
+                setPhotoURL(uri)
+                uploadPhoto(file, metadata)
+            })
+            .catch(() => {
+                setPhotoURL(uri)
+                uploadPhoto(file, metadata)
+            })
     }
 
     const [snackbarMessage, setSnackbarMessage] = useState("")
@@ -106,11 +227,31 @@ export default function ProfileScreen() {
                     <>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ padding: 8, justifyContent: 'center' }}>
-                                {photoURL ?
-                                    <Avatar.Image size={96} source={{ uri: photoURL }} /> :
-                                    <Avatar.Text
-                                        size={96}
-                                        label={displayName.substring(0, 1).toUpperCase() + displayName.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />}
+                                <View flex={1}>
+                                    {photoURL ?
+                                        <Avatar.Image size={96} source={{ uri: photoURL }} />
+                                        :
+                                        <Avatar.Text
+                                            size={96}
+                                            label={displayName.substring(0, 1).toUpperCase() + displayName.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />
+                                    }
+                                    {photoURL.includes('firebase') ?
+                                        <IconButton
+                                            icon="camera-off"
+                                            color={colors.secondary}
+                                            size={24}
+                                            style={{ bottom: -12, position: 'absolute', right: -12 }}
+                                            onPress={() => handleDeletePhoto()}
+                                        /> :
+                                        <IconButton
+                                            icon="camera-plus"
+                                            color={colors.secondary}
+                                            size={24}
+                                            style={{ position: 'absolute', right: -12, top: -20 }}
+                                            onPress={() => handleAddPhoto()}
+                                        />
+                                    }
+                                </View>
                             </View>
                             <View flexDirection={'column'} flex={1} style={{ justifyContent: 'flex-end' }}>
                                 <TextInput
@@ -259,7 +400,7 @@ export default function ProfileScreen() {
                 }
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
-                    maximumDate={+moment().subtract(18, 'years')}
+                    maximumDate={Date.now() - eighteenYears()}
                     mode="date"
                     onCancel={toggleDatePicker}
                     onConfirm={handleConfirm}
@@ -274,7 +415,7 @@ export default function ProfileScreen() {
                 >
                     {snackbarMessage}
                 </Snackbar>
-            </View >
+            </View>
         </View>
     )
 }

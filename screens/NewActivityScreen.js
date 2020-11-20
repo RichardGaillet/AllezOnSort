@@ -259,7 +259,7 @@ export default function NewActivityScreen({ navigation }) {
                         onPress={handleAddActivitiy}
                         style={{ elevation: 4 }}
                     >
-                        Ajouter une actiité
+                        Ajouter une activité
                     </Button>
                 </View>
                 <DateTimePickerModal
