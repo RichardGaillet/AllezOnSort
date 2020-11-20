@@ -19,3 +19,7 @@ moment.locale('fr');
 export const startOfDay = () => {
     return Math.floor(+moment() / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000).toString()
 }
+
+export const eighteenYears = () => {
+    return (((18 * 365) + 5) * 24 * 60 * 60 * 1000)
+}
