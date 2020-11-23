@@ -79,11 +79,10 @@ export default function NewActivityScreen({ navigation }) {
                 beginsAt: parseInt(beginsAt, 10),
                 beginsAtHr: moment(parseInt(beginsAt, 10)).format('ddd DD MMM YYYY - HH:mm'),
                 location: location,
-                locationDetails: locationDetails,
-                description: description,
+                locationDetails: locationDetails || null,
+                description: description || null,
                 places: parseInt(places, 10),
-                tags: tagsArray
-                // NOTE Add tags
+                tags: tagsArray || null
             }, error => {
                 if (error) {
                     setSnackbarMessage("Une erreur est survenue ! ❌")

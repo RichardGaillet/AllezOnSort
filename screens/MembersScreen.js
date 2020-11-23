@@ -255,6 +255,7 @@ export default function MembersScreen() {
                         columns={masonryListColumns}
                         images={images}
                         imageContainerStyle={{ borderColor: colors.secondary, borderWidth: 6 / masonryListColumns }}
+                        listContainerStyle={{ paddingBottom: 80 }}
                         onPressImage={member => showDialog(member)}
                     />
                 </ScrollView>

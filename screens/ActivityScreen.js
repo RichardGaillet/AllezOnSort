@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Avatar, Button, Card, Chip, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
@@ -29,7 +29,6 @@ export default function ActivityScreen(activity) {
         photoURL,
         places,
         registeredList,
-        registeredWaitingList,
         responsible,
         tags,
         title,
@@ -57,6 +56,23 @@ export default function ActivityScreen(activity) {
     }
 
     const RightContent = () => <Image style={styles.activityTypeImage} source={activityType} />
+
+    const [registeredArrayList, setRegisterredArrayList] = useState([])
+    const [waitingArrayList, setWaitingArrayList] = useState([])
+
+    useEffect(() => {
+        const registeredArray = []
+        const waitingArray = []
+        for (let i = 0; i < registeredList.length || 0; i++) {
+            if (registeredList && i < places) {
+                registeredArray.push(registeredList[i] || null)
+            } else {
+                waitingArray.push(registeredList[i] || null)
+            }
+        }
+        setRegisterredArrayList(registeredArray)
+        setWaitingArrayList(waitingArray)
+    }, [])
 
     return (
         <Provider>
@@ -95,53 +111,60 @@ export default function ActivityScreen(activity) {
                                 )}
                         </Text>
                     </Card.Content>}
-                    <Divider style={styles.divider} />
-                    <Card.Content>
-                        <Title>Descriptif</Title>
-                        <Divider />
-                        {description?.length > 128 ?
-                            <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)}
-                                <Text style={styles.shortenText}> suite</Text>
-                            </Paragraph> :
-                            <Paragraph>{description}</Paragraph>
-                        }
-                    </Card.Content>
-                    <Divider style={styles.divider} />
-                    <Card.Content>
-                        <Title>Liste des membres ({lessThanTen(registeredList?.length || 0)} / {lessThanTen(places)})</Title>
-                        <Divider />
-                        <Text>
-                            {registeredList
-                                ?.sort((a, b) => {
-                                    return a.displayName - b.displayName;
-                                })
-                                ?.map((registered, key) =>
-                                    <List.Item
-                                        key={key}
-                                        style={styles.listItemChip}
-                                        title={
-                                            <Chip
-                                                avatar={<Image source={{ uri: registered?.photoURL }} />}
-                                                style={styles.chipButton}
-                                            >
-                                                <Text
-                                                    style={styles.chipText}
-                                                >
-                                                    {shortenText(registered?.displayName, 32)}
-                                                </Text>
-                                            </Chip>
-                                        } />
-                                )}
-                        </Text>
-                    </Card.Content>
-                    {registeredWaitingList?.length > 0 &&
+                    {description &&
                         <>
                             <Divider style={styles.divider} />
                             <Card.Content>
-                                <Title>Liste d'attente ({lessThanTen(registeredWaitingList?.length)})</Title>
+                                <Title>Descriptif</Title>
+                                <Divider />
+                                {description?.length > 128 ?
+                                    <Paragraph onPress={() => showDialog(description)}>{shortenText(description, 128)}
+                                        <Text style={styles.shortenText}> suite</Text>
+                                    </Paragraph> :
+                                    <Paragraph>{description}</Paragraph>
+                                }
+                            </Card.Content>
+                        </>
+                    }
+                    {registeredList &&
+                        <>
+                            <Divider style={styles.divider} />
+                            <Card.Content>
+                                <Title>Liste des membres ({lessThanTen(registeredArrayList?.length || 0)} / {lessThanTen(places)})</Title>
                                 <Divider />
                                 <Text>
-                                    {registeredWaitingList
+                                    {registeredArrayList
+                                        ?.sort((a, b) => {
+                                            return a.displayName - b.displayName;
+                                        })
+                                        ?.map((registered, key) =>
+                                            <List.Item
+                                                key={key}
+                                                style={styles.listItemChip}
+                                                title={
+                                                    <Chip
+                                                        avatar={<Image source={{ uri: registered?.photoURL }} />}
+                                                        style={styles.chipButton}
+                                                    >
+                                                        <Text
+                                                            style={styles.chipText}
+                                                        >
+                                                            {shortenText(registered?.displayName, 32)}
+                                                        </Text>
+                                                    </Chip>
+                                                } />
+                                        )}
+                                </Text>
+                            </Card.Content>
+                        </>}
+                    {waitingArrayList?.length > 0 &&
+                        <>
+                            <Divider style={styles.divider} />
+                            <Card.Content>
+                                <Title>Liste d'attente ({lessThanTen(waitingArrayList?.length)})</Title>
+                                <Divider />
+                                <Text>
+                                    {waitingArrayList
                                         .sort((a, b) => {
                                             return a.displayName - b.displayName;
                                         })
@@ -165,32 +188,36 @@ export default function ActivityScreen(activity) {
                                 </Text>
                             </Card.Content>
                         </>}
-                    <Divider style={styles.divider} />
-                    {comments?.length > 0 && <Card.Content>
-                        <Title>Commentaires ({lessThanTen(comments?.length)})</Title>
-                        {comments?.map((comment, key) =>
-                            <View key={key}>
-                                <Divider />
-                                <View style={styles.commentBox}>
-                                    <View style={styles.commentAvatar}>
-                                        <Avatar.Image size={48} style={styles.avatarImage} source={comment?.memberPhotoURL ? { uri: comment?.memberPhotoURL } : require('../assets/logo_aos.png')} />
-                                    </View>
-                                    <View style={styles.commentText}>
-                                        <Paragraph>
-                                            <Text style={{ fontWeight: '700' }}>{comment?.memberDisplayName}</Text>
-                                            <Text> dit :</Text>
-                                        </Paragraph>
-                                        {comment?.text.length > 128 ?
-                                            <Paragraph onPress={() => showDialog(comment)}>" {shortenText(comment?.text, 128)}
-                                                <Text style={styles.shortenText}> suite</Text>
-                                                <Text> "</Text>
-                                            </Paragraph> :
-                                            <Paragraph>" {comment?.text} "</Paragraph>
-                                        }
-                                    </View>
-                                </View>
-                            </View>)}
-                    </Card.Content>}
+                    {comments?.length > 0 &&
+                        <>
+                            <Divider style={styles.divider} />
+                            <Card.Content>
+                                <Title>Commentaires ({lessThanTen(comments?.length)})</Title>
+                                {comments?.map((comment, key) =>
+                                    <View key={key}>
+                                        <Divider />
+                                        <View style={styles.commentBox}>
+                                            <View style={styles.commentAvatar}>
+                                                <Avatar.Image size={48} style={styles.avatarImage} source={comment?.memberPhotoURL ? { uri: comment?.memberPhotoURL } : require('../assets/logo_aos.png')} />
+                                            </View>
+                                            <View style={styles.commentText}>
+                                                <Paragraph>
+                                                    <Text style={{ fontWeight: '700' }}>{comment?.memberDisplayName}</Text>
+                                                    <Text> dit :</Text>
+                                                </Paragraph>
+                                                {comment?.text.length > 128 ?
+                                                    <Paragraph onPress={() => showDialog(comment)}>" {shortenText(comment?.text, 128)}
+                                                        <Text style={styles.shortenText}> suite</Text>
+                                                        <Text> "</Text>
+                                                    </Paragraph> :
+                                                    <Paragraph>" {comment?.text} "</Paragraph>
+                                                }
+                                            </View>
+                                        </View>
+                                    </View>)}
+                            </Card.Content>
+                        </>
+                    }
                 </Card>
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
