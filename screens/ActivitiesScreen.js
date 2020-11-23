@@ -42,10 +42,11 @@ export default function ActivitiesScreen({ navigation }) {
                     return a.beginsAt - b.beginsAt;
                 })
                 ?.map((activity, key) => {
-                    const { location, responsible, places, registeredList, registeredWaitingList, beginsAt, type } = activity
-                    const numberOfRegistered = registeredWaitingList ?
-                        lessThanTen((registeredList?.length + registeredWaitingList?.length) || 0) :
-                        lessThanTen(registeredList?.length || 0)
+                    if (!activity?.registeredList) {
+                        activity.registeredList = []
+                    }
+                    const { beginsAt, location, responsible, registeredList, places, type } = activity
+                    const formatRegisteredList = lessThanTen(registeredList.length)
                     const formatPlaces = lessThanTen(places)
 
                     let activityType;
@@ -84,7 +85,7 @@ export default function ActivitiesScreen({ navigation }) {
                                         <Text style={styles.dataTableCellText}>{moment(parseInt(beginsAt, 10)).format('LT')}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell style={styles.dataTableCell}>
-                                        <Text style={styles.dataTableCellText}>{numberOfRegistered} / {formatPlaces}</Text>
+                                        <Text style={styles.dataTableCellText}>{formatRegisteredList} / {formatPlaces}</Text>
                                     </DataTable.Cell>
                                 </DataTable.Row >
                                 <DataTable.Row
@@ -94,6 +95,7 @@ export default function ActivitiesScreen({ navigation }) {
                                         <Text style={styles.dataTableCellText}>{responsible?.displayName}</Text>
                                     </DataTable.Cell>
                                     <DataTable.Cell
+                                        key={key}
                                         style={styles.dataTableCell}>
                                         <Text style={styles.dataTableCellText}>{activityType}</Text>
                                     </DataTable.Cell>
