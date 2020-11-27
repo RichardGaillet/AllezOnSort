@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Chip, HelperText, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Formik } from 'formik';
-import * as yup from 'yup'
+import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
+import activitiesType from '../config/activitiesType';
 import colors from '../config/colors';
 
 import moment from 'moment';
@@ -26,34 +27,13 @@ export default function NewActivityScreen({ navigation }) {
     };
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
+    const showDatePicker = () => { setDatePickerVisibility(true) };
+    const hideDatePicker = () => { setDatePickerVisibility(false) };
 
     const [snackbarMessage, setSnackbarMessage] = useState("")
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
     const onDismissSnackBar = () => setSnackbarVisible(false);
-
-    const activitiesType = [
-        { text: 'aid', title: "Entraide", avatar: require('../assets/activities/aid.png') },
-        { text: 'cinema', title: "Cinéma", avatar: require('../assets/activities/cinema.png') },
-        { text: 'culture', title: "Culture", avatar: require('../assets/activities/culture.png') },
-        { text: 'dance', title: "Danser", avatar: require('../assets/activities/dance.png') },
-        { text: 'discovery', title: "Découverte", avatar: require('../assets/activities/discovery.png') },
-        { text: 'drink', title: "Boire un verre", avatar: require('../assets/activities/drink.png') },
-        { text: 'game', title: "Jeux", avatar: require('../assets/activities/game.png') },
-        { text: 'music', title: "Musique", avatar: require('../assets/activities/music.png') },
-        { text: 'outside', title: "Plein air", avatar: require('../assets/activities/outside.png') },
-        { text: 'relax', title: "Détente", avatar: require('../assets/activities/relax.png') },
-        { text: 'restaurant', title: "Repas", avatar: require('../assets/activities/restaurant.png') },
-        { text: 'sojourn', title: "Séjour", avatar: require('../assets/activities/sojourn.png') },
-        { text: 'sport', title: "Sport", avatar: require('../assets/activities/sport.png') },
-        { text: 'theater', title: "Théâtre", avatar: require('../assets/activities/theater.png') }
-    ]
 
     const handleAddActivitiy = (values) => {
         const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
@@ -145,10 +125,7 @@ export default function NewActivityScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => {
-                console.log("TCL: NewActivityScreen -> values", values)
-                handleAddActivitiy(values)
-            }}
+            onSubmit={(values) => { handleAddActivitiy(values) }}
             validationSchema={addActivitySchema}
         >
             {({ handleBlur, handleChange, handleSubmit, setFieldValue, dirty, errors, isSubmitting, isValid, values }) => (
@@ -365,15 +342,12 @@ export default function NewActivityScreen({ navigation }) {
                             onCancel={() => {
                                 hideDatePicker
                             }}
-                            onConfirm={(date) => {
-                                console.log("TCL : NewActivityScreen -> date", date)
-                                setFieldValue('beginsAt', date)
-                            }}
+                            onConfirm={(date) => { setFieldValue('beginsAt', date) }}
                         />
                     </ScrollView>
                     <View>
                         <Snackbar
-                            duration={5000}
+                            duration={3000}
                             onDismiss={onDismissSnackBar}
                             style={{ backgroundColor: colors.primary }}
                             visible={snackbarVisible}
