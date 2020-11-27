@@ -143,6 +143,7 @@ export default function HomeScreen({ navigation }) {
                     </Button>
                 </View>
             </View>
+            <Text style={{ color: colors.placeholder, position: 'absolute', bottom: 2, right: 2 }}>version alpha</Text>
         </View>
     )
 }

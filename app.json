@@ -2,7 +2,7 @@
   "expo": {
     "name": "Allez, On Sort !",
     "slug": "AllezOnSort",
-    "version": "1.0.0",
+    "version": "alpha",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,6 +24,7 @@
     },
     "android": {
       "package": "com.fbinet59.AllezOnSort"
-    }
+    },
+    "description": "Clone du site OVS"
   }
 }
