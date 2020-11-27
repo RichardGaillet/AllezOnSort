@@ -20,7 +20,24 @@ export default function SignUpScreen({ navigation }) {
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                alert(errorMessage);
+
+                switch (errorCode) {
+                    case 'auth/email-already-in-use':
+                        alert("Il existe déjà un compte avec l'adresse e-mail donnée.");
+                        break;
+                    case 'auth/invalid-email':
+                        alert("L'adresse e-mail n'est pas valide.");
+                        break;
+                    case 'auth/operation-not-allowed':
+                        alert("Les comptes email / mot de passe ne sont pas activés.");
+                        break;
+                    case 'auth/weak-password':
+                        alert("Le mot de passe n'est pas assez fort.");
+                        break;
+                    default: alert("Un erreur est survenue, veuillez réessayer un peu plus tard.");
+                        break;
+                }
+
                 console.log("signUp -> Error", errorCode, errorMessage);
             });
     };
@@ -32,7 +49,27 @@ export default function SignUpScreen({ navigation }) {
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                alert(errorMessage);
+
+                switch (errorCode) {
+                    case 'auth/missing-android-pkg-name':
+                        alert("Un nom de package Android doit être fourni si l'application Android doit être installée.");
+                        break;
+                    case 'auth/missing-continue-uri':
+                        alert("Une URL de poursuite doit être fournie dans la demande.");
+                        break;
+                    case 'auth/missing-ios-bundle-id':
+                        alert("Un ID de bundle iOS doit être fourni si un ID App Store est fourni.");
+                        break;
+                    case 'auth/invalid-continue-uri':
+                        alert("L'URL de poursuite fournie dans la demande n'est pas valide.");
+                        break;
+                    case 'auth/unauthorized-continue-uri':
+                        alert("L'URL de poursuite fournie dans la demande n'est pas valide.");
+                        break;
+                    default: alert("Le domaine de l'URL de poursuite ne figure pas sur la liste blanche. Ajoutez le domaine à la liste blanche dans la console Firebase.");
+                        break;
+                }
+
                 console.log("sendEmailVerification -> Error", errorCode, errorMessage);
             });
     };
