@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { HelperText } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import colors from '../config/colors';
@@ -82,7 +83,7 @@ export default function SignUpScreen({ navigation }) {
 
     const addActivitySchema = yup.object().shape({
         email: yup.string().email("L'email doit être valide")
-            .required("Champ obligatoire"),
+            .required("Email obligatoire"),
         password: yup.string()
             .min(6, "Minimum 6 caractères")
             .max(16, "Maximum 16 caractères")
@@ -105,77 +106,75 @@ export default function SignUpScreen({ navigation }) {
                 <View style={styles.container}>
                     <ScrollView>
                         <View>
-                            <View style={styles.textInputBox}>
-                                <Text>Adresse email</Text>
-                                <View style={styles.textInputField}>
-                                    <TextInput
-                                        autoCapitalize={'none'}
-                                        autoCompleteType={'email'}
-                                        blurOnSubmit
-                                        color={colors.light}
-                                        keyboardType={'email-address'}
-                                        maxLength={64}
-                                        onBlur={handleBlur('email')}
-                                        onChangeText={handleChange('email')}
-                                        placeholder={'exemple.adresse@email.com'}
-                                        placeholderTextColor={colors.placeholder}
-                                        returnKeyType="next"
-                                        selectionColor={colors.light}
-                                        spellCheck={false}
-                                        textContentType={'emailAddress'}
-                                        value={values.email} />
-                                </View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    autoCapitalize={'none'}
+                                    autoCompleteType={'email'}
+                                    blurOnSubmit
+                                    // color={colors.light}
+                                    dense
+                                    keyboardType={'email-address'}
+                                    label="Adresse email"
+                                    maxLength={64}
+                                    onBlur={handleBlur('email')}
+                                    onChangeText={handleChange('email')}
+                                    placeholder={'exemple.adresse@email.com'}
+                                    // placeholderTextColor={colors.placeholder}
+                                    returnKeyType="next"
+                                    // selectionColor={colors.light}
+                                    spellCheck={false}
+                                    textContentType={'emailAddress'}
+                                    value={values.email} />
                                 {errors.email && <HelperText type="error" visible={errors.email}>
                                     {errors.email}
                                 </HelperText>}
                             </View>
-                            <View style={styles.textInputBox}>
-                                <Text>Mot de passe</Text>
-                                <View style={styles.textInputField}>
-                                    <TextInput
-                                        clearButtonMode={'while-editing'}
-                                        color={colors.light}
-                                        maxLength={32}
-                                        onBlur={handleBlur('password')}
-                                        onChangeText={handleChange('password')}
-                                        placeholder={'●●●●●●●●●●'}
-                                        placeholderTextColor={colors.placeholder}
-                                        returnKeyType="next"
-                                        secureTextEntry
-                                        spellCheck={false}
-                                        value={values.password} />
-                                </View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    clearButtonMode={'while-editing'}
+                                    color={colors.light}
+                                    dense
+                                    label="Mot de passe"
+                                    maxLength={16}
+                                    onBlur={handleBlur('password')}
+                                    onChangeText={handleChange('password')}
+                                    placeholder={'●●●●●●●●●●'}
+                                    returnKeyType="next"
+                                    secureTextEntry={false}
+                                    spellCheck={false}
+                                    value={values.password} />
                                 {errors.password && <HelperText type="error" visible={errors.password}>
                                     {errors.password}
                                 </HelperText>}
                             </View>
-                            <View style={styles.textInputBox}>
-                                <Text>Confirmer le mot de passe</Text>
-                                <View style={styles.textInputField}>
-                                    <TextInput
-                                        color={colors.light}
-                                        maxLength={32}
-                                        onBlur={handleBlur('confirmPassword')}
-                                        onChangeText={handleChange('confirmPassword')}
-                                        placeholder={'●●●●●●●●●●'}
-                                        placeholderTextColor={colors.placeholder}
-                                        returnKeyType="next"
-                                        secureTextEntry
-                                        spellCheck={false}
-                                        value={values.confirmPassword} />
-                                </View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    color={colors.light}
+                                    dense
+                                    label="Confirmer le mot de passe"
+                                    maxLength={16}
+                                    onBlur={handleBlur('confirmPassword')}
+                                    onChangeText={handleChange('confirmPassword')}
+                                    placeholder={'●●●●●●●●●●'}
+                                    returnKeyType="next"
+                                    secureTextEntry
+                                    spellCheck={false}
+                                    value={values.confirmPassword} />
                                 {errors.confirmPassword && <HelperText type="error" visible={errors.confirmPassword}>
                                     {errors.confirmPassword}
                                 </HelperText>}
                             </View>
                             <View style={styles.button}>
                                 <Button
-                                    accessibilityLabel="Bouton S'inscrire"
                                     color={colors.secondary}
+                                    compact
                                     disabled={!(isValid && dirty) || isSubmitting}
+                                    mode="contained"
                                     onPress={handleSubmit}
-                                    title={'S\'inscrire'}
-                                />
+                                    style={{ elevation: 4 }}
+                                >
+                                    S'inscrire
+                            </Button>
                             </View>
                         </View>
                     </ScrollView>
@@ -187,6 +186,7 @@ export default function SignUpScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     button: {
+        color: colors.light,
         padding: 8,
     },
     container: {
@@ -194,15 +194,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     textInputField: {
-        backgroundColor: colors.secondary,
-        borderBottomWidth: 2,
-        borderRadius: 2,
-        borderColor: colors.primary,
-        color: colors.light,
-        padding: 8,
-    },
-    textInputBox: {
-        backgroundColor: 'rgba(255, 255, 255, 0.75)',
         padding: 8,
     },
 });
