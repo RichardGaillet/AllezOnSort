@@ -375,7 +375,7 @@ export default function NewActivityScreen({ navigation }) {
                         <Snackbar
                             duration={5000}
                             onDismiss={onDismissSnackBar}
-                            sttyle={{ backgroundColor: colors.light }}
+                            style={{ backgroundColor: colors.primary }}
                             visible={snackbarVisible}
                             wrapperStyle={{ backgroundColor: colors.light }}
                         >
