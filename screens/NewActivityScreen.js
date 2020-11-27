@@ -140,9 +140,7 @@ export default function NewActivityScreen({ navigation }) {
                                             avatar={<Image source={activity.avatar} />}
                                             key={key}
                                             mode={'outlined'}
-                                            onPress={() => {
-                                                setFieldValue('type', activity?.text)
-                                            }}
+                                            onPress={setFieldValue('type', activity?.text)}
                                             selected={values.type === activity.text ? true : false}
                                             selectedColor={colors.secondary}
                                             style={values.type === activity.text ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary, elevation: 4 }}
@@ -169,9 +167,7 @@ export default function NewActivityScreen({ navigation }) {
                                 error={errors.title}
                                 label='Titre *'
                                 keyboardType={'default'}
-                                onBlur={() => {
-                                    handleBlur('title')
-                                }}
+                                onBlur={handleBlur('title')}
                                 onChangeText={handleChange('title')}
                                 returnKeyType={'next'}
                                 returnKeyLabel={'Suivant'}
@@ -189,9 +185,7 @@ export default function NewActivityScreen({ navigation }) {
                                 error={errors.beginsAt}
                                 keyboardType={'default'}
                                 label="Date et heure *"
-                                onBlur={() => {
-                                    handleBlur('beginsAt')
-                                }}
+                                onBlur={handleBlur('beginsAt')}
                                 onFocus={showDatePicker}
                                 returnKeyType={"next"}
                                 style={{ marginVertical: 4 }}
@@ -210,9 +204,7 @@ export default function NewActivityScreen({ navigation }) {
                                 error={errors.location}
                                 keyboardType={'default'}
                                 label="Lieu *"
-                                onBlur={() => {
-                                    handleBlur('location')
-                                }}
+                                onBlur={handleBlur('location')}
                                 onChangeText={handleChange('location')}
                                 returnKeyType={"next"}
                                 right={true}
@@ -232,9 +224,7 @@ export default function NewActivityScreen({ navigation }) {
                                 label="Détails"
                                 multiline
                                 numberOfLines={3}
-                                onBlur={() => {
-                                    handleBlur('locationDetails')
-                                }}
+                                onBlur={handleBlur('locationDetails')}
                                 onChangeText={handleChange('locationDetails')}
                                 returnKeyType={"next"}
                                 right={true}
@@ -255,9 +245,7 @@ export default function NewActivityScreen({ navigation }) {
                                 keyboardType={'default'}
                                 label="Tags"
                                 multiline
-                                onBlur={() => {
-                                    handleBlur('tags')
-                                }}
+                                onBlur={handleBlur('tags')}
                                 onChangeText={handleChange('tags')}
                                 onFocus={() => {
                                     setSnackbarMessage("separerlesmots parunespace")
@@ -284,9 +272,7 @@ export default function NewActivityScreen({ navigation }) {
                                 label="Descriptif"
                                 multiline
                                 numberOfLines={3}
-                                onBlur={() => {
-                                    handleBlur('description')
-                                }}
+                                onBlur={handleBlur('description')}
                                 onChangeText={handleChange('description')}
                                 returnKeyType={"next"}
                                 right={true}
@@ -306,9 +292,7 @@ export default function NewActivityScreen({ navigation }) {
                                 error={errors.places}
                                 keyboardType={'numeric'}
                                 label="Nombre de places *"
-                                onBlur={() => {
-                                    handleBlur('places')
-                                }}
+                                onBlur={handleBlur('places')}
                                 onChangeText={handleChange('places')}
                                 returnKeyType={'send'}
                                 right={true}
@@ -339,9 +323,7 @@ export default function NewActivityScreen({ navigation }) {
                             minimumDate={new Date()}
                             minuteInterval={5}
                             mode="datetime"
-                            onCancel={() => {
-                                hideDatePicker
-                            }}
+                            onCancel={hideDatePicker}
                             onConfirm={(date) => { setFieldValue('beginsAt', date) }}
                         />
                     </ScrollView>
