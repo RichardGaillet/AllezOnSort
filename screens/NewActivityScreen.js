@@ -332,7 +332,7 @@ export default function NewActivityScreen({ navigation }) {
                                 style={{ elevation: 4 }}
                             >
                                 Ajouter une activité
-                    </Button>
+                            </Button>
                         </View>
                         <DateTimePickerModal
                             isVisible={isDatePickerVisible}
