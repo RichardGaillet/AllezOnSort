@@ -113,7 +113,6 @@ export default function SignUpScreen({ navigation }) {
                                     autoCapitalize={'none'}
                                     autoCompleteType={'email'}
                                     blurOnSubmit
-                                    // color={colors.light}
                                     dense
                                     keyboardType={'email-address'}
                                     label="Adresse email"
@@ -121,9 +120,7 @@ export default function SignUpScreen({ navigation }) {
                                     onBlur={handleBlur('email')}
                                     onChangeText={handleChange('email')}
                                     placeholder={'exemple.adresse@email.com'}
-                                    // placeholderTextColor={colors.placeholder}
                                     returnKeyType="next"
-                                    // selectionColor={colors.light}
                                     spellCheck={false}
                                     textContentType={'emailAddress'}
                                     value={values.email} />
