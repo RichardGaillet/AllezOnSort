@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, HelperText, TextInput } from 'react-native-paper';
@@ -9,6 +9,8 @@ import colors from '../config/colors';
 import * as firebase from 'firebase';
 
 export default function SignUpScreen({ navigation }) {
+
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false)
 
     const signUp = (values) => {
         firebase.auth()
@@ -140,7 +142,12 @@ export default function SignUpScreen({ navigation }) {
                                     onChangeText={handleChange('password')}
                                     placeholder={'●●●●●●●●●●'}
                                     returnKeyType="next"
-                                    secureTextEntry={false}
+                                    right={
+                                        !isVisiblePassword ?
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
+                                    }
+                                    secureTextEntry={!isVisiblePassword}
                                     spellCheck={false}
                                     value={values.password} />
                                 {errors.password && <HelperText type="error" visible={errors.password}>
@@ -157,7 +164,12 @@ export default function SignUpScreen({ navigation }) {
                                     onChangeText={handleChange('confirmPassword')}
                                     placeholder={'●●●●●●●●●●'}
                                     returnKeyType="next"
-                                    secureTextEntry
+                                    right={
+                                        !isVisiblePassword ?
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} />
+                                    }
+                                    secureTextEntry={!isVisiblePassword}
                                     spellCheck={false}
                                     value={values.confirmPassword} />
                                 {errors.confirmPassword && <HelperText type="error" visible={errors.confirmPassword}>
