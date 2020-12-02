@@ -144,8 +144,8 @@ export default function SignUpScreen({ navigation }) {
                                     returnKeyType="next"
                                     right={
                                         !isVisiblePassword ?
-                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
-                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
                                     }
                                     secureTextEntry={!isVisiblePassword}
                                     spellCheck={false}
@@ -166,8 +166,8 @@ export default function SignUpScreen({ navigation }) {
                                     returnKeyType="next"
                                     right={
                                         !isVisiblePassword ?
-                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} /> :
-                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} />
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} />
                                     }
                                     secureTextEntry={!isVisiblePassword}
                                     spellCheck={false}
