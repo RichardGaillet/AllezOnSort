@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import colors from '../config/colors'
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, HelperText, TextInput } from 'react-native-paper';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import colors from '../config/colors';
 
 import * as firebase from 'firebase';
 
 export default function SignInScreen({ navigation }) {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [signInDisabled, setSignInDisabled] = useState(true);
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false)
 
-    useEffect(() => {
-        if (email.trim().length > 0 && password.trim().length > 0) {
-            setSignInDisabled(false)
-        } else {
-            setSignInDisabled(true)
-        }
-    }, [email, password])
 
-    const signIn = () => {
+    const signIn = (values) => {
+        const { email, password } = values;
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
@@ -28,83 +23,111 @@ export default function SignInScreen({ navigation }) {
             .catch(function (error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                alert(errorMessage)
-                console.log("signIn -> errorCode", errorCode, errorMessage)
-                setPassword("")
+                alert(errorMessage);
+                console.log("signIn -> errorCode", errorCode, errorMessage);
             });
-    }
+    };
+
+    const initialValues = {
+        email: '',
+        password: '',
+    };
+
+    const addActivitySchema = yup.object().shape({
+        email: yup.string().email("L'email doit être valide")
+            .required("Email obligatoire"),
+        password: yup.string()
+            .min(6, "Minimum 6 caractères")
+            .max(16, "Maximum 16 caractères")
+            .trim().required('Mot de passe obligatoire'),
+    });
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <View>
-                    <View style={styles.textInputBox}>
-                        <Text>Adresse email</Text>
-                        <View style={styles.textInputField}>
-                            <TextInput
-                                autoCapitalize={'none'}
-                                autoCompleteType={'email'}
-                                blurOnSubmit
-                                color={colors.light}
-                                keyboardType={'email-address'}
-                                maxLength={64}
-                                onChangeText={email => setEmail(email)}
-                                placeholder={'exemple.adresse@email.com'}
-                                placeholderTextColor={colors.placeholder}
-                                returnKeyType="next"
-                                selectionColor={colors.light}
-                                spellCheck={false}
-                                textContentType={'emailAddress'}
-                                value={email} />
+        <Formik
+            initialValues={initialValues}
+            onSubmit={(values) => { signIn(values) }}
+            validateOnChange={false}
+            validationSchema={addActivitySchema}
+        >
+
+            {({ handleBlur, handleChange, handleSubmit, dirty, errors, isSubmitting, isValid, values }) => (
+                <View style={styles.container}>
+                    <ScrollView>
+                        <View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    autoCapitalize={'none'}
+                                    autoCompleteType={'email'}
+                                    blurOnSubmit
+                                    dense
+                                    keyboardType={'email-address'}
+                                    label="Adresse email"
+                                    maxLength={64}
+                                    onBlur={handleBlur('email')}
+                                    onChangeText={handleChange('email')}
+                                    placeholder={'exemple.adresse@email.com'}
+                                    returnKeyType="next"
+                                    spellCheck={false}
+                                    textContentType={'emailAddress'}
+                                    value={values.email} />
+                                {errors.email && <HelperText type="error" visible={errors.email}>
+                                    {errors.email}
+                                </HelperText>}
+                            </View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    clearButtonMode={'while-editing'}
+                                    color={colors.light}
+                                    dense
+                                    label="Mot de passe"
+                                    maxLength={16}
+                                    onBlur={handleBlur('password')}
+                                    onChangeText={handleChange('password')}
+                                    placeholder={'●●●●●●●●●●'}
+                                    returnKeyType="next"
+                                    right={
+                                        !isVisiblePassword ?
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
+                                    }
+                                    secureTextEntry={!isVisiblePassword}
+                                    spellCheck={false}
+                                    value={values.password} />
+                                {errors.password && <HelperText type="error" visible={errors.password}>
+                                    {errors.password}
+                                </HelperText>}
+                            </View>
+                            <View style={styles.button}>
+                                <Button
+                                    color={colors.secondary}
+                                    compact
+                                    disabled={!(isValid && dirty) || isSubmitting}
+                                    mode="contained"
+                                    onPress={handleSubmit}
+                                    style={{ elevation: 4 }}
+                                >
+                                    Se connecter
+                            </Button>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.textInputBox}>
-                        <Text>Mot de passe</Text>
-                        <View style={styles.textInputField}>
-                            <TextInput
-                                color={colors.light}
-                                maxLength={32}
-                                onChangeText={password => setPassword(password)}
-                                placeholder={'●●●●●●●●●●'}
-                                placeholderTextColor={colors.placeholder}
-                                returnKeyType="next"
-                                secureTextEntry
-                                spellCheck={false}
-                                value={password} />
-                        </View>
-                    </View>
-                    <View style={styles.button}>
-                        <Button
-                            color={colors.secondary}
-                            disabled={signInDisabled}
-                            onPress={signIn}
-                            title={'Se connecter'}
-                        />
-                    </View>
+                    </ScrollView>
                 </View>
-            </ScrollView>
-        </View>
+            )
+            }
+        </Formik >
     )
 }
 
 const styles = StyleSheet.create({
     button: {
+        color: colors.light,
         padding: 8,
     },
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
     },
     textInputField: {
-        backgroundColor: colors.secondary,
-        borderBottomWidth: 2,
-        borderRadius: 2,
-        borderColor: colors.primary,
-        color: colors.light,
         padding: 8,
     },
-    textInputBox: {
-        backgroundColor: 'rgba(255, 255, 255, 0.75)',
-        padding: 8,
-    },
-})
+});
