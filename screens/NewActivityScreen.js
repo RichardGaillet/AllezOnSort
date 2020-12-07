@@ -140,7 +140,7 @@ export default function NewActivityScreen({ navigation }) {
                                             avatar={<Image source={activity.avatar} />}
                                             key={key}
                                             mode={'outlined'}
-                                            onPress={setFieldValue('type', activity?.text)}
+                                            onPress={() => setFieldValue('type', activity?.text)}
                                             selected={values.type === activity.text ? true : false}
                                             selectedColor={colors.secondary}
                                             style={values.type === activity.text ? { backgroundColor: colors.primary } : { backgroundColor: colors.secondary, elevation: 4 }}
