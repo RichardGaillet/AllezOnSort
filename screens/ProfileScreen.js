@@ -233,7 +233,7 @@ export default function ProfileScreen() {
                                         :
                                         <Avatar.Text
                                             size={96}
-                                            label={displayName.substring(0, 1).toUpperCase() + displayName.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />
+                                            label={displayName?.substring(0, 1).toUpperCase() + displayName?.substring(displayName?.length - 1, displayName?.length).toUpperCase()} />
                                     }
                                     {photoURL.includes('firebase') ?
                                         <IconButton

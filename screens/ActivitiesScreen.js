@@ -143,7 +143,7 @@ export default function ActivitiesScreen({ navigation }) {
                         <Text style={styles.noFutureActivities}>Pas d'activités pour le moment ! 😱</Text>
                     }
                 </ScrollView>
-                {user && <FAB
+                {user !== null && <FAB
                     accessibilityLabel={'Ajouter une activité'}
                     color={colors.dark}
                     icon="plus"
