@@ -42,7 +42,7 @@ export default function NewActivityScreen({ navigation }) {
             .ref('activities/' + uuid())
             .set({
                 beginsAt: parseInt(+moment(beginsAt), 10),
-                beginsAtHr: moment(parseInt(beginsAt, 10)).format('ddd DD MMM YYYY - HH:mm'),
+                beginsAtHr: moment(beginsAt).format('ddd DD MMM YYYY - HH:mm').toString(),
                 createdAt: +moment(),
                 description: description || null,
                 editableUpTo: parseInt(+moment(beginsAt), 10),
