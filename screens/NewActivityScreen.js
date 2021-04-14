@@ -190,7 +190,7 @@ export default function NewActivityScreen({ navigation }) {
                                 returnKeyType={"next"}
                                 style={{ marginVertical: 4 }}
                                 value={values.beginsAt ?
-                                    "le " + moment(values.beginsAt).format('ddd DD MMM YYYY à HH:mm') :
+                                    "le " + moment(values.beginsAt).format('ddd DD MMM YYYY à HH:mm').toString() :
                                     null}
                             />
                             {errors.beginsAt && <HelperText type="error" visible={errors.beginsAt}>
@@ -299,7 +299,7 @@ export default function NewActivityScreen({ navigation }) {
                                 style={{
                                     marginVertical: 4,
                                 }}
-                                value={values.places}
+                                value={values.places.toString()}
                             />
                             {errors.places && <HelperText type="error" visible={errors.places}>
                                 {errors.places}
