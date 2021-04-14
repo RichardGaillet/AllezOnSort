@@ -210,6 +210,10 @@ export default function ProfileScreen() {
     const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
     const onDismissSnackBar = () => setSnackbarVisible(false);
 
+    const maximmDateOfBirthYear = parseInt(moment(Date.now() - eighteenYears()).format('YYYY'));
+    const maximmDateOfBirthMonth = parseInt(moment(Date.now() - eighteenYears()).format('MM'));
+    const maximmDateOfBirthDay = parseInt(moment(Date.now() - eighteenYears()).format('DD'));
+
     return (
         <View style={{ justifyContent: 'center', padding: 16 }}>
             <ScrollView
@@ -400,7 +404,7 @@ export default function ProfileScreen() {
                 }
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
-                    maximumDate={Date.now() - eighteenYears()}
+                    maximumDate={new Date(maximmDateOfBirthYear, maximmDateOfBirthMonth, maximmDateOfBirthDay)}
                     mode="date"
                     onCancel={toggleDatePicker}
                     onConfirm={handleConfirm}
