@@ -106,7 +106,7 @@ export default function SignInScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => { isForgottenPassword ? sendPasswordResetEmail(values.email) : signIn(values) }}
+            onSubmit={(values, actions) => { isForgottenPassword ? sendPasswordResetEmail(values.email, actions.resetForm()) : signIn(values, actions.resetForm()) }}
             validateOnChange={false}
             validationSchema={isForgottenPassword ? sendPasswordResetEmailSchema : signInSchema}
         >

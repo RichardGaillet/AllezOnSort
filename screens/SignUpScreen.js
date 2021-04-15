@@ -99,7 +99,7 @@ export default function SignUpScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => { signUp(values) }}
+            onSubmit={(values, actions) => { signUp(values, actions.resetForm()) }}
             validateOnChange={false}
             validationSchema={addActivitySchema}
         >
@@ -162,8 +162,8 @@ export default function SignUpScreen({ navigation }) {
                                     returnKeyType="next"
                                     right={
                                         !isVisiblePassword ?
-                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} /> :
-                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisibleConfirmPassword(!isVisiblePassword)} />
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
                                     }
                                     secureTextEntry={!isVisiblePassword}
                                     spellCheck={false}
