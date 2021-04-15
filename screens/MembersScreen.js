@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, Button, Card, Dialog, Divider, FAB, Portal, Provider, Searchbar, Snackbar, Text } from 'react-native-paper'
 import MasonryList from "react-native-masonry-list"
 import colors from '../config/colors'
