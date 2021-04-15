@@ -124,7 +124,7 @@ export default function NewActivityScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => { handleAddActivitiy(values) }}
+            onSubmit={(values, actions) => { handleAddActivitiy(values, actions.resetForm()) }}
             validationSchema={addActivitySchema}
         >
             {({ handleBlur, handleChange, handleSubmit, setFieldValue, dirty, errors, isSubmitting, isValid, values }) => (
