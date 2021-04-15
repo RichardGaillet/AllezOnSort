@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-// import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Chip, HelperText, Snackbar, Text, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Formik } from 'formik';
