@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, StyleSheet, View } from 'react-native';
+import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Button, Card, Dialog, Divider, FAB, Portal, Provider, Searchbar, Snackbar, Text } from 'react-native-paper'
-import { ScrollView } from 'react-native-gesture-handler'
+// import { ScrollView } from 'react-native-gesture-handler'
 import MasonryList from "react-native-masonry-list"
 import colors from '../config/colors'
 
@@ -235,7 +235,7 @@ export default function MembersScreen() {
                         size={'large'}
                     />
                 </ScrollView> :
-                <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+                <>
                     <View display='flex' flexDirection='row'>
                         <View flex={1}>
                             <Searchbar
@@ -258,7 +258,7 @@ export default function MembersScreen() {
                         listContainerStyle={{ paddingBottom: 80 }}
                         onPressImage={member => showDialog(member)}
                     />
-                </ScrollView>
+                </>
             }
             {fab()}
             {memberDialog()}
