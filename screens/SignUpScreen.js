@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-// import { ScrollView } from 'react-native-gesture-handler';
 import { Button, HelperText, TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';

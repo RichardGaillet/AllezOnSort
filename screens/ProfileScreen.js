@@ -262,13 +262,9 @@ export default function ProfileScreen() {
                                     color={colors.light}
                                     dense
                                     disabled
-                                    // error
                                     label="Créé le"
                                     onChangeText={createdAt => setCreatedAt(createdAt)}
                                     style={{
-                                        // backgroundColor: colors.secondary,
-                                        // borderBottomColor: colors.primary,
-                                        // borderBottomWidth: 3,
                                         marginVertical: 4,
                                     }}
                                     value={moment(parseInt(createdAt, 10)).format('DD/MM/YYYY - HH:mm')}
@@ -277,13 +273,9 @@ export default function ProfileScreen() {
                                     color={colors.light}
                                     dense
                                     disabled
-                                    // error
                                     label="Dernière connexion le"
                                     onChangeText={lastLoginAt => setLastLogindAt(lastLoginAt)}
                                     style={{
-                                        // backgroundColor: colors.secondary,
-                                        // borderBottomColor: colors.primary,
-                                        // borderBottomWidth: 3,
                                         marginVertical: 4,
                                     }}
                                     value={moment(parseInt(lastLoginAt, 10)).format('DD/MM/YYYY - HH:mm')}
@@ -297,14 +289,11 @@ export default function ProfileScreen() {
                             color={colors.light}
                             dense
                             editable={user != null}
-                            // error
                             keyboardType={'default'}
                             label="Nom d'utilisateur *"
                             onChangeText={displayName => setDisplayName(displayName)}
                             style={{
                                 backgroundColor: colors.secondary,
-                                // borderBottomColor: colors.primary,
-                                // borderBottomWidth: 3,
                                 elevation: 4,
                                 marginVertical: 4,
                             }}
@@ -313,7 +302,6 @@ export default function ProfileScreen() {
                         <TextInput
                             color={colors.light}
                             editable={user != null}
-                            // error
                             dense
                             keyboardType={'default'}
                             label="Prénom"
@@ -321,8 +309,6 @@ export default function ProfileScreen() {
                             right={firstName ? <TextInput.Icon name='trash-can-outline' onPress={() => setFirstName(null)} /> : ""}
                             style={{
                                 backgroundColor: colors.secondary,
-                                // borderBottomColor: colors.primary,
-                                // borderBottomWidth: 3,
                                 elevation: 4,
                                 marginVertical: 4,
                             }}
@@ -332,7 +318,6 @@ export default function ProfileScreen() {
                             color={colors.light}
                             dense
                             editable={user != null}
-                            // error
                             keyboardType={'default'}
                             label="Description"
                             multiline
@@ -341,8 +326,6 @@ export default function ProfileScreen() {
                             right={description ? <TextInput.Icon name='trash-can-outline' onPress={() => setDescription(null)} /> : ""}
                             style={{
                                 backgroundColor: colors.secondary,
-                                // borderBottomColor: colors.primary,
-                                // borderBottomWidth: 3,
                                 elevation: 4,
                                 marginVertical: 4,
                             }}
@@ -351,7 +334,6 @@ export default function ProfileScreen() {
                         <TextInput
                             color={colors.light}
                             editable={user != null}
-                            // error
                             dense
                             keyboardType={'default'}
                             label="Ville"
@@ -359,8 +341,6 @@ export default function ProfileScreen() {
                             right={location ? <TextInput.Icon name='trash-can-outline' onPress={() => setLocation(null)} /> : ""}
                             style={{
                                 backgroundColor: colors.secondary,
-                                // borderBottomColor: colors.primary,
-                                // borderBottomWidth: 3,
                                 elevation: 4,
                                 marginVertical: 4,
                             }}
@@ -370,14 +350,11 @@ export default function ProfileScreen() {
                             color={colors.secondary}
                             dense
                             editable={user != null}
-                            // error
                             label="Date de naissance"
                             onFocus={toggleDatePicker}
                             right={birthday ? <TextInput.Icon name='trash-can-outline' onPress={() => setBirthday(null)} /> : ""}
                             style={{
                                 backgroundColor: colors.secondary,
-                                // borderBottomColor: colors.primary,
-                                // borderBottomWidth: 4,
                                 elevation: 4,
                                 marginVertical: 4,
                             }}

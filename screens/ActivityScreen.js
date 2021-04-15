@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
-// import { ScrollView } from 'react-native-gesture-handler'
 import { Avatar, Button, Card, Chip, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
