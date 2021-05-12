@@ -78,9 +78,18 @@ export default function ProfileScreen() {
                         setSnackbarMessage("Une erreur est survenue ! ❌")
                         onToggleSnackBar()
                     } else {
-                        setSnackbarMessage("Le profil a bien été mis à jour ! ✔️")
-                        onToggleSnackBar()
-                        setRefresh(!refresh)
+                        user.updateProfile({
+                            displayName: body.displayName,
+                        })
+                            .then(() => {
+                                setSnackbarMessage("Le profil a bien été mis à jour ! ✔️")
+                                onToggleSnackBar()
+                                setRefresh(!refresh)
+                            })
+                            .catch(() => {
+                                setSnackbarMessage("Une erreur est survenue ! ❌")
+                                onToggleSnackBar()
+                            })
                     }
                 });
     }
