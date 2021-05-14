@@ -14,7 +14,7 @@ moment.locale('fr');
 
 import * as firebase from 'firebase';
 
-export default function NewActivityScreen({ navigation }) {
+export default function NewActivityScreen({ navigation, route }) {
 
     const user = firebase.auth().currentUser;
     const { displayName, photoURL, uid } = user
@@ -66,14 +66,14 @@ export default function NewActivityScreen({ navigation }) {
     }
 
     const initialValues = {
-        beginsAt: '',
-        description: null,
-        location: null,
-        locationDetails: null,
-        places: 0,
-        tags: null,
-        title: null,
-        type: null,
+        beginsAt: route?.params?.activity?.beginsAt || '',
+        description: route?.params?.activity?.description || null,
+        location: route?.params?.activity?.location || null,
+        locationDetails: route?.params?.activity?.locationDetails || null,
+        places: route?.params?.activity?.places || 0,
+        tags: route?.params?.activity?.tags || null,
+        title: route?.params?.activity?.title || null,
+        type: route?.params?.activity?.type || null,
     }
 
     const addActivitySchema = yup.object().shape({
@@ -124,7 +124,7 @@ export default function NewActivityScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, actions) => { handleAddActivitiy(values, actions.resetForm()) }}
+            onSubmit={(values, actions) => { route?.params?.activity ? handleUpdateActivitiy(values, actions.resetForm()) : handleAddActivitiy(values, actions.resetForm()) }}
             validationSchema={addActivitySchema}
         >
             {({ handleBlur, handleChange, handleSubmit, setFieldValue, dirty, errors, isSubmitting, isValid, values }) => (
