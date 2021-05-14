@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
-import { Avatar, Button, Card, Chip, Dialog, Divider, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
+import { Avatar, Button, Card, Chip, Dialog, Divider, FAB, List, Paragraph, Portal, Provider, Text, Title } from 'react-native-paper'
 import colors from '../config/colors'
 import { lessThanTen, shortenText } from '../config/format'
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
-export default function ActivityScreen(activity) {
+import * as firebase from 'firebase';
+
+export default function ActivityScreen({ navigation, route }) {
 
     const [textDialog, setTextDialog] = useState({});
     const [visible, setVisible] = useState(false);
@@ -32,7 +34,7 @@ export default function ActivityScreen(activity) {
         tags,
         title,
         type,
-    } = activity.route.params.activity
+    } = route.params.activity
 
     let activityType;
 
@@ -72,6 +74,8 @@ export default function ActivityScreen(activity) {
         setRegisterredArrayList(registeredArray)
         setWaitingArrayList(waitingArray)
     }, [])
+
+    const user = firebase.auth().currentUser;
 
     return (
         <Provider>
@@ -239,6 +243,18 @@ export default function ActivityScreen(activity) {
                             </Dialog.Actions>
                         </ScrollView>
                     </Dialog>
+                    {
+                        user !== null &&
+                        user.uid === responsible.uid &&
+                        <FAB
+                            accessibilityLabel={"Modifier l'activité"}
+                            color={colors.dark}
+                            icon="pencil"
+                            onPress={() => navigation.push('NewActivity', { activity: route.params.activity })}
+                            small
+                            style={styles.fab}
+                        />
+                    }
                 </Portal>
             </ScrollView>
         </Provider >
@@ -291,6 +307,12 @@ const styles = StyleSheet.create({
     divider: {
         borderColor: colors.primary,
         borderBottomWidth: 1,
+    },
+    fab: {
+        backgroundColor: colors.secondary,
+        position: 'absolute',
+        right: 12,
+        top: 12,
     },
     listItemChip: {
         margin: 0,

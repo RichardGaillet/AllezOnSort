@@ -14,7 +14,7 @@ moment.locale('fr');
 
 import * as firebase from 'firebase';
 
-export default function NewActivityScreen({ navigation }) {
+export default function NewActivityScreen({ navigation, route }) {
 
     const user = firebase.auth().currentUser;
     const { displayName, photoURL, uid } = user
@@ -37,8 +37,9 @@ export default function NewActivityScreen({ navigation }) {
     const handleAddActivitiy = (values) => {
         const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
         const tagsSplitted = tags && tags.split(" ")
+        const uid = uuid();
         firebase.database()
-            .ref('activities/' + uuid())
+            .ref('activities/' + uid)
             .set({
                 beginsAt: parseInt(+moment(beginsAt), 10),
                 beginsAtHr: moment(beginsAt).format('ddd DD MMM YYYY - HH:mm').toString(),
@@ -52,6 +53,7 @@ export default function NewActivityScreen({ navigation }) {
                 tags: tagsSplitted || null,
                 title: title,
                 type: type,
+                uid: uid,
                 updatedAt: +moment(),
             }, error => {
                 if (error) {
@@ -65,15 +67,44 @@ export default function NewActivityScreen({ navigation }) {
             });
     }
 
+    const handleUpdateActivitiy = (values) => {
+        const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
+        const tagsSplitted = tags && tags.split(" ")
+        firebase.database()
+            .ref('activities/' + route?.params?.activity?.uid)
+            .update({
+                beginsAt: parseInt(+moment(beginsAt), 10),
+                beginsAtHr: moment(beginsAt).format('ddd DD MMM YYYY - HH:mm').toString(),
+                description: description || null,
+                editableUpTo: parseInt(+moment(beginsAt), 10),
+                location: location,
+                locationDetails: locationDetails || null,
+                places: parseInt(places, 10),
+                tags: tagsSplitted || null,
+                title: title,
+                type: type,
+                updatedAt: +moment(),
+            }, error => {
+                if (error) {
+                    setSnackbarMessage("Une erreur est survenue ! ❌")
+                    onToggleSnackBar()
+                } else {
+                    setSnackbarMessage("L'activité a bien été modifiée ! ✔️")
+                    onToggleSnackBar()
+                    setTimeout(() => { navigation.navigate('Home') }, 3000)
+                }
+            });
+    }
+
     const initialValues = {
-        beginsAt: '',
-        description: null,
-        location: null,
-        locationDetails: null,
-        places: 0,
-        tags: null,
-        title: null,
-        type: null,
+        beginsAt: route?.params?.activity?.beginsAt || '',
+        description: route?.params?.activity?.description || null,
+        location: route?.params?.activity?.location || null,
+        locationDetails: route?.params?.activity?.locationDetails || null,
+        places: route?.params?.activity?.places || 0,
+        tags: route?.params?.activity?.tags || null,
+        title: route?.params?.activity?.title || null,
+        type: route?.params?.activity?.type || null,
     }
 
     const addActivitySchema = yup.object().shape({
@@ -124,7 +155,7 @@ export default function NewActivityScreen({ navigation }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, actions) => { handleAddActivitiy(values, actions.resetForm()) }}
+            onSubmit={(values, actions) => { route?.params?.activity ? handleUpdateActivitiy(values, actions.resetForm()) : handleAddActivitiy(values, actions.resetForm()) }}
             validationSchema={addActivitySchema}
         >
             {({ handleBlur, handleChange, handleSubmit, setFieldValue, dirty, errors, isSubmitting, isValid, values }) => (
