@@ -67,6 +67,35 @@ export default function NewActivityScreen({ navigation, route }) {
             });
     }
 
+    const handleUpdateActivitiy = (values) => {
+        const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
+        const tagsSplitted = tags && tags.split(" ")
+        firebase.database()
+            .ref('activities/' + route?.params?.activity?.uid)
+            .update({
+                beginsAt: parseInt(+moment(beginsAt), 10),
+                beginsAtHr: moment(beginsAt).format('ddd DD MMM YYYY - HH:mm').toString(),
+                description: description || null,
+                editableUpTo: parseInt(+moment(beginsAt), 10),
+                location: location,
+                locationDetails: locationDetails || null,
+                places: parseInt(places, 10),
+                tags: tagsSplitted || null,
+                title: title,
+                type: type,
+                updatedAt: +moment(),
+            }, error => {
+                if (error) {
+                    setSnackbarMessage("Une erreur est survenue ! ❌")
+                    onToggleSnackBar()
+                } else {
+                    setSnackbarMessage("L'activité a bien été modifiée ! ✔️")
+                    onToggleSnackBar()
+                    setTimeout(() => { navigation.navigate('Home') }, 3000)
+                }
+            });
+    }
+
     const initialValues = {
         beginsAt: route?.params?.activity?.beginsAt || '',
         description: route?.params?.activity?.description || null,
