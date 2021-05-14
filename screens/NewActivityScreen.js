@@ -37,8 +37,9 @@ export default function NewActivityScreen({ navigation, route }) {
     const handleAddActivitiy = (values) => {
         const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
         const tagsSplitted = tags && tags.split(" ")
+        const uid = uuid();
         firebase.database()
-            .ref('activities/' + uuid())
+            .ref('activities/' + uid)
             .set({
                 beginsAt: parseInt(+moment(beginsAt), 10),
                 beginsAtHr: moment(beginsAt).format('ddd DD MMM YYYY - HH:mm').toString(),
@@ -52,6 +53,7 @@ export default function NewActivityScreen({ navigation, route }) {
                 tags: tagsSplitted || null,
                 title: title,
                 type: type,
+                uid: uid,
                 updatedAt: +moment(),
             }, error => {
                 if (error) {
