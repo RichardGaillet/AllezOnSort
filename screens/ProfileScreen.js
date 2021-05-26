@@ -291,19 +291,12 @@ export default function ProfileScreen() {
                                 />
                             </View>
                         </View>
-                        <View style={{ alignSelf: 'flex-end' }}>
-                            <Text style={{ color: colors.secondary, fontSize: 10, fontWeight: '700' }}>* champ obligatoire</Text>
-                        </View>
                         <TextInput
                             color={colors.light}
                             dense
-                            editable={user != null}
-                            keyboardType={'default'}
-                            label="Nom d'utilisateur *"
-                            onChangeText={displayName => setDisplayName(displayName)}
+                            disabled
+                            label="Nom d'utilisateur"
                             style={{
-                                backgroundColor: colors.secondary,
-                                elevation: 4,
                                 marginVertical: 4,
                             }}
                             value={displayName}
