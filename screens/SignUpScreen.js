@@ -15,6 +15,7 @@ export default function SignUpScreen({ navigation }) {
         firebase.auth()
             .createUserWithEmailAndPassword(values.email, values.password)
             .then(() => {
+                firebase.auth().currentUser.updateProfile({ displayName: values?.displayName, })
                 sendEmailVerification(values);
                 setTimeout(() => navigation.navigate('SignIn'), 3000);
                 console.log("signUp -> Account created!")
@@ -77,12 +78,17 @@ export default function SignUpScreen({ navigation }) {
     };
 
     const initialValues = {
+        displayName: '',
         email: '',
         password: '',
         confirmPassword: '',
     }
 
     const addActivitySchema = yup.object().shape({
+        displayName: yup.string()
+            .min(6, "Minimum 6 caractères")
+            .max(16, "Maximum 16 caractères")
+            .trim().required("Nom d'utilisateur obligatoire"),
         email: yup.string().email("L'email doit être valide")
             .required("Email obligatoire"),
         password: yup.string()
@@ -107,6 +113,23 @@ export default function SignUpScreen({ navigation }) {
                 <View style={styles.container}>
                     <ScrollView>
                         <View>
+                            <View style={styles.textInputField}>
+                                <TextInput
+                                    clearButtonMode={'while-editing'}
+                                    color={colors.light}
+                                    dense
+                                    label="Nom d'utilisateur"
+                                    maxLength={16}
+                                    onBlur={handleBlur('displayName')}
+                                    onChangeText={handleChange('displayName')}
+                                    placeholder={"Nom d'utilisateur"}
+                                    returnKeyType="next"
+                                    spellCheck={false}
+                                    value={values.displayName} />
+                                {errors.displayName && <HelperText type="error" visible={errors.displayName}>
+                                    {errors.displayName}
+                                </HelperText>}
+                            </View>
                             <View style={styles.textInputField}>
                                 <TextInput
                                     autoCapitalize={'none'}
