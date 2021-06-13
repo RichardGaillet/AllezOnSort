@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Avatar, Button, IconButton, Snackbar, Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Button, IconButton, Snackbar, TextInput } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as ImagePicker from 'expo-image-picker';
 import { eighteenYears } from '../config/format';
+import CustomTextInput from '../components/CustomTextInput';
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -219,9 +220,9 @@ export default function ProfileScreen() {
     const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
     const onDismissSnackBar = () => setSnackbarVisible(false);
 
-    const maximmDateOfBirthYear = parseInt(moment(Date.now() - eighteenYears()).format('YYYY'));
-    const maximmDateOfBirthMonth = parseInt(moment(Date.now() - eighteenYears()).format('MM'));
-    const maximmDateOfBirthDay = parseInt(moment(Date.now() - eighteenYears()).format('DD'));
+    const maximumDateOfBirthYear = parseInt(moment(Date.now() - eighteenYears()).format('YYYY'));
+    const maximumDateOfBirthMonth = parseInt(moment(Date.now() - eighteenYears()).format('MM'));
+    const maximumDateOfBirthDay = parseInt(moment(Date.now() - eighteenYears()).format('DD'));
 
     return (
         <View style={{ justifyContent: 'center', padding: 16 }}>
@@ -267,9 +268,7 @@ export default function ProfileScreen() {
                                 </View>
                             </View>
                             <View flexDirection={'column'} flex={1} style={{ justifyContent: 'flex-end' }}>
-                                <TextInput
-                                    color={colors.light}
-                                    dense
+                                <CustomTextInput
                                     disabled
                                     label="Créé le"
                                     onChangeText={createdAt => setCreatedAt(createdAt)}
@@ -278,12 +277,10 @@ export default function ProfileScreen() {
                                     }}
                                     value={moment(parseInt(createdAt, 10)).format('DD/MM/YYYY - HH:mm')}
                                 />
-                                <TextInput
-                                    color={colors.light}
-                                    dense
+                                <CustomTextInput
                                     disabled
                                     label="Dernière connexion le"
-                                    onChangeText={lastLoginAt => setLastLogindAt(lastLoginAt)}
+                                    onChangeText={lastLoginAt => setLastLoginAt(lastLoginAt)}
                                     style={{
                                         marginVertical: 4,
                                     }}
@@ -291,9 +288,7 @@ export default function ProfileScreen() {
                                 />
                             </View>
                         </View>
-                        <TextInput
-                            color={colors.light}
-                            dense
+                        <CustomTextInput
                             disabled
                             label="Nom d'utilisateur"
                             style={{
@@ -301,11 +296,8 @@ export default function ProfileScreen() {
                             }}
                             value={displayName}
                         />
-                        <TextInput
-                            color={colors.light}
+                        <CustomTextInput
                             editable={user != null}
-                            dense
-                            keyboardType={'default'}
                             label="Prénom"
                             onChangeText={firstName => setFirstName(firstName)}
                             right={firstName ? <TextInput.Icon name='trash-can-outline' onPress={() => setFirstName(null)} /> : ""}
@@ -316,11 +308,8 @@ export default function ProfileScreen() {
                             }}
                             value={firstName}
                         />
-                        <TextInput
-                            color={colors.light}
-                            dense
+                        <CustomTextInput
                             editable={user != null}
-                            keyboardType={'default'}
                             label="Description"
                             multiline
                             numberOfLines={3}
@@ -333,11 +322,8 @@ export default function ProfileScreen() {
                             }}
                             value={description}
                         />
-                        <TextInput
-                            color={colors.light}
+                        <CustomTextInput
                             editable={user != null}
-                            dense
-                            keyboardType={'default'}
                             label="Ville"
                             onChangeText={location => setLocation(location)}
                             right={location ? <TextInput.Icon name='trash-can-outline' onPress={() => setLocation(null)} /> : ""}
@@ -348,9 +334,8 @@ export default function ProfileScreen() {
                             }}
                             value={location}
                         />
-                        <TextInput
+                        <CustomTextInput
                             color={colors.secondary}
-                            dense
                             editable={user != null}
                             label="Date de naissance"
                             onFocus={toggleDatePicker}
@@ -383,7 +368,7 @@ export default function ProfileScreen() {
                 }
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
-                    maximumDate={new Date(maximmDateOfBirthYear, maximmDateOfBirthMonth, maximmDateOfBirthDay)}
+                    maximumDate={new Date(maximumDateOfBirthYear, maximumDateOfBirthMonth, maximumDateOfBirthDay)}
                     mode="date"
                     onCancel={toggleDatePicker}
                     onConfirm={handleConfirm}

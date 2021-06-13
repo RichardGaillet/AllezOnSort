@@ -4,6 +4,7 @@ import { Button, HelperText, Snackbar, Text, TextInput } from 'react-native-pape
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import colors from '../config/colors';
+import CustomTextInput from '../components/CustomTextInput'
 
 import * as firebase from 'firebase';
 
@@ -115,11 +116,10 @@ export default function SignInScreen({ navigation }) {
                     <ScrollView>
                         <View>
                             <View style={styles.textInputField}>
-                                <TextInput
+                                <CustomTextInput
                                     autoCapitalize={'none'}
                                     autoCompleteType={'email'}
                                     blurOnSubmit
-                                    dense
                                     keyboardType={'email-address'}
                                     label="Adresse email"
                                     maxLength={64}
@@ -135,10 +135,9 @@ export default function SignInScreen({ navigation }) {
                                 </HelperText>}
                             </View>
                             {isForgottenPassword ? null : <View style={styles.textInputField}>
-                                <TextInput
+                                <CustomTextInput
                                     clearButtonMode={'while-editing'}
                                     color={colors.light}
-                                    dense
                                     label="Mot de passe"
                                     maxLength={16}
                                     onBlur={handleBlur('password')}
