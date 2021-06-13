@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Chip, HelperText, Snackbar, Text, TextInput } from 'react-native-paper';
+import { Button, Chip, HelperText, Snackbar, Text } from 'react-native-paper';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
 import activitiesType from '../config/activitiesType';
 import colors from '../config/colors';
+import CustomTextInput from '../components/CustomTextInput';
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -34,7 +35,7 @@ export default function NewActivityScreen({ navigation, route }) {
     const onToggleSnackBar = () => setSnackbarVisible(!snackbarVisible);
     const onDismissSnackBar = () => setSnackbarVisible(false);
 
-    const handleAddActivitiy = (values) => {
+    const handleAddActivity = (values) => {
         const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
         const tagsSplitted = tags && tags.split(" ")
         const uid = uuid();
@@ -67,7 +68,7 @@ export default function NewActivityScreen({ navigation, route }) {
             });
     }
 
-    const handleUpdateActivitiy = (values) => {
+    const handleUpdateActivity = (values) => {
         const { beginsAt, title, type, location, locationDetails, description, places, tags } = values;
         const tagsSplitted = tags && tags.split(" ")
         firebase.database()
@@ -149,13 +150,13 @@ export default function NewActivityScreen({ navigation, route }) {
             'sport',
             'theater'],
             "1 choix obligatoire")
-            .required("Choisir un type d'acitivté"),
+            .required("Choisir un type d'activité"),
     });
 
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, actions) => { route?.params?.activity ? handleUpdateActivitiy(values, actions.resetForm()) : handleAddActivitiy(values, actions.resetForm()) }}
+            onSubmit={(values, actions) => { route?.params?.activity ? handleUpdateActivity(values, actions.resetForm()) : handleAddActivity(values, actions.resetForm()) }}
             validationSchema={addActivitySchema}
         >
             {({ handleBlur, handleChange, handleSubmit, setFieldValue, dirty, errors, isSubmitting, isValid, values }) => (
@@ -191,9 +192,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             <Text style={{ color: colors.secondary, fontSize: 10, fontWeight: '700' }}>* champ obligatoire</Text>
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.light}
-                                dense
                                 error={errors.title}
                                 label='Titre *'
                                 keyboardType={'default'}
@@ -209,9 +209,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.secondary}
-                                dense
                                 error={errors.beginsAt}
                                 keyboardType={'default'}
                                 label="Date et heure *"
@@ -228,9 +227,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.secondary}
-                                dense
                                 error={errors.location}
                                 keyboardType={'default'}
                                 label="Lieu *"
@@ -246,9 +244,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.secondary}
-                                dense
                                 error={errors.locationDetails}
                                 keyboardType={'default'}
                                 label="Détails"
@@ -266,11 +263,10 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 autoCapitalize='none'
                                 autoCorrect={true}
                                 color={colors.secondary}
-                                dense
                                 error={errors.tags}
                                 keyboardType={'default'}
                                 label="Tags"
@@ -294,9 +290,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.secondary}
-                                dense
                                 error={errors.description}
                                 keyboardType={'default'}
                                 label="Descriptif"
@@ -316,9 +311,8 @@ export default function NewActivityScreen({ navigation, route }) {
                             </HelperText>}
                         </View>
                         <View>
-                            <TextInput
+                            <CustomTextInput
                                 color={colors.secondary}
-                                dense
                                 error={errors.places}
                                 keyboardType={'numeric'}
                                 label="Nombre de places *"
