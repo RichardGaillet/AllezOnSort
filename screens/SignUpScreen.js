@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 export default function SignUpScreen({ navigation }) {
 
     const [isVisiblePassword, setIsVisiblePassword] = useState(false)
+    const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] = useState(false)
 
     const signUp = (values) => {
         firebase.auth()
@@ -181,11 +182,11 @@ export default function SignUpScreen({ navigation }) {
                                     placeholder={'●●●●●●●●●●'}
                                     returnKeyType="next"
                                     right={
-                                        !isVisiblePassword ?
-                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} /> :
-                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisiblePassword(!isVisiblePassword)} />
+                                        !isVisibleConfirmPassword ?
+                                            <TextInput.Icon name='eye-off-outline' onPress={() => setIsVisibleConfirmPassword(!isVisibleConfirmPassword)} /> :
+                                            <TextInput.Icon name='eye-outline' onPress={() => setIsVisibleConfirmPassword(!isVisibleConfirmPassword)} />
                                     }
-                                    secureTextEntry={!isVisiblePassword}
+                                    secureTextEntry={!isVisibleConfirmPassword}
                                     spellCheck={false}
                                     value={values.confirmPassword} />
                                 {errors.confirmPassword && <HelperText type="error" visible={errors.confirmPassword}>
@@ -202,7 +203,7 @@ export default function SignUpScreen({ navigation }) {
                                     style={{ elevation: 4 }}
                                 >
                                     S'inscrire
-                            </Button>
+                                </Button>
                             </View>
                         </View>
                     </ScrollView>
