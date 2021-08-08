@@ -5,8 +5,23 @@ import colors from '../config/colors';
 function CustomTextInput(props) {
 
     const {
-        color, disabled, editable, error, keyboard, label, maxLength, multiline,
-        numberOfLines, onBlur, onChangeText, onFocus, returnKeyType, right, style, value
+        color,
+        disabled,
+        editable,
+        error,
+        keyboard,
+        label,
+        maxLength,
+        multiline,
+        numberOfLines,
+        onBlur,
+        onChangeText,
+        onFocus,
+        returnKeyType,
+        right,
+        secureTextEntry,
+        style,
+        value,
     } = props;
 
     return (
@@ -26,6 +41,7 @@ function CustomTextInput(props) {
             onFocus={onFocus}
             returnKeyType={returnKeyType}
             right={right}
+            secureTextEntry={secureTextEntry}
             style={style}
             value={value}
         />
